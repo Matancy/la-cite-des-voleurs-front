@@ -1,10 +1,9 @@
 import './App.css';
+import MainPage from './components/MainPage.tsx';
 
 function App() {
   return (
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+    <MainPage/>
   );
 }
 

@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: GrenzeGotisch;
+    src: url('./assets/font/GrenzeGotisch.ttf');
+}
+
+@font-face {
+    font-family: Inter;
+    src: url('./assets/font/Inter.ttf');
+}
+
+.text-stroke-2px {
+    text-shadow: 2px 0 #000, -2px 0 #000, 0 2px #000, 0 -2px #000, 1px 1px #000, -1px -1px #000, 1px -1px #000, -1px 1px #000;
+}
+
+.text-stroke-1px {
+    text-shadow: 1px 0 #000, -1px 0 #000, 0 1px #000, 0 -1px #000, 1px 1px #000, -1px -1px #000, 1px -1px #000, -1px 1px #000;
+}
+
+.background-main-page {
+    background-image: url(./assets/images/backgroundCity.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
