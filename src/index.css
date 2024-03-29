@@ -25,3 +25,9 @@
     background-size: cover;
     background-repeat: no-repeat;
 }
+
+.background-creation-personnage {
+    background-image: url(./assets/images/backgroundTavern.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}

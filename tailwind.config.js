@@ -5,6 +5,8 @@ module.exports = {
         extend: {
             colors: {
                 "light-gray": "#D9D9D9",
+                "dark-brown": "#7A2E0C",
+                "darker-brown": "#5D2409"
             },
             fontFamily: {
                 GrenzeGotisch: ["GrenzeGotisch"],
