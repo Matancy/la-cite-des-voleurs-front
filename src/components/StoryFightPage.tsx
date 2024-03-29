@@ -20,24 +20,26 @@ const StoryFightPage = () => {
                 </p>
                 <div className="w-2/3 flex justify-between items-center mb-6">
                     <div className="flex flex-col w-2/5">
-                        <h2 className="mb-2">Habileté joueur :</h2>
+                        <h2 className="mb-2">Endurance joueur :</h2>
                         <ProgressBar
                             key={1}
-                            bgcolor={"#50C0FF"}
-                            completed={30}
+                            bgcolor={"#67BF48"}
+                            completed={100}
                             max={90}
+                            changeColorBasedOnPercentage={true}
                         />
                         <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min mt-2 w-1/2 self-center">
                             <p>Lancer dés</p>
                         </button>
                     </div>
                     <div className="flex flex-col w-2/5">
-                        <h2 className="mb-2">Habileté monstre :</h2>
+                        <h2 className="mb-2">Endurance monstre :</h2>
                         <ProgressBar
                             key={1}
-                            bgcolor={"#50C0FF"}
-                            completed={30}
+                            bgcolor={"#67BF48"}
+                            completed={10}
                             max={90}
+                            changeColorBasedOnPercentage={true}
                         />
                         <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min mt-2 w-1/2 self-center">
                             <p>Lancer dés</p>
