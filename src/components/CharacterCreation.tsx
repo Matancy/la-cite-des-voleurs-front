@@ -1,7 +1,8 @@
 import React from "react";
 
-const CreationPersonnage = () => (
-    <div className="flex justify-center h-screen background-creation-personnage font-Inter text-xl p-5">
+// TODO: créer component pour chaque caractéristique du personnage afin d'alléger le code
+const CharacterCreation = () => (
+    <div className="flex justify-center h-screen background-character-creation font-Inter text-xl p-5">
         <div className="flex flex-col items-center justify-between w-2/3 h-full">
             <h1 className="font-GrenzeGotisch text-white text-stroke-2px text-4xl">
                 Création personnage
@@ -98,4 +99,4 @@ const CreationPersonnage = () => (
     </div>
 );
 
-export default CreationPersonnage;
+export default CharacterCreation;

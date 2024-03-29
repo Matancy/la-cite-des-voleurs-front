@@ -36,28 +36,3 @@
     transform: rotate(360deg);
   }
 }
-
-
-.gradient {
-  background: 
-      radial-gradient(circle at top left, #273D59, transparent),
-      radial-gradient(circle at top right, #5A86BF, transparent),
-      radial-gradient(circle at bottom left, #42628C, transparent),
-      radial-gradient(circle at bottom right, #273D59, transparent);
-  background-size: 125% 125%;
-  background-repeat: no-repeat;
-  animation: gradient 15s ease infinite;
-  height: 100vh;
-}
-
-@keyframes gradient {
-  0% {
-      background-position: 0% 0%, 80% 20%, 20% 80%, 100% 100%;
-  }
-  50% {
-      background-position: 100% 100%, 20% 80%, 80% 20%, 0% 0%;
-  }
-  100% {
-      background-position: 0% 0%, 80% 20%, 20% 80%, 100% 100%;
-  }
-}

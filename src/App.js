@@ -1,11 +1,9 @@
 import './App.css';
-import MainPage from './components/MainPage.tsx';
-import CreationPersonnage from './components/CreationPersonnage.tsx';
+import Component from "./components/StoryFightPage.tsx";
 
 function App() {
   return (
-    <MainPage/>
-    //<CreationPersonnage/>
+    <Component/>
   );
 }
 

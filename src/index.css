@@ -4,20 +4,22 @@
 
 @font-face {
     font-family: GrenzeGotisch;
-    src: url('./assets/font/GrenzeGotisch.ttf');
+    src: url("./assets/font/GrenzeGotisch.ttf");
 }
 
 @font-face {
     font-family: Inter;
-    src: url('./assets/font/Inter.ttf');
+    src: url("./assets/font/Inter.ttf");
 }
 
 .text-stroke-2px {
-    text-shadow: 2px 0 #000, -2px 0 #000, 0 2px #000, 0 -2px #000, 1px 1px #000, -1px -1px #000, 1px -1px #000, -1px 1px #000;
+    text-shadow: 2px 0 #000, -2px 0 #000, 0 2px #000, 0 -2px #000, 1px 1px #000,
+        -1px -1px #000, 1px -1px #000, -1px 1px #000;
 }
 
 .text-stroke-1px {
-    text-shadow: 1px 0 #000, -1px 0 #000, 0 1px #000, 0 -1px #000, 1px 1px #000, -1px -1px #000, 1px -1px #000, -1px 1px #000;
+    text-shadow: 1px 0 #000, -1px 0 #000, 0 1px #000, 0 -1px #000, 1px 1px #000,
+        -1px -1px #000, 1px -1px #000, -1px 1px #000;
 }
 
 .background-main-page {
@@ -26,8 +28,46 @@
     background-repeat: no-repeat;
 }
 
-.background-creation-personnage {
+.background-character-creation {
     background-image: url(./assets/images/backgroundTavern.jpg);
     background-size: cover;
     background-repeat: no-repeat;
+}
+
+@keyframes gradient-move {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.gradient {
+    --size: 250px;
+    --speed: 60s;
+    --easing: cubic-bezier(0.8, 0.2, 0.2, 0.8);
+    --color-1: #42628c;
+    --color-2: #5a86bf;
+    --color-3: #273d59;
+
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    animation: gradient-move var(--speed) var(--easing) infinite;
+    background: linear-gradient(
+        -45deg,
+        var(--color-1),
+        var(--color-2),
+        var(--color-3),
+        var(--color-2),
+        var(--color-1)
+    );
+    background-size: 400% 400%;
 }
