@@ -1,10 +1,10 @@
-import React, { useState, useRef,useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './style.css';
 
 interface DiceRollProps {
   numberOfDice: number;
   adjustScore: number;
-  
+  buttonPosition: 'top' | 'bottom' | 'left' | 'right';
 }
 
 const getRandomNumber = (min: number, max: number) => {
@@ -13,12 +13,12 @@ const getRandomNumber = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const DiceRoll: React.FC<DiceRollProps & { onTotalChange: (total: number, totalDice: number, rooling:boolean) => void }> = ({ numberOfDice, adjustScore, onTotalChange }) => {
+const DiceRoll: React.FC<DiceRollProps & { onTotalChange: (total: number, totalDice: number, rolling: boolean) => void }> = ({ numberOfDice, adjustScore, buttonPosition, onTotalChange }) => {
   const [diceCount] = useState<number>(numberOfDice);
   const [diceResults, setDiceResults] = useState<number[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [totalDice, setTotalDice] = useState<number>(0);
-  const [rolling, setRolling] = useState<boolean>(false); 
+  const [rolling, setRolling] = useState<boolean>(false);
   const diceRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const rollDice = () => {
@@ -35,23 +35,31 @@ const DiceRoll: React.FC<DiceRollProps & { onTotalChange: (total: number, totalD
     setDiceResults(results);
     setTotal(results.reduce((acc, curr) => acc + curr, 0) + adjustScore);
     setTotalDice(results.reduce((acc, curr) => acc + curr, 0));
-    
+
   };
 
   useEffect(() => {
-    // Vérifiez ici si les valeurs d'état sont correctement mises à jour
-    setTimeout( () => { onTotalChange(total, totalDice,rolling) }, 3000 );
-    //onTotalChange(total, totalDice,rolling);
-}, [total,totalDice,rolling]);
+    setTimeout(() => { onTotalChange(total, totalDice, rolling) }, 3000);
+  }, [total, totalDice, rolling]);
 
   const toggleClasses = (die: HTMLDivElement) => {
     die.classList.toggle('odd-roll');
     die.classList.toggle('even-roll');
   };
 
+  let flexDirection;
+  if (buttonPosition === 'top') {
+    flexDirection = 'column-reverse';
+  } else if (buttonPosition === 'bottom') {
+    flexDirection = 'column';
+  } else if (buttonPosition === 'left') {
+    flexDirection = 'row-reverse';
+  } else {
+    flexDirection = 'row';
+  }
 
   return (
-    <div className="dice-container">
+    <div className={`dice-container`} style={{ flexDirection }}>
       <div className="dice">
         {[...Array(diceCount)].map((_, index) => (
           <div className="die-container" key={index}>
@@ -93,8 +101,8 @@ const DiceRoll: React.FC<DiceRollProps & { onTotalChange: (total: number, totalD
           </div>
         ))}
       </div>
-      <button id="roll-button" onClick={rollDice} disabled={rolling} className={`bg-light-gray/[.8] rounded-lg px-3 w-40 border-solid border-2 border-black ${rolling ? 'opacity-50 cursor-not-allowed' : 'hover:bg-light-gray'}`}>
-      <p>Lancer dé</p>
+      <button id="roll-button" onClick={rollDice} disabled={rolling} className={`bg-light-gray/[.8] rounded-lg px-3 w-40 mb-6 border-solid border-2 border-black ${rolling ? 'opacity-50 cursor-not-allowed' : 'hover:bg-light-gray'}`}>
+        <p>Lancer dé</p>
       </button>
     </div>
   );

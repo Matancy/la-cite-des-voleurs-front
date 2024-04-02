@@ -59,7 +59,7 @@ const CharacterCreation = () => {
                     Endurance
                 </h1>
                 <div className="flex flex-col items-center justify-between h-full w-1/3">
-                    <Dice numberOfDice={2} adjustScore={12} onTotalChange={handleEnduranceTotalChange}/>
+                    <Dice numberOfDice={2} adjustScore={12} onTotalChange={handleEnduranceTotalChange} buttonPosition='bottom'/>
                 </div>
                 <div className="w-1/3 flex flex-col items-center justify-between h-full">
                     <p className="text-white text-stroke-1px text-2xl">
@@ -78,7 +78,7 @@ const CharacterCreation = () => {
                     Habileté
                 </h1>
                 <div className="flex flex-col items-center justify-between h-full w-1/3">
-                    <Dice numberOfDice={1} adjustScore={6} onTotalChange={handleHabileteTotalChange}/>
+                    <Dice numberOfDice={1} adjustScore={6} onTotalChange={handleHabileteTotalChange} buttonPosition='bottom'/>
                 </div>
                 <div className="w-1/3 flex flex-col items-center justify-between h-full">
                     <p className="text-white text-stroke-1px text-2xl">Score :</p>
@@ -95,7 +95,7 @@ const CharacterCreation = () => {
                     Chance
                 </h1>
                 <div className="flex flex-col items-center justify-between h-full w-1/3">
-                   <Dice numberOfDice={1} adjustScore={6} onTotalChange={handleChanceTotalChange}/>
+                   <Dice numberOfDice={1} adjustScore={6} onTotalChange={handleChanceTotalChange} buttonPosition='bottom'/>
                 </div>
                 <div className="w-1/3 flex flex-col items-center justify-between h-full">
                     <p className="text-white text-stroke-1px text-2xl">Score :</p>
