@@ -62,7 +62,9 @@ const CharacterCreation = () => {
                     <Dice numberOfDice={2} adjustScore={12} onTotalChange={handleEnduranceTotalChange}/>
                 </div>
                 <div className="w-1/3 flex flex-col items-center justify-between h-full">
-                    <p className="text-white text-stroke-1px text-2xl">Score :</p>
+                    <p className="text-white text-stroke-1px text-2xl">
+                        Score :
+                    </p>
                     <p className="text-2xl text-white text-stroke-1px">
                     {enduranceTotalDice} + 12
                     </p>
@@ -83,6 +85,7 @@ const CharacterCreation = () => {
                     <p className="text-2xl text-white text-stroke-1px">
                         {habileteTotalDice} + 6
                     </p>
+                    <p className="text-2xl text-white text-stroke-1px">X + 6</p>
                     <p className="bg-light-gray/[.8] rounded-lg py-1 px-3 border-solid border-2 border-black">
                         Total : {habileteTotal}
                     </p>
@@ -100,6 +103,7 @@ const CharacterCreation = () => {
                     <p className="text-2xl text-white text-stroke-1px">
                         {chanceTotalDice} + 6
                     </p>
+                    <p className="text-2xl text-white text-stroke-1px">X + 6</p>
                     <p className="bg-light-gray/[.8] rounded-lg py-1 px-3 border-solid border-2 border-black">
                         Total : {chanceTotal}
                     </p>
