@@ -8,9 +8,9 @@ interface DiceRollProps {
 }
 
 const getRandomNumber = (min: number, max: number) => {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
 const DiceRoll: React.FC<DiceRollProps & { onTotalChange: (total: number, totalDice: number, rolling: boolean) => void }> = ({ numberOfDice, adjustScore, buttonPosition, onTotalChange }) => {

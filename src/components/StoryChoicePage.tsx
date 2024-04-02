@@ -3,13 +3,14 @@ import HeaderStoryPage from "./HeaderStoryPage.tsx";
 import storyData from "../assets/temp/choix.json";
 
 const StoryChoicePage = () => {
-    const { id, text, links } = storyData;
+    const { id, text, links, imageURL } = storyData;
 
     return (
         <div className="p-4 font-Inter text-xl flex flex-col gradient text-white overflow-auto">
             <HeaderStoryPage />
             <div className="text-center flex flex-col items-center">
                 <h2 className="font-bold text-3xl mb-4">Cellule {id}</h2>
+                <img src={imageURL} alt="Illustration de la situation" className="h-1/4 mb-3" />
                 <div className="mb-6 w-2/3" dangerouslySetInnerHTML={{ __html: text }} />
                 <div className="flex w-1/3 justify-between">
                     {links.map((link, index) => (
