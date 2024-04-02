@@ -1,5 +1,5 @@
 import './App.css';
-import Component from "./components/MainPage.tsx";
+import Component from "./components/CharacterCreation.tsx";
 
 function App() {
   return (

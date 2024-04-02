@@ -85,7 +85,6 @@ const CharacterCreation = () => {
                     <p className="text-2xl text-white text-stroke-1px">
                         {habileteTotalDice} + 6
                     </p>
-                    <p className="text-2xl text-white text-stroke-1px">X + 6</p>
                     <p className="bg-light-gray/[.8] rounded-lg py-1 px-3 border-solid border-2 border-black">
                         Total : {habileteTotal}
                     </p>
@@ -103,7 +102,6 @@ const CharacterCreation = () => {
                     <p className="text-2xl text-white text-stroke-1px">
                         {chanceTotalDice} + 6
                     </p>
-                    <p className="text-2xl text-white text-stroke-1px">X + 6</p>
                     <p className="bg-light-gray/[.8] rounded-lg py-1 px-3 border-solid border-2 border-black">
                         Total : {chanceTotal}
                     </p>
