@@ -11,7 +11,9 @@ const MainPage = () => (
                     <h2 className="mb-2 text-5xl text-white text-stroke-1px">
                         Nouvelle partie
                     </h2>
-                    <p className="text-white text-stroke-1px text-2xl">Jean-Michel</p>
+                    <p className="text-white text-stroke-1px text-2xl">
+                        Jean-Michel
+                    </p>
                 </div>
                 <button className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg px-3 py-1 border-solid border-2 border-black">
                     <p>Changer joueur</p>

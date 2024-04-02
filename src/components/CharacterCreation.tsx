@@ -29,7 +29,9 @@ const CharacterCreation = () => (
                     </button>
                 </div>
                 <div className="w-1/3 flex flex-col items-center justify-between h-full">
-                    <p className="text-white text-stroke-1px text-2xl">Score :</p>
+                    <p className="text-white text-stroke-1px text-2xl">
+                        Score :
+                    </p>
                     <p className="text-2xl text-white text-stroke-1px">
                         X + 12
                     </p>
@@ -55,10 +57,10 @@ const CharacterCreation = () => (
                     </button>
                 </div>
                 <div className="w-1/3 flex flex-col items-center justify-between h-full">
-                    <p className="text-white text-stroke-1px text-2xl">Score :</p>
-                    <p className="text-2xl text-white text-stroke-1px">
-                        X + 6
+                    <p className="text-white text-stroke-1px text-2xl">
+                        Score :
                     </p>
+                    <p className="text-2xl text-white text-stroke-1px">X + 6</p>
                     <p className="bg-light-gray/[.8] rounded-lg py-1 px-3 border-solid border-2 border-black">
                         Total : XX
                     </p>
@@ -81,10 +83,10 @@ const CharacterCreation = () => (
                     </button>
                 </div>
                 <div className="w-1/3 flex flex-col items-center justify-between h-full">
-                    <p className="text-white text-stroke-1px text-2xl">Score :</p>
-                    <p className="text-2xl text-white text-stroke-1px">
-                        X + 6
+                    <p className="text-white text-stroke-1px text-2xl">
+                        Score :
                     </p>
+                    <p className="text-2xl text-white text-stroke-1px">X + 6</p>
                     <p className="bg-light-gray/[.8] rounded-lg py-1 px-3 border-solid border-2 border-black">
                         Total : XX
                     </p>
