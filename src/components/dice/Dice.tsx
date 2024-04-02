@@ -40,7 +40,8 @@ const DiceRoll: React.FC<DiceRollProps & { onTotalChange: (total: number, totalD
 
   useEffect(() => {
     // Vérifiez ici si les valeurs d'état sont correctement mises à jour
-    onTotalChange(total, totalDice,rolling);
+    setTimeout( () => { onTotalChange(total, totalDice,rolling) }, 3000 );
+    //onTotalChange(total, totalDice,rolling);
 }, [total,totalDice,rolling]);
 
   const toggleClasses = (die: HTMLDivElement) => {
