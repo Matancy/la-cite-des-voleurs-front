@@ -48,18 +48,23 @@ const DiceRoll: React.FC<DiceRollProps & { onTotalChange: (total: number, totalD
   };
 
   let flexDirection;
+  let margin;
   if (buttonPosition === 'top') {
-    flexDirection = 'column-reverse';
+    flexDirection = 'flex-col-reverse';
+    margin = '';
   } else if (buttonPosition === 'bottom') {
-    flexDirection = 'column';
+    flexDirection = 'flex-col';
+    margin = '';
   } else if (buttonPosition === 'left') {
-    flexDirection = 'row-reverse';
+    flexDirection = 'flex-row-reverse justify-center';
+    margin = 'mb-6';
   } else {
-    flexDirection = 'row';
+    flexDirection = 'flex-row justify-center';
+    margin = 'mb-6';
   }
 
   return (
-    <div className={`dice-container`} style={{ flexDirection }}>
+    <div className={`dice-container ${flexDirection}`}>
       <div className="dice">
         {[...Array(diceCount)].map((_, index) => (
           <div className="die-container" key={index}>
@@ -101,7 +106,7 @@ const DiceRoll: React.FC<DiceRollProps & { onTotalChange: (total: number, totalD
           </div>
         ))}
       </div>
-      <button id="roll-button" onClick={rollDice} disabled={rolling} className={`bg-light-gray/[.8] rounded-lg px-3 w-40 mb-6 border-solid border-2 border-black ${rolling ? 'opacity-50 cursor-not-allowed' : 'hover:bg-light-gray'}`}>
+      <button id="roll-button" onClick={rollDice} disabled={rolling} className={`bg-light-gray/[.8] rounded-lg px-3 w-40 border-solid border-2 border-black ${rolling ? 'opacity-50 cursor-not-allowed' : 'hover:bg-light-gray'} ${margin}`}>
         <p>Lancer dé</p>
       </button>
     </div>

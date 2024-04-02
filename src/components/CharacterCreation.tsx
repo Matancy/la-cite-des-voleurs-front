@@ -57,7 +57,7 @@ const CharacterCreation = () => {
     }, [rollingChance, rollingEndurance, rollinghabilete]);
 
     return (
-        <div className="flex justify-center h-screen background-character-creation font-Inter text-xl p-2">
+        <div className="flex justify-center background-character-creation font-Inter text-xl p-2">
             <div className="flex flex-col items-center justify-between w-2/3 h-auto">
                 <h1 className="font-GrenzeGotisch text-white text-stroke-2px text-4xl">
                     Création personnage
