@@ -1,0 +1,20 @@
+{
+    "id": "1",
+    "type": "choice",
+    "text": "<p>Pour gagner le Port du Sable Noir, vous parcourez en direction de l'ouest environ soixante-quinze kilomètres à travers des plaines et par-delà des collines sans faire de rencontres fâcheuses, heureusement. Vous finissez par rejoindre la côte et vous apercevez les hautes murailles qui entourent le Port du Sable Noir et le groupe de maisons serrées qui avancent dans la mer comme une hideuse excroissance noire. Des navires sont mouillés dans le port, et de la fumée s'élève doucement des cheminées. La scène paraît assez paisible, et c'est seulement lorsque le vent change, vous apportant une odeur de putréfaction, que vous vous rappelez la nature maléfique de cet endroit tristement célebre. <br>En suivant la route poussiéreuse qui longe la côte vers le nord pour arriver aux portes de la ville, vous commencez à remarquer des signes inquiétants, des crânes sur des épieux de bois, des êtres squelettiques dans des cages accrochées aux murailles de la ville, des drapeaux noirs partout. Lorsque vous vous approchez de la porte principale, vous sentez un frisson vous parcourir l'échine et, instinctivement, vous serrez la poignée de votre épée pour vous rassurer. <br>A la porte, un garde gigantesque en cotte de mailles noire et casque d'acier vous observe. Il avance d'un pas, vous barrant le chemin avec sa lance, en disant : <br>« Qui oserait entrer au Port du Sable Noir sans y être invité ? Précise le motif de ta venue ou retourne d'où tu viens. » <br>Allez-vous : <ul><li>Lui dire que vous désirez être conduit auprès de Nicodème ? Rendez-vous au 202.</li><li>Lui dire que vous désirez vendre un butin volé ? Rendez-vous au 33.</li><li>L'attaquer aussitôt avec votre épée ? Rendez-vous au 49.</li></ul></p>",
+    "imageURL": "https://www.google.com/imgres?imgurl=https%3A%2F%2Ffiverr-res.cloudinary.com%2Fimages%2Ft_main1%2Cq_auto%2Cf_auto%2Cq_auto%2Cf_auto%2Fgigs%2F131151753%2Foriginal%2Fdc3a9417e1c41a63417fa291969251706dc501eb%2Fdraw-a-bad-version-of-your-d-and-d-character.jpg&tbnid=Lr86v9O7AGHG2M&vet=12ahUKEwjrluTuo56FAxWhXaQEHaXjC6EQMygCegQIARBS..i&imgrefurl=https%3A%2F%2Fwww.fiverr.com%2Fmichaelgbt%2Fdraw-a-bad-version-of-your-d-and-d-character&docid=TwpKrfRhs9FDFM&w=680&h=349&q=poorly%20drawn%20D%26D&ved=2ahUKEwjrluTuo56FAxWhXaQEHaXjC6EQMygCegQIARBS",
+    "links": [
+        {
+            "cost": "0",
+            "nextNode": "202"
+        },
+        {
+            "cost": "0",
+            "nextNode": "33"
+        },
+        {
+            "cost": "0",
+            "nextNode": "49"
+        }
+    ]
+}

@@ -1,10 +1,8 @@
-import './App.css';
-import Component from "./components/MainPage.tsx";
+import "./App.css";
+import Component from "./components/StoryLuckPage.tsx";
 
 function App() {
-  return (
-    <Component/>
-  );
+    return <Component />;
 }
 
 export default App;
