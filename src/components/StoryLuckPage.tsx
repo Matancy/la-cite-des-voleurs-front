@@ -26,7 +26,7 @@ const StoryLuckPage = () => {
     };
 
     return (
-        <div className="p-4 font-Inter text-xl flex flex-col gradient text-white overflow-auto">
+        <div className="p-4 font-Inter text-xl flex flex-col background-old-page overflow-auto">
             <HeaderStoryPage />
             <div className="text-center flex flex-col items-center">
                 <h2 className="font-bold text-3xl mb-4">Cellule {id}</h2>
@@ -36,7 +36,7 @@ const StoryLuckPage = () => {
                     className="w-2/5 mb-3"
                 />
                 <div
-                    className="mb-6"
+                    className="mb-6 w-2/3"
                     dangerouslySetInnerHTML={{ __html: text }}
                 />
                 <Dice

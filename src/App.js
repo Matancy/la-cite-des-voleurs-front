@@ -45,6 +45,9 @@ const App = () => {
                     </li>
                 </ul>
             </nav>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
         </div>
     );
 };
