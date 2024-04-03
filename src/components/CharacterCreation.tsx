@@ -66,19 +66,18 @@ const CharacterCreation = () => {
 
     return (
         <div className="flex justify-center background-character-creation font-Inter text-xl p-2 min-h-screen">
-            <div className="flex flex-col items-center justify-between w-2/5 h-auto">
+            <div className="flex flex-col items-center justify-between w-3/5 h-auto">
                 <h1 className="font-GrenzeGotisch text-white text-stroke-2px text-6xl">
                     Création personnage
                 </h1>
                 <div className="bg-light-gray/[.8] rounded-2xl flex justify-between items-center py-2 px-3 my-3">
                     <label
-                        htmlFor=""
                         className="text-white text-stroke-1px text-2xl mr-1">
                         Votre nom :
                     </label>
                     <input type="text" className="rounded-3xl px-2" />
                 </div>
-                <div className="bg-light-gray/[.8] rounded-3xl w-full h-1/6 flex justify-between items-center py-2 mb-3">
+                <div className="bg-light-gray/[.8] rounded-3xl w-full flex justify-between items-center py-2 mb-3 h-min">
                     <h1 className="font-GrenzeGotisch text-white text-stroke-2px text-4xl w-1/3 text-center">
                         Endurance
                     </h1>
@@ -102,7 +101,7 @@ const CharacterCreation = () => {
                         </p>
                     </div>
                 </div>
-                <div className="bg-light-gray/[.8] rounded-3xl w-full h-1/6 flex justify-between items-center py-2 mb-3">
+                <div className="bg-light-gray/[.8] rounded-3xl w-full h-min flex justify-between items-center py-2 mb-3">
                     <h1 className="font-GrenzeGotisch text-white text-stroke-2px text-4xl w-1/3 text-center">
                         Habileté
                     </h1>
@@ -126,7 +125,7 @@ const CharacterCreation = () => {
                         </p>
                     </div>
                 </div>
-                <div className="bg-light-gray/[.8] rounded-3xl w-full h-1/6 flex justify-between items-center py-2 mb-3">
+                <div className="bg-light-gray/[.8] rounded-3xl w-full h-min flex justify-between items-center py-2 mb-3">
                     <h1 className="font-GrenzeGotisch text-white text-stroke-2px text-4xl w-1/3 text-center">
                         Chance
                     </h1>
