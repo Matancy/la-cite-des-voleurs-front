@@ -59,11 +59,11 @@ export class Character{
     luck: number;
     gold: number;
 
-    constructor(name: string, h: number, s: number, l: number, g:number){
+    constructor(name: string, hability: number, stamina: number, luck: number, gold:number){
         this.name = name;
-        this.hability = h;
-        this.stamina = s;
-        this.luck = l;
-        this.gold = g;
+        this.hability = hability;
+        this.stamina = stamina;
+        this.luck = luck;
+        this.gold = gold;
     }
 }

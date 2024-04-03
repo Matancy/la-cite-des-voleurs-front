@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, HTMLInputAutoCompleteAttribute } from "react";
 import Dice from "../widgets/dice/Dice.tsx";
 import backArrowIcon from "../assets/images/back_arrow.png";
 import { useNavigate } from "react-router-dom";
+import { Character } from "../model/utils.ts";
+import { postCharacter } from "../model/callApi.ts";
+
+const INITIAL_GOLD_AMOUNT = 30;
 
 const CharacterCreation = () => {
     const [enduranceTotal, setEnduranceTotal] = useState<number>(0);
@@ -15,6 +19,7 @@ const CharacterCreation = () => {
     const [chanceTotal, setChanceTotal] = useState<number>(0);
     const [chanceTotalDice, setChanceTotalDice] = useState<number>(0);
     const [rollingChance, setRollingChance] = useState<boolean>(false);
+    const [name, setName] = useState<string>("");
 
     const [allRolling, setAllRolling] = useState<boolean>(true);
 
@@ -52,16 +57,27 @@ const CharacterCreation = () => {
         setRollingChance(rolling);
     };
 
+    const handleNameChange = ()=>{
+        let name = document.getElementById("name") as HTMLInputElement
+        setName(name.value)
+    }
+
     useEffect(() => {
-        if (rollingChance && rollingEndurance && rollinghabilete) {
+        if (rollingChance && rollingEndurance && rollinghabilete && name.length != 0) {
             setAllRolling(false);
         }
-    }, [rollingChance, rollingEndurance, rollinghabilete]);
+    }, [rollingChance, rollingEndurance, rollinghabilete, name]);
 
     const navigate = useNavigate();
 
     const navigateToMainPage = () => {
         navigate("/");
+    }
+
+    const createCharacter = () => {
+        let character: Character = new Character({name}.name, {habileteTotal}.habileteTotal, {enduranceTotal}.enduranceTotal, {chanceTotal}.chanceTotal, INITIAL_GOLD_AMOUNT);
+        localStorage.setItem("character", JSON.stringify(character));
+        postCharacter(character);
     }
 
     return (
@@ -72,10 +88,11 @@ const CharacterCreation = () => {
                 </h1>
                 <div className="bg-light-gray/[.8] rounded-2xl flex justify-between items-center py-2 px-3 my-3">
                     <label
+                        htmlFor=""
                         className="text-white text-stroke-1px text-2xl mr-1">
                         Votre nom :
                     </label>
-                    <input type="text" className="rounded-3xl px-2" />
+                    <input type="text" className="rounded-3xl px-2" onChange={handleNameChange} id="name"/>
                 </div>
                 <div className="bg-light-gray/[.8] rounded-3xl w-full flex justify-between items-center py-2 mb-3 h-min">
                     <h1 className="font-GrenzeGotisch text-white text-stroke-2px text-4xl w-1/3 text-center">
@@ -162,6 +179,7 @@ const CharacterCreation = () => {
                         disabled={allRolling}
                         className={`bg-dark-brown hover:bg-darker-brown rounded-3xl w-1/3 h-16 border-solid border-black border-4 ${allRolling ? "opacity-50 cursor-not-allowed" : ""
                             }`}
+                            onClick={createCharacter}
                     >
                         <h2 className="font-GrenzeGotisch text-white text-stroke-2px text-3xl">
                             Commencer l'aventure
