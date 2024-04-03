@@ -10,11 +10,21 @@ const StoryChoicePage = () => {
             <HeaderStoryPage />
             <div className="text-center flex flex-col items-center">
                 <h2 className="font-bold text-3xl mb-4">Cellule {id}</h2>
-                <img src={imageURL} alt="Illustration de la situation" className="h-1/4 mb-3" />
-                <div className="mb-6 w-2/3" dangerouslySetInnerHTML={{ __html: text }} />
+                <img
+                    src={imageURL}
+                    alt="Illustration de la situation"
+                    className="w-2/5 mb-3"
+                />
+                <div
+                    className="mb-6 w-2/3"
+                    dangerouslySetInnerHTML={{ __html: text }}
+                />
                 <div className="flex w-1/3 justify-between">
                     {links.map((link, index) => (
-                        <button key={index} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min">
+                        <button
+                            key={index}
+                            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min"
+                        >
                             <p>Aller à {link.nextNode}</p>
                         </button>
                     ))}

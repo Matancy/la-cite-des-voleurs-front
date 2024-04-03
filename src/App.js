@@ -49,6 +49,10 @@ const App = () => {
     );
 };
 
-const Home = () => <MainPage />; // Définissez le composant Home ici
+// const App = () => {
+//     return (
+//         <StoryLuckPage/>
+//     )
+// }
 
 export default App;

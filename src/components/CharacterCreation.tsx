@@ -80,7 +80,8 @@ const CharacterCreation = () => {
                             numberOfDice={2}
                             adjustScore={12}
                             onTotalChange={handleEnduranceTotalChange}
-                         buttonPosition='bottom'/>
+                            buttonPosition="bottom"
+                        />
                     </div>
                     <div className="w-1/3 flex flex-col items-center justify-between h-full">
                         <p className="text-white text-stroke-1px text-2xl">
@@ -103,7 +104,8 @@ const CharacterCreation = () => {
                             numberOfDice={1}
                             adjustScore={6}
                             onTotalChange={handleHabileteTotalChange}
-                         buttonPosition='bottom'/>
+                            buttonPosition="bottom"
+                        />
                     </div>
                     <div className="w-1/3 flex flex-col items-center justify-between h-full">
                         <p className="text-white text-stroke-1px text-2xl">
@@ -126,7 +128,8 @@ const CharacterCreation = () => {
                             numberOfDice={1}
                             adjustScore={6}
                             onTotalChange={handleChanceTotalChange}
-                         buttonPosition='bottom'/>
+                            buttonPosition="bottom"
+                        />
                     </div>
                     <div className="w-1/3 flex flex-col items-center justify-between h-full">
                         <p className="text-white text-stroke-1px text-2xl">

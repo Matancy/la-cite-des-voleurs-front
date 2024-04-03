@@ -19,7 +19,7 @@ const StoryFightPage = () => {
                 <img
                     src={imageURL}
                     alt="Illustration de la situation"
-                    className="h-1/4 mb-3"
+                    className="w-2/5 mb-3"
                 />
                 <div
                     className="mb-6"
