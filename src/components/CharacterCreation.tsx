@@ -1,5 +1,5 @@
 import React, { useState, useEffect, HTMLInputAutoCompleteAttribute } from "react";
-import Dice from "./dice/Dice.tsx";
+import Dice from "../widgets/dice/Dice.tsx";
 import backArrowIcon from "../assets/images/back_arrow.png";
 import { useNavigate } from "react-router-dom";
 import { Character } from "../model/utils.ts";
@@ -76,8 +76,6 @@ const CharacterCreation = () => {
 
     const createCharacter = () => {
         let character: Character = new Character({name}.name, {habileteTotal}.habileteTotal, {enduranceTotal}.enduranceTotal, {chanceTotal}.chanceTotal, INITIAL_GOLD_AMOUNT);
-        console.log(character)
-        console.log({enduranceTotal})
         localStorage.setItem("character", JSON.stringify(character));
         postCharacter(character);
     }
