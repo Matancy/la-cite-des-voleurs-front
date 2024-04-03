@@ -65,21 +65,20 @@ const CharacterCreation = () => {
     }
 
     return (
-        <div className="flex justify-center background-character-creation font-Inter text-xl p-2">
-            <div className="flex flex-col items-center justify-between w-2/3 h-auto">
-                <h1 className="font-GrenzeGotisch text-white text-stroke-2px text-4xl">
+        <div className="flex justify-center background-character-creation font-Inter text-xl p-2 min-h-screen">
+            <div className="flex flex-col items-center justify-between w-2/5 h-auto">
+                <h1 className="font-GrenzeGotisch text-white text-stroke-2px text-6xl">
                     Création personnage
                 </h1>
-                <div className="bg-light-gray/[.6] rounded-2xl flex justify-between items-center py-2 px-3 my-3">
+                <div className="bg-light-gray/[.8] rounded-2xl flex justify-between items-center py-2 px-3 my-3">
                     <label
                         htmlFor=""
-                        className="text-white text-stroke-1px text-2xl mr-1"
-                    >
+                        className="text-white text-stroke-1px text-2xl mr-1">
                         Votre nom :
                     </label>
                     <input type="text" className="rounded-3xl px-2" />
                 </div>
-                <div className="bg-light-gray/[.6] rounded-3xl w-full h-1/4 flex justify-between items-center py-2 mb-3">
+                <div className="bg-light-gray/[.8] rounded-3xl w-full h-1/6 flex justify-between items-center py-2 mb-3">
                     <h1 className="font-GrenzeGotisch text-white text-stroke-2px text-4xl w-1/3 text-center">
                         Endurance
                     </h1>
@@ -103,7 +102,7 @@ const CharacterCreation = () => {
                         </p>
                     </div>
                 </div>
-                <div className="bg-light-gray/[.6] rounded-3xl w-full h-1/4 flex justify-between items-center py-2 mb-3">
+                <div className="bg-light-gray/[.8] rounded-3xl w-full h-1/6 flex justify-between items-center py-2 mb-3">
                     <h1 className="font-GrenzeGotisch text-white text-stroke-2px text-4xl w-1/3 text-center">
                         Habileté
                     </h1>
@@ -127,7 +126,7 @@ const CharacterCreation = () => {
                         </p>
                     </div>
                 </div>
-                <div className="bg-light-gray/[.6] rounded-3xl w-full h-1/4 flex justify-between items-center py-2 mb-3">
+                <div className="bg-light-gray/[.8] rounded-3xl w-full h-1/6 flex justify-between items-center py-2 mb-3">
                     <h1 className="font-GrenzeGotisch text-white text-stroke-2px text-4xl w-1/3 text-center">
                         Chance
                     </h1>
@@ -162,9 +161,8 @@ const CharacterCreation = () => {
                     </button>
                     <button
                         disabled={allRolling}
-                        className={`bg-dark-brown hover:bg-darker-brown rounded-3xl w-1/3 h-16 border-solid border-black border-4 ${
-                            allRolling ? "opacity-50 cursor-not-allowed" : ""
-                        }`}
+                        className={`bg-dark-brown hover:bg-darker-brown rounded-3xl w-1/3 h-16 border-solid border-black border-4 ${allRolling ? "opacity-50 cursor-not-allowed" : ""
+                            }`}
                     >
                         <h2 className="font-GrenzeGotisch text-white text-stroke-2px text-3xl">
                             Commencer l'aventure

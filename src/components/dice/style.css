@@ -189,9 +189,3 @@ button:hover {
     align-items: center;
     height: auto;
 }
-
-/* @media (min-width: 900px) {
-    .dice {
-      perspective: 1300px;
-    }
-  } */
