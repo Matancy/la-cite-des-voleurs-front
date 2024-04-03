@@ -3,9 +3,13 @@ import HeaderStoryPage from "../widgets/HeaderStoryPage.tsx";
 import ProgressBar from "../widgets/progressBar.tsx";
 import storyData from "../assets/temp/fight.json";
 import Dice from "../widgets/dice/Dice.tsx";
+import { useParams } from "react-router-dom";
 
 const StoryFightPage = () => {
-    const { id, text, imageURL, idOfNextNode, foeStamina } = storyData;
+    const { text, imageURL, idOfNextNode, foeStamina } = storyData;
+
+    const params = useParams();
+    const id = params.id;
 
     const test = (total: number, totalDice: number, rolling: boolean) => {
         // Mettre à jour l'état

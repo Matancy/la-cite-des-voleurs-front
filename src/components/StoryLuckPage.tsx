@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import HeaderStoryPage from "../widgets/HeaderStoryPage.tsx";
 import StoryData from "../assets/temp/dice.json";
 import Dice from "../widgets/dice/Dice.tsx";
+import { useParams } from "react-router-dom";
 
 const StoryLuckPage = () => {
-    const { id, text, imageURL, action } = StoryData;
+    const { text, imageURL, action } = StoryData;
     const { success, fail } = action;
+
+    const params = useParams();
+    const id = params.id;
 
     const [isSuccessActive, setIsSuccessActive] = useState(false);
     const [isFailActive, setIsFailActive] = useState(false);
@@ -47,33 +51,29 @@ const StoryLuckPage = () => {
                 />
                 <div className="flex w-1/3 justify-between">
                     <button
-                        className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min ${
-                            isSuccessActive
+                        className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min ${isSuccessActive
                                 ? ""
                                 : "opacity-50 cursor-not-allowed hover:bg-gray-300"
-                        }`}
+                            }`}
                         disabled={!isSuccessActive}
                     >
                         <p
-                            className={`${
-                                isSuccessActive ? "" : "cursor-not-allowed"
-                            }`}
+                            className={`${isSuccessActive ? "" : "cursor-not-allowed"
+                                }`}
                         >
                             Aller à {success}
                         </p>
                     </button>
                     <button
-                        className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min ${
-                            isFailActive
+                        className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min ${isFailActive
                                 ? ""
                                 : "opacity-50 cursor-not-allowed hover:bg-gray-300"
-                        }`}
+                            }`}
                         disabled={!isFailActive}
                     >
                         <p
-                            className={`${
-                                isFailActive ? "" : "cursor-not-allowed"
-                            }`}
+                            className={`${isFailActive ? "" : "cursor-not-allowed"
+                                }`}
                         >
                             Aller à {fail}
                         </p>

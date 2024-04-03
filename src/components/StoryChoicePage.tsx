@@ -1,9 +1,12 @@
 import React from "react";
 import storyData from "../assets/temp/choix.json";
 import HeaderStoryPage from "../widgets/HeaderStoryPage.tsx";
+import { useParams } from "react-router-dom";
 
 const StoryChoicePage = () => {
-    const { id, text, links, imageURL } = storyData;
+    const { text, links, imageURL } = storyData;
+    const params = useParams();
+    const id = params.id;
 
     return (
         <div className="p-4 font-Inter text-xl flex flex-col background-old-page overflow-auto">

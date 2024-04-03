@@ -16,9 +16,9 @@ export default function Main() {
                 <Route path="/" element={<MainPage />}></Route>
                 <Route path="/rules" element={<Rules />}></Route>
                 <Route path="/character-creation" element={<CharacterCreation />}></Route>
-                <Route path="/story-choice" element={<StoryChoicePage />}></Route>
-                <Route path="/story-fight" element={<StoryFightPage />}></Route>
-                <Route path="/story-luck" element={<StoryLuckPage />}></Route>
+                <Route path="/story-choice/:id" element={<StoryChoicePage />}></Route>
+                <Route path="/story-fight/:id" element={<StoryFightPage />}></Route>
+                <Route path="/story-luck/:id" element={<StoryLuckPage />}></Route>
             </Routes>
         </BrowserRouter>
     );
