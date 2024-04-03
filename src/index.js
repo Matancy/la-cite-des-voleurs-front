@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Rules from './components/Rules.tsx';
+import CharacterCreation from './components/CharacterCreation.tsx';
 
 // const root = ReactDOM.createRoot(document.getElementById('root'));
 // root.render(
@@ -23,6 +24,7 @@ export default function Main() {
       <Routes>
         <Route path="/" element={<App />}></Route>
         <Route path="/rules" element={<Rules />}></Route>
+        <Route path="/character-creation" element={<CharacterCreation />}></Route>
       </Routes>
     </BrowserRouter>
   );

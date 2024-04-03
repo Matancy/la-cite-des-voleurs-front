@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Dice from "./dice/Dice.tsx";
+import backArrowIcon from "../assets/images/back_arrow.png";
+import { useNavigate } from "react-router-dom";
 
 const CharacterCreation = () => {
     const [enduranceTotal, setEnduranceTotal] = useState<number>(0);
@@ -55,6 +57,12 @@ const CharacterCreation = () => {
             setAllRolling(false);
         }
     }, [rollingChance, rollingEndurance, rollinghabilete]);
+
+    const navigate = useNavigate();
+
+    const navigateToMainPage = () => {
+        navigate("/");
+    }
 
     return (
         <div className="flex justify-center background-character-creation font-Inter text-xl p-2">
@@ -143,16 +151,26 @@ const CharacterCreation = () => {
                         </p>
                     </div>
                 </div>
-                <button
-                    disabled={allRolling}
-                    className={`bg-dark-brown hover:bg-darker-brown rounded-3xl w-1/3 h-16 self-end border-solid border-black border-4 ${
-                        allRolling ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
-                >
-                    <h2 className="font-GrenzeGotisch text-white text-stroke-2px text-3xl">
-                        Commencer l'aventure
-                    </h2>
-                </button>
+                <div className="flex justify-between w-full">
+                    <button onClick={navigateToMainPage} className="bg-light-gray/[.8] hover:bg-light-gray text-gray-800 font-bold py-2 px-4 rounded-xl h-min flex items-center">
+                        <img
+                            src={backArrowIcon}
+                            alt="Back"
+                            className="w-4 h-4 mr-2"
+                        />{" "}
+                        Retour au menu
+                    </button>
+                    <button
+                        disabled={allRolling}
+                        className={`bg-dark-brown hover:bg-darker-brown rounded-3xl w-1/3 h-16 border-solid border-black border-4 ${
+                            allRolling ? "opacity-50 cursor-not-allowed" : ""
+                        }`}
+                    >
+                        <h2 className="font-GrenzeGotisch text-white text-stroke-2px text-3xl">
+                            Commencer l'aventure
+                        </h2>
+                    </button>
+                </div>
             </div>
         </div>
     );

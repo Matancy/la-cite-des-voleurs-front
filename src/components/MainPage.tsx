@@ -8,6 +8,10 @@ export default function MainPage() {
         navigate("/rules");
     }
 
+    const navigateToCharacterCreation = () => {
+        navigate("/character-creation");
+    }
+
     return (
         <div className="flex flex-col h-screen background-main-page font-Inter text-xl">
             <div className="m-auto">
@@ -26,7 +30,7 @@ export default function MainPage() {
                     <button className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg px-3 py-1 mb-3 border-solid border-2 border-black">
                         <p>Démarrer</p>
                     </button>
-                    <button className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg px-3 py-1 border-solid border-2 border-black">
+                    <button onClick={navigateToCharacterCreation} className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg px-3 py-1 border-solid border-2 border-black">
                         <p>Changer joueur</p>
                     </button>
                 </div>
