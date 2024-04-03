@@ -30,7 +30,6 @@ const CharacterCreation = () => {
         rolling: boolean
     ) => {
         // Mettre à jour l'état
-        console.log(await getNode(10))
         setEnduranceTotal(total);
         setEnduranceTotalDice(totalDice);
         setRollingEndurance(rolling);
