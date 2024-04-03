@@ -1,6 +1,6 @@
 import React from "react";
-import HeaderStoryPage from "./HeaderStoryPage.tsx";
 import storyData from "../assets/temp/choix.json";
+import HeaderStoryPage from "../widgets/HeaderStoryPage.tsx";
 
 const StoryChoicePage = () => {
     const { id, text, links, imageURL } = storyData;

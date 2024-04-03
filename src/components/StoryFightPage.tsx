@@ -1,8 +1,8 @@
 import React from "react";
-import HeaderStoryPage from "./HeaderStoryPage.tsx";
-import ProgressBar from "./progressBar.tsx";
+import HeaderStoryPage from "../widgets/HeaderStoryPage.tsx";
+import ProgressBar from "../widgets/progressBar.tsx";
 import storyData from "../assets/temp/fight.json";
-import Dice from "./dice/Dice.tsx";
+import Dice from "../widgets/dice/Dice.tsx";
 
 const StoryFightPage = () => {
     const { id, text, imageURL, idOfNextNode, foeStamina } = storyData;

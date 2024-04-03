@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import HeaderStoryPage from "./HeaderStoryPage.tsx";
+import HeaderStoryPage from "../widgets/HeaderStoryPage.tsx";
 import StoryData from "../assets/temp/dice.json";
-import Dice from "./dice/Dice.tsx";
+import Dice from "../widgets/dice/Dice.tsx";
 
 const StoryLuckPage = () => {
     const { id, text, imageURL, action } = StoryData;

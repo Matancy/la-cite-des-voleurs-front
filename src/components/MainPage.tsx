@@ -8,6 +8,8 @@ export default function MainPage() {
         navigate(page);
     }
 
+    const userName = localStorage.getItem("userName");
+
     return (
         <div className="flex flex-col h-screen background-main-page font-Inter text-xl">
             <div className="m-auto">
@@ -20,15 +22,18 @@ export default function MainPage() {
                             Nouvelle partie
                         </h2>
                         <p className="text-white text-stroke-1px text-2xl">
-                            Jean-Michel
+                            {userName ? `Bienvenue ${userName} !` : ""}
                         </p>
                     </div>
-                    <button className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg px-3 py-1 mb-3 border-solid border-2 border-black">
+                    {/* TODO : Ajouter l'URL de redirection pour démarer si le username est existant */}
+                    <button onClick={!userName ? () => navigateTo("/character-creation") : () => navigateTo("/")} className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg px-3 py-1 mb-3 border-solid border-2 border-black">
                         <p>Démarrer</p>
                     </button>
-                    <button onClick={() => navigateTo("/character-creation")} className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg px-3 py-1 border-solid border-2 border-black">
-                        <p>Changer joueur</p>
-                    </button>
+                    {userName ?
+                        <button onClick={() => navigateTo("/character-creation")} className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg px-3 py-1 border-solid border-2 border-black">
+                            <p>Changer de joueur</p>
+                        </button>
+                        : null}
                 </div>
                 <button onClick={() => navigateTo("/rules")} className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg mt-3 py-1 w-full border-solid border-2 border-black">
                     <p>Règles</p>
@@ -52,6 +57,6 @@ export default function MainPage() {
                 </ul>
             </nav>
         </div>
-        
+
     )
 };

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Dice from "./dice/Dice.tsx";
+import Dice from "../widgets/dice/Dice.tsx";
 import backArrowIcon from "../assets/images/back_arrow.png";
 import { useNavigate } from "react-router-dom";
 
