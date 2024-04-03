@@ -13,10 +13,10 @@ const SkillsSection = () => {
     };
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col absolute top-5 right-5">
             <button
                 onClick={toggleVisibility}
-                className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-2 rounded h-min w-1/4 self-end flex items-center justify-center mb-2"
+                className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-2 rounded h-min  self-end flex items-center justify-center mb-2"
             >
                 <img
                     src={iconSrc}
