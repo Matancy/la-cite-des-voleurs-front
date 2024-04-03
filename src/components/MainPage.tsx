@@ -4,12 +4,8 @@ import { useNavigate } from "react-router-dom";
 export default function MainPage() {
     const navigate = useNavigate();
 
-    const navigateToRules = () => {
-        navigate("/rules");
-    }
-
-    const navigateToCharacterCreation = () => {
-        navigate("/character-creation");
+    const navigateTo = (page: string) => {
+        navigate(page);
     }
 
     return (
@@ -30,14 +26,32 @@ export default function MainPage() {
                     <button className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg px-3 py-1 mb-3 border-solid border-2 border-black">
                         <p>Démarrer</p>
                     </button>
-                    <button onClick={navigateToCharacterCreation} className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg px-3 py-1 border-solid border-2 border-black">
+                    <button onClick={() => navigateTo("/character-creation")} className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg px-3 py-1 border-solid border-2 border-black">
                         <p>Changer joueur</p>
                     </button>
                 </div>
-                <button onClick={navigateToRules} className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg mt-3 py-1 w-full border-solid border-2 border-black">
+                <button onClick={() => navigateTo("/rules")} className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg mt-3 py-1 w-full border-solid border-2 border-black">
                     <p>Règles</p>
                 </button>
             </div>
+            <nav>
+                <ul className="text-white">
+                    <li onClick={() => navigateTo("/")}>Accueil</li>
+                    <li onClick={() => navigateTo("/character-creation")}>
+                        Création de personnage
+                    </li>
+                    <li onClick={() => navigateTo("/story-choice")}>
+                        Choix de l'histoire
+                    </li>
+                    <li onClick={() => navigateTo("/story-fight")}>
+                        Combat d'histoire
+                    </li>
+                    <li onClick={() => navigateTo("/story-luck")}>
+                        Chance de l'histoire
+                    </li>
+                </ul>
+            </nav>
         </div>
+        
     )
 };
