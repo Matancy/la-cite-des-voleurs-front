@@ -30,7 +30,7 @@ const StoryLuckPage = () => {
     };
 
     return (
-        <div className="p-4 font-Inter text-xl flex flex-col background-old-page overflow-auto">
+        <div className="p-4 font-Inter text-xl flex flex-col background-old-page overflow-auto min-h-screen">
             <HeaderStoryPage />
             <div className="text-center flex flex-col items-center">
                 <h2 className="font-bold text-5xl mb-4 font-GrenzeGotisch text-white text-stroke-2px">

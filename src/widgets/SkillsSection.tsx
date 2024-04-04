@@ -9,7 +9,7 @@ const SkillsSection = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [iconSrc, setIconSrc] = useState(statsIcon);
     
-    let user: Character = JSON.parse(localStorage.getItem("character")); 
+    let user: Character | null = JSON.parse(localStorage.getItem("character"));
 
     if (!user) {
         navigate("/character-creation");

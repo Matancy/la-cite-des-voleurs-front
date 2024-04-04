@@ -11,12 +11,14 @@ const StoryFightPage = () => {
     const params = useParams();
     const id = params.id;
 
+    let user: Character = JSON.parse(localStorage.getItem("character"));
+
     const test = (total: number, totalDice: number, rolling: boolean) => {
         // Mettre à jour l'état
         console.log("toto");
     };
     return (
-        <div className="p-4 font-Inter text-xl flex flex-col background-old-page overflow-auto">
+        <div className="p-4 font-Inter text-xl flex flex-col background-old-page overflow-auto min-h-screen">
             <HeaderStoryPage />
             <div className="text-center flex flex-col items-center">
                 <h2 className="font-bold text-5xl mb-4 font-GrenzeGotisch text-white text-stroke-2px">
@@ -38,8 +40,8 @@ const StoryFightPage = () => {
                             <ProgressBar
                                 key={1}
                                 bgcolor={"#67BF48"}
-                                completed={100}
-                                max={90}
+                                completed={user.stamina}
+                                max={user.stamina}
                                 changeColorBasedOnPercentage={true}
                             />
                         </div>
