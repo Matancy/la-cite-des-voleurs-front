@@ -3,7 +3,7 @@ import Dice from "../widgets/dice/Dice.tsx";
 import backArrowIcon from "../assets/images/back_arrow.png";
 import { useNavigate } from "react-router-dom";
 import { Character } from "../model/utils.ts";
-import { postCharacter } from "../model/callApi.ts";
+import { getNode, postCharacter } from "../model/callApi.ts";
 
 const INITIAL_GOLD_AMOUNT = 30;
 
@@ -24,7 +24,7 @@ const CharacterCreation = () => {
     const [allRolling, setAllRolling] = useState<boolean>(true);
 
     // Fonction de rappel pour recevoir les valeurs de total et totalDice
-    const handleEnduranceTotalChange = (
+    const handleEnduranceTotalChange = async (
         total: number,
         totalDice: number,
         rolling: boolean

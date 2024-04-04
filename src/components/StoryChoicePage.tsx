@@ -1,9 +1,12 @@
 import React from "react";
 import storyData from "../assets/temp/choix.json";
 import HeaderStoryPage from "../widgets/HeaderStoryPage.tsx";
+import { useParams } from "react-router-dom";
 
 const StoryChoicePage = () => {
-    const { id, text, links, imageURL } = storyData;
+    const { text, links, imageURL } = storyData;
+    const params = useParams();
+    const id = params.id;
 
     const playerMoney = 2; // Exemple de l'argent du joueur, à remplacer avec la valeur réelle récupérée depuis la base de données
 

@@ -15,22 +15,27 @@ export abstract class Node {
     imageURL: URL;
 }
 
+export class NextNode{
+    id: number;
+    type: NodeType;
+}
 
 export class EndNode extends Node { }
 
 export class FightNode extends Node {
-    idOfNextNode: number;
+    nextNode: NextNode;
     foeHability: number;
     foeStamina: number;
 }
 
 export class DirectLinkNode extends Node {
-    idOfNextNode: number;
+    nextNode: NextNode;
 }
 
 class ChoiceLink{
     cost: number;
-    nextNode: number;
+    id: number;
+    type: NodeType
 }
 
 export class ChoicesNode extends Node{
@@ -44,8 +49,8 @@ export enum DiceField {
 
 class ActionDice{
     field: DiceField;
-    success: number; // id of node if success
-    fail: number; // id of node if fail
+    success: NextNode; // next node if success
+    fail: NextNode; // next node if fail
 }
 
 export class DiceNode extends Node{
