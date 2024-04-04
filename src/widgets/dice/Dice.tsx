@@ -52,6 +52,10 @@ const DiceRoll: React.FC<
         setTotalDice(results.reduce((acc, curr) => acc + curr, 0));
     };
 
+    const enableDice = () => {
+        setRolling(false);
+      }
+
     useEffect(() => {
         setTimeout(() => {
             onTotalChange(total, totalDice, rolling);
