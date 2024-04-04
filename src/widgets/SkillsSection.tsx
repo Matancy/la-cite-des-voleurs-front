@@ -3,12 +3,17 @@ import ProgressBar from "./progressBar.tsx";
 import statsIcon from "../assets/images/stats.png";
 import hiddenStatsIcon from "../assets/images/hide_stats.png";
 import piece from "../assets/images/gold-piece.png";
+import { useNavigate } from "react-router-dom";
 
 const SkillsSection = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [iconSrc, setIconSrc] = useState(statsIcon);
     
     let user: Character = JSON.parse(localStorage.getItem("character")); 
+
+    if (!user) {
+        navigate("/character-creation");
+    }
 
     const toggleVisibility = () => {
         setIsVisible((prevState) => !prevState); // Utilisation de la fonction de mise à jour de l'état

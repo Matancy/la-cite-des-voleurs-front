@@ -1,15 +1,15 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Character } from "../model/utils";
+import { Character } from "../model/Character";
 
 export default function MainPage() {
     const navigate = useNavigate();
 
     const navigateTo = (page: string) => {
         navigate(page);
-    }
+    };
 
-    let user: Character = JSON.parse(localStorage.getItem("character")); 
+    let user: Character | null = JSON.parse(localStorage.getItem("character"));
 
     return (
         <div className="flex flex-col h-screen background-main-page font-Inter text-xl">
@@ -23,20 +23,35 @@ export default function MainPage() {
                             Nouvelle partie
                         </h2>
                         <p className="text-white text-stroke-1px text-2xl">
-                            {user.name ? `Bienvenue ${user.name} !` : ""}
+                            {user && user.name
+                                ? `Bienvenue ${user.name} !`
+                                : ""}
                         </p>
                     </div>
                     {/* TODO : Ajouter l'URL de redirection pour démarer si le username est existant */}
-                    <button onClick={!user.name ? () => navigateTo("/character-creation") : () => navigateTo("/")} className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg px-3 py-1 mb-3 border-solid border-2 border-black">
+                    <button
+                        onClick={
+                            !user || !user.name
+                                ? () => navigateTo("/character-creation")
+                                : () => navigateTo("/story-choice/1")
+                        }
+                        className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg px-3 py-1 mb-3 border-solid border-2 border-black"
+                    >
                         <p>Démarrer</p>
                     </button>
-                    {user.name ?
-                        <button onClick={() => navigateTo("/character-creation")} className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg px-3 py-1 border-solid border-2 border-black">
+                    {user && user.name ? (
+                        <button
+                            onClick={() => navigateTo("/character-creation")}
+                            className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg px-3 py-1 border-solid border-2 border-black"
+                        >
                             <p>Changer de joueur</p>
                         </button>
-                        : null}
+                    ) : null}
                 </div>
-                <button onClick={() => navigateTo("/rules")} className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg mt-3 py-1 w-full border-solid border-2 border-black">
+                <button
+                    onClick={() => navigateTo("/rules")}
+                    className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg mt-3 py-1 w-full border-solid border-2 border-black"
+                >
                     <p>Règles</p>
                 </button>
             </div>
@@ -58,6 +73,5 @@ export default function MainPage() {
                 </ul>
             </nav>
         </div>
-
-    )
-};
+    );
+}
