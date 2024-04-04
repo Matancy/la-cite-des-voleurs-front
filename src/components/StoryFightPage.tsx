@@ -55,10 +55,6 @@ const StoryFightPage = () => {
         setMonsterAttack(total);
     };
 
-    const [monsterLife, setMonsterLife] = useState<number>(
-        parseInt(updatedNode?.foeStamina)
-    );
-
     useEffect(() => {
         if (playerAttack > 0 && monsterAttack > 0) {
             if (playerAttack > monsterAttack) {
