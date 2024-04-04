@@ -7,6 +7,7 @@ import { ChoicesNode } from "../model/ChoicesNode.ts";
 import { EndNode } from "../model/EndNode.ts";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../model/utils.ts";
+import { Character } from "../model/Character.ts";
 
 
 const StoryChoicePage = () => {
@@ -17,7 +18,11 @@ const StoryChoicePage = () => {
     const navigate = useNavigate();
 
 
-    let user: Character = JSON.parse(localStorage.getItem("character"));
+    let json = localStorage.getItem("character");
+    if (json === null) {
+        navigate("/");
+    }
+    let user: Character = JSON.parse(json!);
     let node: DirectLinkNode | ChoicesNode | EndNode;
 
     const [updatedNode, setUpdatedNode] = useState<
@@ -27,7 +32,7 @@ const StoryChoicePage = () => {
     useEffect(() => {
 
         async function fetchData() {
-            let temp_node = await getNode(id);
+            let temp_node = await getNode(Number(id));
             let type = temp_node?.type;
 
             if (type === "choice") {
@@ -46,21 +51,21 @@ const StoryChoicePage = () => {
         fetchData();
     }, [id]);
 
-   
-    
+
+
     useEffect(() => {
         async function getImgUrl() {
             let imageUrl = updatedNode?.imageURL.toString();
-            if(imageUrl != undefined){
-                if(imageUrl !== "null"){
-                    let url = API_URL+"/images/"+updatedNode?.id
-                    localStorage.setItem("imageUrl",url)
+            if (imageUrl != undefined) {
+                if (imageUrl !== "null") {
+                    let url = API_URL + "/images/" + updatedNode?.id
+                    localStorage.setItem("imageUrl", url)
                     setImageUrl(url)
-                }else{
+                } else {
                     setImageUrl(localStorage.getItem("imageUrl") as string)
                 }
             }
-            
+
         }
         getImgUrl();
     }, [updatedNode])
@@ -85,11 +90,10 @@ const StoryChoicePage = () => {
                     dangerouslySetInnerHTML={{ __html: updatedNode?.text }}
                 />
                 <div
-                    className={`flex justify-${
-                        updatedNode?.links && updatedNode?.links.length === 1
+                    className={`flex justify-${updatedNode?.links && updatedNode?.links.length === 1
                             ? "center"
                             : "between"
-                    } w-1/3`}
+                        } w-1/3`}
                 >
                     {updatedNode?.links &&
                         updatedNode.links.map((link, index) => (
@@ -115,8 +119,7 @@ const StoryChoicePage = () => {
                                             break;
                                     }
                                 }}
-                                className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min ${
-                                    user.gold < link.cost &&
+                                className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min ${user.gold < link.cost &&
                                     "opacity-50 cursor-not-allowed"
                                     }`}
                                 disabled={user.gold < link.cost}

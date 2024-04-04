@@ -6,6 +6,7 @@ import { getNode } from "../model/callApi.ts";
 import { DiceNode } from "../model/DiceNode.ts";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../model/utils.ts";
+import { Character } from "../model/Character.ts";
 
 const StoryLuckPage = () => {
     const params = useParams();
@@ -15,7 +16,11 @@ const StoryLuckPage = () => {
     const [updatedNode, setUpdatedNode] = useState<DiceNode>();
     const [rollingOne, setRollingOne] = useState(false);
     const navigate = useNavigate();
-    let user: Character = JSON.parse(localStorage.getItem("character"));
+    let json = localStorage.getItem("character");
+    if (json === null) {
+        navigate("/");
+    }
+    let user: Character = JSON.parse(json!);
     const [imageUrl, setImageUrl] = useState<string>("");
 
 
@@ -36,16 +41,7 @@ const StoryLuckPage = () => {
 
     useEffect(() => {
         async function fetchData() {
-            let temp_node = await getNode(id);
-            let type = temp_node?.type;
-
-            if (type === "dice") {
-                node = temp_node;
-            } else {
-                navigate("/");
-            }
-
-            setUpdatedNode(node);
+            let temp_node = await getNode(Number(id));
         }
 
         fetchData();
@@ -54,16 +50,16 @@ const StoryLuckPage = () => {
     useEffect(() => {
         async function getImgUrl() {
             let imageUrl = updatedNode?.imageURL.toString();
-            if(imageUrl != undefined){
-                if(imageUrl !== "null"){
-                    let url = API_URL+"/images/"+updatedNode?.id
-                    localStorage.setItem("imageUrl",url)
+            if (imageUrl != undefined) {
+                if (imageUrl !== "null") {
+                    let url = API_URL + "/images/" + updatedNode?.id
+                    localStorage.setItem("imageUrl", url)
                     setImageUrl(url)
-                }else{
+                } else {
                     setImageUrl(localStorage.getItem("imageUrl") as string)
                 }
             }
-            
+
         }
         getImgUrl();
     }, [updatedNode])
@@ -99,8 +95,8 @@ const StoryLuckPage = () => {
                 <div className="flex w-1/3 justify-between">
                     <button
                         className={`bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded h-min ${isSuccessActive
-                                ? "hover:bg-gray-400"
-                                : "opacity-50 cursor-not-allowed hover:bg-gray-300"
+                            ? "hover:bg-gray-400"
+                            : "opacity-50 cursor-not-allowed hover:bg-gray-300"
                             }`}
                         disabled={!isSuccessActive}
                         onClick={() => {
@@ -140,8 +136,8 @@ const StoryLuckPage = () => {
                     </button>
                     <button
                         className={`bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded h-min ${isFailActive
-                                ? "hover:bg-gray-400"
-                                : "opacity-50 cursor-not-allowed hover:bg-gray-300"
+                            ? "hover:bg-gray-400"
+                            : "opacity-50 cursor-not-allowed hover:bg-gray-300"
                             }`}
                         disabled={!isFailActive}
                         onClick={() => {

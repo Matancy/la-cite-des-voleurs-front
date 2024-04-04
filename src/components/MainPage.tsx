@@ -9,7 +9,13 @@ export default function MainPage() {
         navigate(page);
     };
 
-    let user: Character | null = JSON.parse(localStorage.getItem("character"));
+    let json = localStorage.getItem("character");
+    let user: Character | null = null;
+    if (json === null) {
+        user = null;
+    } else {
+        user = JSON.parse(json!);
+    }
 
     return (
         <div className="flex flex-col h-screen background-main-page font-Inter text-xl">

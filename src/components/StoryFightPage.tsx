@@ -10,9 +10,13 @@ import { API_URL } from "../model/utils.ts";
 
 const StoryFightPage = () => {
     const params = useParams();
-    let user: Character = JSON.parse(localStorage.getItem("character"));
     const [updatedNode, setUpdatedNode] = useState<FightNode>();
     const navigate = useNavigate();
+    let json = localStorage.getItem("character");
+    if (json === null) {
+        navigate("/");
+    }
+    let user: Character = JSON.parse(json!);
     const [playerAttack, setPlayerAttack] = useState<number>(0);
     const [monsterAttack, setMonsterAttack] = useState<number>(0);
     const [playerLife, setPlayerLife] = useState<number>(user.stamina);
@@ -20,6 +24,7 @@ const StoryFightPage = () => {
     const [rollingTwo, setRollingTwo] = useState(false);
     const [diceOneRolling, setDiceOneRolling] = useState(false);
     const [diceTwoRolling, setDiceTwoRolling] = useState(false);
+
 
     const [diceOneHasRolled, setDiceOneHasRolled] = useState(false);
     const [diceTwoHasRolled, setDiceTwoHasRolled] = useState(false);
@@ -65,7 +70,7 @@ const StoryFightPage = () => {
 
     useEffect(() => {
         async function fetchData() {
-            let temp_node = await getNode(id);
+            let temp_node = await getNode(Number(id));
             let type = temp_node?.type;
 
             if (type === "fight") {
@@ -83,16 +88,16 @@ const StoryFightPage = () => {
     useEffect(() => {
         async function getImgUrl() {
             let imageUrl = updatedNode?.imageURL.toString();
-            if(imageUrl != undefined){
-                if(imageUrl !== "null"){
-                    let url = API_URL+"/images/"+updatedNode?.id
-                    localStorage.setItem("imageUrl",url)
+            if (imageUrl != undefined) {
+                if (imageUrl !== "null") {
+                    let url = API_URL + "/images/" + updatedNode?.id
+                    localStorage.setItem("imageUrl", url)
                     setImageUrl(url)
-                }else{
+                } else {
                     setImageUrl(localStorage.getItem("imageUrl") as string)
                 }
             }
-            
+
         }
         getImgUrl();
     }, [updatedNode])
@@ -121,7 +126,7 @@ const StoryFightPage = () => {
         if (updatedNode?.foeStamina) {
             setMonsterLife(parseInt(updatedNode.foeStamina));
         }
-    }, [updatedNode?.foeStamina]);    
+    }, [updatedNode?.foeStamina]);
 
     useEffect(() => {
         if (playerAttack > 0 && monsterAttack > 0) {
