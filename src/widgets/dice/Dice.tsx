@@ -153,12 +153,12 @@ const DiceRoll: React.FC<
                     disabled={rolling}
                     className={`${isCharacterCreation
                         ? "bg-light-gray/[.8] rounded-lg px-3 w-40 border-solid border-2 border-black"
-                        : "bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded h-min flex items-center"
+                        : "bg-gray-300 text-black font-bold py-2 px-4 rounded h-min flex items-center"
                         } ${rolling
                             ? "opacity-50 cursor-not-allowed"
                             : `${isCharacterCreation
-                                ? "hover:bg-gray-400"
-                                : "hover:bg-light-gray"
+                                ? "hover:bg-gray-300"
+                                : "hover:bg-gray-400"
                             }`
                         } ${margin} `}
                 >
