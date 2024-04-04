@@ -53,8 +53,14 @@ const StoryFightPage = () => {
     };
 
     const [monsterLife, setMonsterLife] = useState<number>(
-        parseInt(updatedNode?.foeStamina)
+        updatedNode?.foeStamina
     );
+
+    useEffect(() => {
+        if (updatedNode?.foeStamina) {
+            setMonsterLife(parseInt(updatedNode.foeStamina));
+        }
+    }, [updatedNode?.foeStamina]);    
 
     useEffect(() => {
         if (playerAttack > 0 && monsterAttack > 0) {
@@ -62,7 +68,6 @@ const StoryFightPage = () => {
                 setMonsterLife(monsterLife - 2);
                 setMonsterAttack(0);
                 setPlayerAttack(0);
-                console.log(monsterAttack, playerAttack);
                 if (monsterLife > 0) {
                     //dégriser le button dans diceRoll
                 }
@@ -70,14 +75,12 @@ const StoryFightPage = () => {
                 setPlayerLife(playerLife - 2);
                 setMonsterAttack(0);
                 setPlayerAttack(0);
-                console.log(monsterAttack, playerAttack);
                 if (playerLife > 0) {
                     //dégriser le button dans diceRoll
                 }
             } else {
                 setMonsterAttack(0);
                 setPlayerAttack(0);
-                console.log(monsterAttack, playerAttack);
                 //dégriser le button dans diceRoll
             }
         }

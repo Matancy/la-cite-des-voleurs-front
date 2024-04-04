@@ -44,7 +44,7 @@ const StoryChoicePage = () => {
             <HeaderStoryPage />
             <div className="text-center flex flex-col items-center">
                 <h2 className="font-bold text-5xl mb-4 font-GrenzeGotisch text-white text-stroke-2px">
-                    Cellule {updatedNode?.id}
+                    Cellule {updatedNode?.id} {updatedNode?.type === "end" ? " - Fin" : ""}
                 </h2>
                 <img
                     src={updatedNode?.imageURL}
