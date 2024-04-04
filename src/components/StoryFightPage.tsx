@@ -3,9 +3,9 @@ import HeaderStoryPage from "../widgets/HeaderStoryPage.tsx";
 import ProgressBar from "../widgets/progressBar.tsx";
 import Dice from "../widgets/dice/Dice.tsx";
 import { getNode } from "../model/callApi.ts";
-import { useParams } from "react-router-dom";
 import { FightNode } from "../model/FightNode.ts";
 import { useNavigate } from "react-router-dom";
+import { Character } from "../model/Character.ts";
 
 const StoryFightPage = () => {
     let user: Character = JSON.parse(localStorage.getItem("character"));
@@ -14,7 +14,10 @@ const StoryFightPage = () => {
     const [playerAttack, setPlayerAttack] = useState<number>(0);
     const [monsterAttack, setMonsterAttack] = useState<number>(0);
     const [playerLife, setPlayerLife] = useState<number>(user.stamina);
-    const params = useParams();
+    const [monsterLife, setMonsterLife] = useState<number>(
+        parseInt(updatedNode?.foeStamina)
+    );
+
     const id = params.id;
 
     let node: FightNode;
