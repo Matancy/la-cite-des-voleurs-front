@@ -44,7 +44,9 @@ const DiceRoll: React.FC<
         const diceRefs = useRef<(HTMLDivElement | null)[]>([]);
 
         const setRolling = (rolling: boolean) => {
-            onRollingChange!(rolling);
+            if (onRollingChange !== undefined) {
+                onRollingChange!(rolling);
+            }
         }
 
         const rollDice = () => {

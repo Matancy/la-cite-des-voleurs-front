@@ -6,6 +6,7 @@ import { getNode } from "../model/callApi.ts";
 import { FightNode } from "../model/FightNode.ts";
 import { useNavigate, useParams } from "react-router-dom";
 import { Character } from "../model/Character.ts";
+import { API_URL } from "../model/utils.ts";
 
 const StoryFightPage = () => {
     const params = useParams();
@@ -22,6 +23,8 @@ const StoryFightPage = () => {
 
     const [diceOneHasRolled, setDiceOneHasRolled] = useState(false);
     const [diceTwoHasRolled, setDiceTwoHasRolled] = useState(false);
+    const [imageUrl, setImageUrl] = useState<string>("");
+
 
     const id = params.id;
     let node: FightNode;
@@ -76,6 +79,23 @@ const StoryFightPage = () => {
 
         fetchData();
     }, [id]);
+
+    useEffect(() => {
+        async function getImgUrl() {
+            let imageUrl = updatedNode?.imageURL.toString();
+            if(imageUrl != undefined){
+                if(imageUrl !== "null"){
+                    let url = API_URL+"/images/"+updatedNode?.id
+                    localStorage.setItem("imageUrl",url)
+                    setImageUrl(url)
+                }else{
+                    setImageUrl(localStorage.getItem("imageUrl") as string)
+                }
+            }
+            
+        }
+        getImgUrl();
+    }, [updatedNode])
 
     const handlePlayerHability = (
         total: number,
@@ -135,7 +155,7 @@ const StoryFightPage = () => {
                     Cellule {updatedNode?.id}
                 </h2>
                 <img
-                    src={updatedNode?.imageURL}
+                    src={imageUrl}
                     alt="Illustration de la situation"
                     className="w-2/5 mb-3 rounded-3xl"
                 />

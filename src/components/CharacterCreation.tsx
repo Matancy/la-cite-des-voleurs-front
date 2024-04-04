@@ -25,6 +25,10 @@ const CharacterCreation = () => {
     const [rollingChance, setRollingChance] = useState<boolean>(false);
     const [name, setName] = useState<string>("");
 
+    const [rollingOne, setRollingOne] = useState(false);
+    const [rollingTwo, setRollingTwo] = useState(false);
+    const [rollingThree, setRollingThree] = useState(false);
+
     const [allRolling, setAllRolling] = useState<boolean>(true);
 
     // Fonction de rappel pour recevoir les valeurs de total et totalDice
@@ -122,6 +126,8 @@ const CharacterCreation = () => {
                     </h1>
                     <div className="flex flex-col items-center justify-between h-full w-1/3">
                         <Dice
+                            rolling={rollingOne}
+                            onRollingChange={setRollingOne}
                             numberOfDice={2}
                             adjustScore={12}
                             onTotalChange={handleEnduranceTotalChange}
@@ -147,6 +153,8 @@ const CharacterCreation = () => {
                     </h1>
                     <div className="flex flex-col items-center justify-between h-full w-1/3">
                         <Dice
+                            rolling={rollingTwo}
+                            onRollingChange={setRollingTwo}
                             numberOfDice={1}
                             adjustScore={6}
                             onTotalChange={handleHabileteTotalChange}
@@ -172,6 +180,8 @@ const CharacterCreation = () => {
                     </h1>
                     <div className="flex flex-col items-center justify-between h-full w-1/3">
                         <Dice
+                            rolling={rollingThree}
+                            onRollingChange={setRollingThree}
                             numberOfDice={1}
                             adjustScore={6}
                             onTotalChange={handleChanceTotalChange}
@@ -205,9 +215,8 @@ const CharacterCreation = () => {
                     </button>
                     <button
                         disabled={allRolling}
-                        className={`bg-dark-brown hover:bg-darker-brown rounded-3xl w-1/3 h-16 border-solid border-black border-4 ${
-                            allRolling ? "opacity-50 cursor-not-allowed" : ""
-                        }`}
+                        className={`bg-dark-brown hover:bg-darker-brown rounded-3xl w-1/3 h-16 border-solid border-black border-4 ${allRolling ? "opacity-50 cursor-not-allowed" : ""
+                            }`}
                         onClick={createCharacter}
                     >
                         <h2 className="font-GrenzeGotisch text-white text-stroke-2px text-3xl">
