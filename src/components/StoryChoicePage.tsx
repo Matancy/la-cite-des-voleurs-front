@@ -55,25 +55,37 @@ const StoryChoicePage = () => {
                     className="mb-6 w-2/3"
                     dangerouslySetInnerHTML={{ __html: updatedNode?.text }}
                 />
-                <div className={`flex justify-${updatedNode?.links.length === 1 ? 'center' : 'between'} w-1/3`}>
+                <div
+                    className={`flex justify-${
+                        updatedNode?.links && updatedNode?.links.length === 1
+                            ? "center"
+                            : "between"
+                    } w-1/3`}
+                >
                     {updatedNode?.links &&
                         updatedNode.links.map((link, index) => (
                             <button
                                 key={index}
                                 onClick={() => {
-                                    if (link.type === "choice") {
-                                        navigate('/story-choice/'+link.id);
-                                    } else if (link.type === "end") {
-                                        navigate('/story-choice/'+link.id);
-                                    } else if (link.type === "directLink") {
-                                        navigate('/story-choice/'+link.id);
-                                    } else if (link.type === "dice") {
-                                        navigate('/story-luck/'+link.id);
-                                    } else if (link.type === "fight") {
-                                        navigate('/story-fight/'+link.id);
+                                    switch (link.type) {
+                                        case "choice":
+                                        case "end":
+                                        case "directLink":
+                                            navigate(
+                                                "/story-choice/" + link.id
+                                            );
+                                            break;
+                                        case "dice":
+                                            navigate("/story-luck/" + link.id);
+                                            break;
+                                        case "fight":
+                                            navigate("/story-fight/" + link.id);
+                                            break;
+                                        default:
+                                            navigate("/");
+                                            break;
                                     }
                                 }}
-                                
                                 className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min ${
                                     user.gold < link.cost &&
                                     "opacity-50 cursor-not-allowed"
@@ -81,7 +93,6 @@ const StoryChoicePage = () => {
                                 disabled={user.gold < link.cost}
                             >
                                 <p>Aller à {link.id}</p>
-                                <p>{link.type}</p>
                                 {link.cost > 0 && <p>cout : {link.cost}</p>}
                             </button>
                         ))}

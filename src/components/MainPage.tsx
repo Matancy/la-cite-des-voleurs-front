@@ -55,23 +55,6 @@ export default function MainPage() {
                     <p>Règles</p>
                 </button>
             </div>
-            <nav>
-                <ul className="text-white">
-                    <li onClick={() => navigateTo("/")}>Accueil</li>
-                    <li onClick={() => navigateTo("/character-creation")}>
-                        Création de personnage
-                    </li>
-                    <li onClick={() => navigateTo("/story-choice")}>
-                        Choix de l'histoire
-                    </li>
-                    <li onClick={() => navigateTo("/story-fight")}>
-                        Combat d'histoire
-                    </li>
-                    <li onClick={() => navigateTo("/story-luck")}>
-                        Chance de l'histoire
-                    </li>
-                </ul>
-            </nav>
         </div>
     );
 }

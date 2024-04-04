@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const SkillsSection = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [iconSrc, setIconSrc] = useState(statsIcon);
-    
+
     let user: Character | null = JSON.parse(localStorage.getItem("character"));
 
     if (!user) {

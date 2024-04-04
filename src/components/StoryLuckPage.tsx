@@ -74,15 +74,44 @@ const StoryLuckPage = () => {
                 />
                 <div className="flex w-1/3 justify-between">
                     <button
-                        className={`bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded h-min ${isSuccessActive
+                        className={`bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded h-min ${
+                            isSuccessActive
                                 ? "hover:bg-gray-400"
                                 : "opacity-50 cursor-not-allowed hover:bg-gray-300"
-                            }`}
+                        }`}
                         disabled={!isSuccessActive}
+                        onClick={() => {
+                            switch (updatedNode?.action.success.type) {
+                                case "choice":
+                                case "end":
+                                case "directLink":
+                                    navigate(
+                                        "/story-choice/" +
+                                            updatedNode?.action.success.id
+                                    );
+                                    break;
+                                case "dice":
+                                    navigate(
+                                        "/story-luck/" +
+                                            updatedNode?.action.success.id
+                                    );
+                                    break;
+                                case "fight":
+                                    navigate(
+                                        "/story-fight/" +
+                                            updatedNode?.action.success.id
+                                    );
+                                    break;
+                                default:
+                                    navigate("/");
+                                    break;
+                            }
+                        }}
                     >
                         <p
-                            className={`${isSuccessActive ? "" : "cursor-not-allowed"
-                                }`}
+                            className={`${
+                                isSuccessActive ? "" : "cursor-not-allowed"
+                            }`}
                         >
                             Aller à {updatedNode?.action.success.id}
                         </p>
@@ -92,12 +121,40 @@ const StoryLuckPage = () => {
                             isFailActive
                                 ? "hover:bg-gray-400"
                                 : "opacity-50 cursor-not-allowed hover:bg-gray-300"
-                            }`}
+                        }`}
                         disabled={!isFailActive}
+                        onClick={() => {
+                            switch (updatedNode?.action.fail.type) {
+                                case "choice":
+                                case "end":
+                                case "directLink":
+                                    navigate(
+                                        "/story-choice/" +
+                                            updatedNode?.action.fail.id
+                                    );
+                                    break;
+                                case "dice":
+                                    navigate(
+                                        "/story-luck/" +
+                                            updatedNode?.action.fail.id
+                                    );
+                                    break;
+                                case "fight":
+                                    navigate(
+                                        "/story-fight/" +
+                                            updatedNode?.action.fail.id
+                                    );
+                                    break;
+                                default:
+                                    navigate("/");
+                                    break;
+                            }
+                        }}
                     >
                         <p
-                            className={`${isFailActive ? "" : "cursor-not-allowed"
-                                }`}
+                            className={`${
+                                isFailActive ? "" : "cursor-not-allowed"
+                            }`}
                         >
                             Aller à {updatedNode?.action.fail.id}
                         </p>

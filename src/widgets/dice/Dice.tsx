@@ -54,7 +54,7 @@ const DiceRoll: React.FC<
 
     const enableDice = () => {
         setRolling(false);
-      }
+    };
 
     useEffect(() => {
         setTimeout(() => {

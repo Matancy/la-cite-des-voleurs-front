@@ -14,12 +14,27 @@ const StoryFightPage = () => {
     const [playerAttack, setPlayerAttack] = useState<number>(0);
     const [monsterAttack, setMonsterAttack] = useState<number>(0);
     const [playerLife, setPlayerLife] = useState<number>(user.stamina);
-    const [monsterLife, setMonsterLife] = useState<number>(
-        parseInt(updatedNode?.foeStamina)
-    );
-
     const params = useParams();
     const id = params.id;
+
+    let node: FightNode;
+
+    useEffect(() => {
+        async function fetchData() {
+            let temp_node = await getNode(id);
+            let type = temp_node?.type;
+
+            if (type === "fight") {
+                node = temp_node;
+            } else {
+                navigate("/");
+            }
+
+            setUpdatedNode(node);
+        }
+
+        fetchData();
+    }, [id]);
 
     const handlePlayerHability = (
         total: number,
@@ -36,6 +51,10 @@ const StoryFightPage = () => {
     ) => {
         setMonsterAttack(total);
     };
+
+    const [monsterLife, setMonsterLife] = useState<number>(
+        parseInt(updatedNode?.foeStamina)
+    );
 
     useEffect(() => {
         if (playerAttack > 0 && monsterAttack > 0) {
@@ -63,25 +82,6 @@ const StoryFightPage = () => {
             }
         }
     }, [playerAttack, monsterAttack]);
-
-    let node: FightNode;
-
-    useEffect(() => {
-        async function fetchData() {
-            let temp_node = await getNode(id);
-            let type = temp_node?.type;
-
-            if (type === "fight") {
-                node = temp_node;
-            } else {
-                navigate("/");
-            }
-
-            setUpdatedNode(node);
-        }
-
-        fetchData();
-    }, [id]);
 
     return (
         <div className="p-4 font-Inter text-xl flex flex-col background-old-page overflow-auto min-h-screen">
@@ -139,7 +139,33 @@ const StoryFightPage = () => {
                         />
                     </div>
                 </div>
-                <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min">
+                <button
+                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min"
+                    onClick={() => {
+                        switch (updatedNode?.nextNode.type) {
+                            case "choice":
+                            case "end":
+                            case "directLink":
+                                navigate(
+                                    "/story-choice/" + updatedNode?.nextNode.id
+                                );
+                                break;
+                            case "dice":
+                                navigate(
+                                    "/story-luck/" + updatedNode?.nextNode.id
+                                );
+                                break;
+                            case "fight":
+                                navigate(
+                                    "/story-fight/" + updatedNode?.nextNode.id
+                                );
+                                break;
+                            default:
+                                navigate("/");
+                                break;
+                        }
+                    }}
+                >
                     <p>Aller à {updatedNode?.nextNode.id}</p>
                 </button>
             </div>
