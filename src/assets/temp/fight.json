@@ -1,9 +1,0 @@
-{
-    "id": "10",
-    "type": "fight",
-    "text": "<p>Le GARDE est vraiment furieux et vous charge avec sa lance.<br>Vous vous battez<br><strong>GARDE DE LA VILLE</strong> HABILETÉ : 5 | ENDURANCE : 9 <br>Si vous êtes vainqueur, rendez-vous en 74.</p>",
-    "imageURL": "https://french-steampunk.fr/wp-content/uploads/2016/01/Antoine-Daniel.jpg",
-    "idOfNextNode": "74",
-    "foeHability": "5",
-    "foeStamina": "9"
-}

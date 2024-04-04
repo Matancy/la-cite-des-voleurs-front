@@ -11,9 +11,7 @@ const StoryChoicePage = () => {
     const params = useParams();
     const id = params.id;
     const navigate = useNavigate();
-
     let user: Character = JSON.parse(localStorage.getItem("character"));
-
     let node: DirectLinkNode | ChoicesNode | EndNode;
 
     const [updatedNode, setUpdatedNode] = useState<
@@ -62,6 +60,20 @@ const StoryChoicePage = () => {
                         updatedNode.links.map((link, index) => (
                             <button
                                 key={index}
+                                onClick={() => {
+                                    if (link.type === "choice") {
+                                        navigate('/story-choice/'+link.id);
+                                    } else if (link.type === "end") {
+                                        navigate('/story-choice/'+link.id);
+                                    } else if (link.type === "directLink") {
+                                        navigate('/story-choice/'+link.id);
+                                    } else if (link.type === "dice") {
+                                        navigate('/story-luck/'+link.id);
+                                    } else if (link.type === "fight") {
+                                        navigate('/story-fight/'+link.id);
+                                    }
+                                }}
+                                
                                 className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min ${
                                     user.gold < link.cost &&
                                     "opacity-50 cursor-not-allowed"
