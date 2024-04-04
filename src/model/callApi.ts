@@ -1,6 +1,14 @@
-import { API_URL, Character, ChoicesNode, DiceNode, DirectLinkNode, EndNode, FightNode, Node, NodeType } from './utils.ts';
+import { ChoicesNode } from './ChoicesNode.ts';
+import { DiceNode } from './DiceNode.ts';
+import { EndNode } from './EndNode.ts';
+import { API_URL } from './utils.ts';
+import { Node } from './Node.ts';
+import { NodeType } from './NodeType.ts';
+import { DirectLinkNode } from './DirectLinkNode.ts';
+import { FightNode } from './FightNode.ts';
+import { Character } from './Character.ts';
 
-export async function getNode(index: number) : Promise<ChoicesNode | DiceNode | DirectLinkNode | EndNode | FightNode | undefined>{
+export async function getNode(index: number): Promise<ChoicesNode | DiceNode | DirectLinkNode | EndNode | FightNode | undefined> {
     const response = await fetch(API_URL + `/nodes/${index}`).then(response => response.json());
     const type = (response as Node).type;
     switch (type) {
@@ -19,13 +27,13 @@ export async function getNode(index: number) : Promise<ChoicesNode | DiceNode | 
         case NodeType.FIGHT: {
             return response as FightNode;
         }
-        default:{
+        default: {
             console.warn("could not get node type")
         }
     }
 }
 
-export async function postCharacter(character: Character){
+export async function postCharacter(character: Character) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

@@ -2,8 +2,9 @@ import React, { useState, useEffect, HTMLInputAutoCompleteAttribute } from "reac
 import Dice from "../widgets/dice/Dice.tsx";
 import backArrowIcon from "../assets/images/back_arrow.png";
 import { useNavigate } from "react-router-dom";
-import { Character } from "../model/utils.ts";
-import { getNode, postCharacter } from "../model/callApi.ts";
+import { postCharacter } from "../model/callApi.ts";
+import { Character } from "../model/Character.ts";
+
 
 const INITIAL_GOLD_AMOUNT = 30;
 
@@ -57,7 +58,7 @@ const CharacterCreation = () => {
         setRollingChance(rolling);
     };
 
-    const handleNameChange = ()=>{
+    const handleNameChange = () => {
         let name = document.getElementById("name") as HTMLInputElement
         setName(name.value)
     }
@@ -75,7 +76,7 @@ const CharacterCreation = () => {
     }
 
     const createCharacter = () => {
-        let character: Character = new Character({name}.name, {habileteTotal}.habileteTotal, {enduranceTotal}.enduranceTotal, {chanceTotal}.chanceTotal, INITIAL_GOLD_AMOUNT);
+        let character: Character = new Character({ name }.name, { habileteTotal }.habileteTotal, { enduranceTotal }.enduranceTotal, { chanceTotal }.chanceTotal, INITIAL_GOLD_AMOUNT);
         localStorage.setItem("character", JSON.stringify(character));
         postCharacter(character);
         navigate("/story-choice/1");
@@ -93,7 +94,7 @@ const CharacterCreation = () => {
                         className="text-white text-stroke-1px text-2xl mr-1">
                         Votre nom :
                     </label>
-                    <input type="text" className="rounded-3xl px-2" onChange={handleNameChange} id="name"/>
+                    <input type="text" className="rounded-3xl px-2" onChange={handleNameChange} id="name" />
                 </div>
                 <div className="bg-light-gray/[.8] rounded-3xl w-full flex justify-between items-center py-2 mb-3 h-min">
                     <h1 className="font-GrenzeGotisch text-white text-stroke-2px text-4xl w-1/3 text-center">
@@ -183,7 +184,7 @@ const CharacterCreation = () => {
                         disabled={allRolling}
                         className={`bg-dark-brown hover:bg-darker-brown rounded-3xl w-1/3 h-16 border-solid border-black border-4 ${allRolling ? "opacity-50 cursor-not-allowed" : ""
                             }`}
-                            onClick={createCharacter}
+                        onClick={createCharacter}
                     >
                         <h2 className="font-GrenzeGotisch text-white text-stroke-2px text-3xl">
                             Commencer l'aventure
