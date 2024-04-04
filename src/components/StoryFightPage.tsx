@@ -60,11 +60,13 @@ const StoryFightPage = () => {
 
     const checkResetRolling = () => {
         if (diceOneHasRolled && diceTwoHasRolled) {
-            console.log("reset");
-            setRollingOne(false);
-            setRollingTwo(false);
-            setDiceOneHasRolled(false);
-            setDiceTwoHasRolled(false);
+            if (monsterLife > 0 && playerLife > 0) {
+                console.log("reset");
+                setRollingOne(false);
+                setRollingTwo(false);
+                setDiceOneHasRolled(false);
+                setDiceTwoHasRolled(false);
+            }
         } else {
             console.log("not reset");
         }
@@ -142,7 +144,7 @@ const StoryFightPage = () => {
                 setPlayerLife(playerLife - 1);
                 setMonsterAttack(0);
                 setPlayerAttack(0);
-                if (playerLife > 0) {
+                if (playerLife <= 0) {
                     //dégriser le button dans diceRoll
                 }
             } else {
@@ -218,7 +220,7 @@ const StoryFightPage = () => {
                 <button
                     disabled={nextStep}
                     className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min ${nextStep ? "opacity-50 cursor-not-allowed" : ""
-                }`}
+                        }`}
                     onClick={() => {
                         switch (updatedNode?.links.type) {
                             case "choice":

@@ -36,6 +36,10 @@ const StoryLuckPage = () => {
         }
     };
 
+    const resetIsFailtActive = () => {
+        setIsFailActive(false);
+    }
+
     let node: DiceNode;
 
     useEffect(() => {
@@ -174,6 +178,7 @@ const StoryLuckPage = () => {
                                     navigate("/");
                                     break;
                             }
+                            resetIsFailtActive();
                         }}
                     >
                         <p
