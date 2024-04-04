@@ -1,4 +1,4 @@
-import React from "react";
+import React ,{ useState, useEffect} from "react";
 import HeaderStoryPage from "../widgets/HeaderStoryPage.tsx";
 import ProgressBar from "../widgets/progressBar.tsx";
 import storyData from "../assets/temp/fight.json";
@@ -6,23 +6,65 @@ import Dice from "../widgets/dice/Dice.tsx";
 import { useParams } from "react-router-dom";
 
 const StoryFightPage = () => {
-    const { text, imageURL, idOfNextNode, foeStamina } = storyData;
+    let user: Character = JSON.parse(localStorage.getItem("character")); 
+
+    const { id, text, imageURL, idOfNextNode, foeStamina } = storyData;
+    const [nextStep, setNextStep] = useState<boolean>(true);
+    const [playerAttack, setPlayerAttack] = useState<number>(0);
+    const [monsterAttack, setMonsterAttack] = useState<number>(0);
+    const [playerLife, setPlayerLife] = useState<number>(user.stamina);
+    const [monsterLife, setMonsterLife] = useState<number>(parseInt(foeStamina));
+
+    
 
     const params = useParams();
-    const id = params.id;
+    const idP = params.id;
 
     let user: Character = JSON.parse(localStorage.getItem("character"));
 
-    const test = (total: number, totalDice: number, rolling: boolean) => {
-        // Mettre à jour l'état
-        console.log("toto");
+    const handlePlayerHability = (total: number, totalDice: number, rolling: boolean) => {
+        setPlayerAttack(total);
     };
+
+    const handleMonsterHability = (total: number, totalDice: number, rolling: boolean) => {
+        setMonsterAttack(total);
+    };
+
+    useEffect(() => {
+        if(playerAttack>0 && monsterAttack>0){
+            if (playerAttack>monsterAttack) {
+                setMonsterLife(monsterLife-2)
+                setMonsterAttack(0);
+                setPlayerAttack(0);
+                console.log(monsterAttack, playerAttack)
+                if(monsterLife > 0){
+                    //dégriser le button dans diceRoll 
+                }
+            }
+            else if (playerAttack<monsterAttack) {
+                setPlayerLife(playerLife-2)
+                setMonsterAttack(0);
+                setPlayerAttack(0);
+                console.log(monsterAttack, playerAttack)
+                if(playerLife> 0){
+                    //dégriser le button dans diceRoll 
+                }
+            }
+            else{
+                setMonsterAttack(0);
+                setPlayerAttack(0);
+                console.log(monsterAttack, playerAttack)
+                //dégriser le button dans diceRoll 
+            }
+        }
+      }, [playerAttack,monsterAttack]);
+
     return (
         <div className="p-4 font-Inter text-xl flex flex-col background-old-page overflow-auto min-h-screen">
             <HeaderStoryPage />
             <div className="text-center flex flex-col items-center">
                 <h2 className="font-bold text-5xl mb-4 font-GrenzeGotisch text-white text-stroke-2px">
-                    Cellule {id}
+                    Cellule {idP}
                 </h2>
                 <img
                     src={imageURL}
@@ -46,9 +88,9 @@ const StoryFightPage = () => {
                             />
                         </div>
                         <Dice
-                            numberOfDice={1}
+                            numberOfDice={2}
                             adjustScore={6}
-                            onTotalChange={test}
+                            onTotalChange={handlePlayerHability}
                             buttonPosition="left"
                             isCharacterCreation={false}
                         />
@@ -59,15 +101,15 @@ const StoryFightPage = () => {
                             <ProgressBar
                                 key={1}
                                 bgcolor={"#67BF48"}
-                                completed={Number(foeStamina)}
+                                completed={monsterLife}
                                 max={Number(foeStamina)}
                                 changeColorBasedOnPercentage={true}
                             />
                         </div>
                         <Dice
-                            numberOfDice={1}
+                            numberOfDice={2}
                             adjustScore={6}
-                            onTotalChange={test}
+                            onTotalChange={handleMonsterHability}
                             buttonPosition="right"
                             isCharacterCreation={false}
                         />
