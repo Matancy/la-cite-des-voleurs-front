@@ -24,6 +24,9 @@ const StoryFightPage = () => {
     const [rollingTwo, setRollingTwo] = useState(false);
     const [diceOneRolling, setDiceOneRolling] = useState(false);
     const [diceTwoRolling, setDiceTwoRolling] = useState(false);
+    const [nextStep, setnextStep] = useState(true);
+
+
     const [diceOneHasRolled, setDiceOneHasRolled] = useState(false);
     const [diceTwoHasRolled, setDiceTwoHasRolled] = useState(false);
     const [imageUrl, setImageUrl] = useState<string>("");
@@ -132,8 +135,8 @@ const StoryFightPage = () => {
                 setMonsterLife(monsterLife - 1);
                 setMonsterAttack(0);
                 setPlayerAttack(0);
-                if (monsterLife > 0) {
-                    //dégriser le button dans diceRoll
+                if (monsterLife <= 0) {
+                    setnextStep(false)
                 }
             } else if (playerAttack < monsterAttack) {
                 setPlayerLife(playerLife - 1);
@@ -213,7 +216,9 @@ const StoryFightPage = () => {
                     </div>
                 </div>
                 <button
-                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min"
+                    disabled={nextStep}
+                    className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min ${nextStep ? "opacity-50 cursor-not-allowed" : ""
+                }`}
                     onClick={() => {
                         switch (updatedNode?.links.type) {
                             case "choice":
