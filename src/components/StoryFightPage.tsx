@@ -13,9 +13,11 @@ const StoryFightPage = () => {
     const [updatedNode, setUpdatedNode] = useState<FightNode>();
     const navigate = useNavigate();
     let json = localStorage.getItem("character");
+
     if (json === null) {
         navigate("/");
     }
+
     let user: Character = JSON.parse(json!);
     const [playerAttack, setPlayerAttack] = useState<number>(0);
     const [monsterAttack, setMonsterAttack] = useState<number>(0);
@@ -25,12 +27,9 @@ const StoryFightPage = () => {
     const [diceOneRolling, setDiceOneRolling] = useState(false);
     const [diceTwoRolling, setDiceTwoRolling] = useState(false);
     const [nextStep, setnextStep] = useState(true);
-
-
     const [diceOneHasRolled, setDiceOneHasRolled] = useState(false);
     const [diceTwoHasRolled, setDiceTwoHasRolled] = useState(false);
     const [imageUrl, setImageUrl] = useState<string>("");
-
     const id = params.id;
     let node: FightNode;
 
@@ -138,7 +137,7 @@ const StoryFightPage = () => {
                 setMonsterAttack(0);
                 setPlayerAttack(0);
                 if (monsterLife <= 0) {
-                    setnextStep(false)
+                    setnextStep(false);
                 }
             } else if (playerAttack < monsterAttack) {
                 setPlayerLife(playerLife - 1);
@@ -219,8 +218,9 @@ const StoryFightPage = () => {
                 </div>
                 <button
                     disabled={nextStep}
-                    className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min ${nextStep ? "opacity-50 cursor-not-allowed" : ""
-                        }`}
+                    className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min ${
+                        nextStep ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
                     onClick={() => {
                         switch (updatedNode?.links.type) {
                             case "choice":

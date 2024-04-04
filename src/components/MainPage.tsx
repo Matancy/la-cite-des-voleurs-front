@@ -34,7 +34,7 @@ export default function MainPage() {
                                 : ""}
                         </p>
                     </div>
-                    {/* TODO : Ajouter l'URL de redirection pour démarer si le username est existant */}
+                    {/* @here bonus : vérifie si un personnage est déjà dans le cache ou non, et modifie les actions en conséquences */}
                     <button
                         onClick={
                             !user || !user.name

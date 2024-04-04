@@ -19,6 +19,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
     const percentage = (actualCompleted / max) * 100;
     let color = bgcolor;
 
+    // @here bonus : changement de couleur de la base en fonction du pourcentage
     if (changeColorBasedOnPercentage) {
         // Vérifiez si le changement de couleur est activé
         if (percentage <= 20) {

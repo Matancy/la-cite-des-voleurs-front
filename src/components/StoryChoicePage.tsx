@@ -9,19 +9,17 @@ import { useNavigate } from "react-router-dom";
 import { API_URL } from "../model/utils.ts";
 import { Character } from "../model/Character.ts";
 
-
 const StoryChoicePage = () => {
     const [imageUrl, setImageUrl] = useState<string>("");
-
     const params = useParams();
     const id = params.id;
     const navigate = useNavigate();
-
-
     let json = localStorage.getItem("character");
+
     if (json === null) {
         navigate("/");
     }
+
     let user: Character = JSON.parse(json!);
     let node: DirectLinkNode | ChoicesNode | EndNode;
 
@@ -30,7 +28,6 @@ const StoryChoicePage = () => {
     >();
 
     useEffect(() => {
-
         async function fetchData() {
             let temp_node = await getNode(Number(id));
             let type = temp_node?.type;
@@ -51,34 +48,29 @@ const StoryChoicePage = () => {
         fetchData();
     }, [id]);
 
-
-
     useEffect(() => {
         async function getImgUrl() {
             let imageUrl = updatedNode?.imageURL.toString();
             if (imageUrl != undefined) {
                 if (imageUrl !== "null") {
-                    let url = API_URL + "/images/" + updatedNode?.id
-                    localStorage.setItem("imageUrl", url)
-                    setImageUrl(url)
+                    let url = API_URL + "/images/" + updatedNode?.id;
+                    localStorage.setItem("imageUrl", url);
+                    setImageUrl(url);
                 } else {
-                    setImageUrl(localStorage.getItem("imageUrl") as string)
+                    setImageUrl(localStorage.getItem("imageUrl") as string);
                 }
             }
-
         }
         getImgUrl();
-    }, [updatedNode])
-
-
-
+    }, [updatedNode]);
 
     return (
         <div className="p-4 font-Inter text-xl flex flex-col background-old-page overflow-auto min-h-screen">
             <HeaderStoryPage />
             <div className="text-center flex flex-col items-center">
                 <h2 className="font-bold text-5xl mb-4 font-GrenzeGotisch text-white text-stroke-2px">
-                    Cellule {updatedNode?.id} {updatedNode?.type === "end" ? " - Fin" : ""}
+                    Cellule {updatedNode?.id}{" "}
+                    {updatedNode?.type === "end" ? " - Fin" : ""}
                 </h2>
                 <img
                     src={imageUrl}
@@ -90,10 +82,11 @@ const StoryChoicePage = () => {
                     dangerouslySetInnerHTML={{ __html: updatedNode?.text }}
                 />
                 <div
-                    className={`flex justify-${updatedNode?.links && updatedNode?.links.length === 1
+                    className={`flex justify-${
+                        updatedNode?.links && updatedNode?.links.length === 1
                             ? "center"
                             : "between"
-                        } w-1/3`}
+                    } w-1/3`}
                 >
                     {updatedNode?.links &&
                         updatedNode.links.map((link, index) => (
@@ -119,9 +112,10 @@ const StoryChoicePage = () => {
                                             break;
                                     }
                                 }}
-                                className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min ${user.gold < link.cost &&
+                                className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min ${
+                                    user.gold < link.cost &&
                                     "opacity-50 cursor-not-allowed"
-                                    }`}
+                                }`}
                                 disabled={user.gold < link.cost}
                             >
                                 <p>Aller à {link.id}</p>

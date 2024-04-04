@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./style.css";
 
+// @here
 interface DiceRollProps {
     numberOfDice: number;
     adjustScore: number;
@@ -85,6 +86,8 @@ const DiceRoll: React.FC<
 
         let flexDirection;
         let margin;
+
+        // @here
         if (buttonPosition === "top") {
             flexDirection = "flex-col-reverse";
             margin = "";
@@ -147,6 +150,7 @@ const DiceRoll: React.FC<
                         </div>
                     ))}
                 </div>
+                {/* @here */}
                 <button
                     id="roll-button"
                     onClick={rollDice}
