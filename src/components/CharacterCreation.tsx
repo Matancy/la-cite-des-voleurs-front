@@ -78,6 +78,7 @@ const CharacterCreation = () => {
         let character: Character = new Character({name}.name, {habileteTotal}.habileteTotal, {enduranceTotal}.enduranceTotal, {chanceTotal}.chanceTotal, INITIAL_GOLD_AMOUNT);
         localStorage.setItem("character", JSON.stringify(character));
         postCharacter(character);
+        navigate("/story-choice/1");
     }
 
     return (

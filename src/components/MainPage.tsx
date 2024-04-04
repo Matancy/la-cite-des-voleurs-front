@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Character } from "../model/utils";
 
 export default function MainPage() {
     const navigate = useNavigate();
@@ -8,7 +9,7 @@ export default function MainPage() {
         navigate(page);
     }
 
-    const userName = localStorage.getItem("userName");
+    let user: Character = JSON.parse(localStorage.getItem("character")); 
 
     return (
         <div className="flex flex-col h-screen background-main-page font-Inter text-xl">
@@ -22,14 +23,14 @@ export default function MainPage() {
                             Nouvelle partie
                         </h2>
                         <p className="text-white text-stroke-1px text-2xl">
-                            {userName ? `Bienvenue ${userName} !` : ""}
+                            {user.name ? `Bienvenue ${user.name} !` : ""}
                         </p>
                     </div>
                     {/* TODO : Ajouter l'URL de redirection pour démarer si le username est existant */}
-                    <button onClick={!userName ? () => navigateTo("/character-creation") : () => navigateTo("/")} className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg px-3 py-1 mb-3 border-solid border-2 border-black">
+                    <button onClick={!user.name ? () => navigateTo("/character-creation") : () => navigateTo("/")} className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg px-3 py-1 mb-3 border-solid border-2 border-black">
                         <p>Démarrer</p>
                     </button>
-                    {userName ?
+                    {user.name ?
                         <button onClick={() => navigateTo("/character-creation")} className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg px-3 py-1 border-solid border-2 border-black">
                             <p>Changer de joueur</p>
                         </button>

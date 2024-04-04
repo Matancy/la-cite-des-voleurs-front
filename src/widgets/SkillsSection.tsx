@@ -7,6 +7,8 @@ import piece from "../assets/images/gold-piece.png";
 const SkillsSection = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [iconSrc, setIconSrc] = useState(statsIcon);
+    
+    let user: Character = JSON.parse(localStorage.getItem("character")); 
 
     const toggleVisibility = () => {
         setIsVisible((prevState) => !prevState); // Utilisation de la fonction de mise à jour de l'état
@@ -29,9 +31,12 @@ const SkillsSection = () => {
                     isVisible ? "" : "hidden"
                 } flex flex-col`}
             >
-                <div className="text-white self-end mr-2 mb-2 flex items-center">
-                    <p>Pièce(s) d'or : 2</p>
-                    <img src={piece} alt="Back" className="w-4 h-4 ml-2" />
+                <div className="text-white flex justify-between">
+                    <p>{user.name}</p>
+                    <div className="self-end mr-2 mb-2 flex items-center">
+                        <p>Pièce(s) d'or : {user.gold}</p>
+                        <img src={piece} alt="Back" className="w-4 h-4 ml-2" />
+                    </div>
                 </div>
                 <div
                     className={`mb-2 flex items-center ${
@@ -45,8 +50,8 @@ const SkillsSection = () => {
                         <ProgressBar
                             key={1}
                             bgcolor={"#50C0FF"}
-                            completed={30}
-                            max={90}
+                            completed={user.hability}
+                            max={user.hability}
                             changeColorBasedOnPercentage={false}
                         />
                     </div>
@@ -63,8 +68,8 @@ const SkillsSection = () => {
                         <ProgressBar
                             key={2}
                             bgcolor={"#67BF48"}
-                            completed={100}
-                            max={100}
+                            completed={user.stamina}
+                            max={user.stamina}
                             changeColorBasedOnPercentage={true}
                         />
                     </div>
@@ -79,8 +84,8 @@ const SkillsSection = () => {
                         <ProgressBar
                             key={3}
                             bgcolor={"#DCD304"}
-                            completed={50}
-                            max={50}
+                            completed={user.luck}
+                            max={user.luck}
                             changeColorBasedOnPercentage={false}
                         />
                     </div>
