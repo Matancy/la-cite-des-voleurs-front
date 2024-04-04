@@ -1,79 +1,105 @@
-import React ,{ useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import HeaderStoryPage from "../widgets/HeaderStoryPage.tsx";
 import ProgressBar from "../widgets/progressBar.tsx";
-import storyData from "../assets/temp/fight.json";
 import Dice from "../widgets/dice/Dice.tsx";
+import { getNode } from "../model/callApi.ts";
 import { useParams } from "react-router-dom";
+import { FightNode } from "../model/FightNode.ts";
+import { useNavigate } from "react-router-dom";
 
 const StoryFightPage = () => {
-    let user: Character = JSON.parse(localStorage.getItem("character")); 
-
-    const { id, text, imageURL, idOfNextNode, foeStamina } = storyData;
-    const [nextStep, setNextStep] = useState<boolean>(true);
+    let user: Character = JSON.parse(localStorage.getItem("character"));
+    const [updatedNode, setUpdatedNode] = useState<FightNode>();
+    const navigate = useNavigate();
     const [playerAttack, setPlayerAttack] = useState<number>(0);
     const [monsterAttack, setMonsterAttack] = useState<number>(0);
     const [playerLife, setPlayerLife] = useState<number>(user.stamina);
-    const [monsterLife, setMonsterLife] = useState<number>(parseInt(foeStamina));
-
-    
+    const [monsterLife, setMonsterLife] = useState<number>(
+        parseInt(updatedNode?.foeStamina)
+    );
 
     const params = useParams();
-    const idP = params.id;
+    const id = params.id;
 
-    let user: Character = JSON.parse(localStorage.getItem("character"));
-
-    const handlePlayerHability = (total: number, totalDice: number, rolling: boolean) => {
+    const handlePlayerHability = (
+        total: number,
+        totalDice: number,
+        rolling: boolean
+    ) => {
         setPlayerAttack(total);
     };
 
-    const handleMonsterHability = (total: number, totalDice: number, rolling: boolean) => {
+    const handleMonsterHability = (
+        total: number,
+        totalDice: number,
+        rolling: boolean
+    ) => {
         setMonsterAttack(total);
     };
 
     useEffect(() => {
-        if(playerAttack>0 && monsterAttack>0){
-            if (playerAttack>monsterAttack) {
-                setMonsterLife(monsterLife-2)
+        if (playerAttack > 0 && monsterAttack > 0) {
+            if (playerAttack > monsterAttack) {
+                setMonsterLife(monsterLife - 2);
                 setMonsterAttack(0);
                 setPlayerAttack(0);
-                console.log(monsterAttack, playerAttack)
-                if(monsterLife > 0){
-                    //dégriser le button dans diceRoll 
+                console.log(monsterAttack, playerAttack);
+                if (monsterLife > 0) {
+                    //dégriser le button dans diceRoll
                 }
-            }
-            else if (playerAttack<monsterAttack) {
-                setPlayerLife(playerLife-2)
+            } else if (playerAttack < monsterAttack) {
+                setPlayerLife(playerLife - 2);
                 setMonsterAttack(0);
                 setPlayerAttack(0);
-                console.log(monsterAttack, playerAttack)
-                if(playerLife> 0){
-                    //dégriser le button dans diceRoll 
+                console.log(monsterAttack, playerAttack);
+                if (playerLife > 0) {
+                    //dégriser le button dans diceRoll
                 }
-            }
-            else{
+            } else {
                 setMonsterAttack(0);
                 setPlayerAttack(0);
-                console.log(monsterAttack, playerAttack)
-                //dégriser le button dans diceRoll 
+                console.log(monsterAttack, playerAttack);
+                //dégriser le button dans diceRoll
             }
         }
-      }, [playerAttack,monsterAttack]);
+    }, [playerAttack, monsterAttack]);
+
+    let node: FightNode;
+
+    useEffect(() => {
+        async function fetchData() {
+            let temp_node = await getNode(id);
+            let type = temp_node?.type;
+
+            if (type === "fight") {
+                node = temp_node;
+            } else {
+                navigate("/");
+            }
+
+            setUpdatedNode(node);
+        }
+
+        fetchData();
+    }, [id]);
+
+    console.log(updatedNode);
 
     return (
         <div className="p-4 font-Inter text-xl flex flex-col background-old-page overflow-auto min-h-screen">
             <HeaderStoryPage />
             <div className="text-center flex flex-col items-center">
                 <h2 className="font-bold text-5xl mb-4 font-GrenzeGotisch text-white text-stroke-2px">
-                    Cellule {idP}
+                    Cellule {updatedNode?.id}
                 </h2>
                 <img
-                    src={imageURL}
+                    src={updatedNode?.imageURL}
                     alt="Illustration de la situation"
                     className="w-2/5 mb-3 rounded-3xl"
                 />
                 <div
                     className="mb-6 w-2/3"
-                    dangerouslySetInnerHTML={{ __html: text }}
+                    dangerouslySetInnerHTML={{ __html: updatedNode?.text }}
                 />
                 <div className="w-2/3 flex justify-between items-center mb-6">
                     <div className="flex flex-col w-2/5">
@@ -101,8 +127,8 @@ const StoryFightPage = () => {
                             <ProgressBar
                                 key={1}
                                 bgcolor={"#67BF48"}
-                                completed={monsterLife}
-                                max={Number(foeStamina)}
+                                completed={updatedNode?.foeStamina}
+                                max={Number(updatedNode?.foeStamina)}
                                 changeColorBasedOnPercentage={true}
                             />
                         </div>
@@ -116,7 +142,7 @@ const StoryFightPage = () => {
                     </div>
                 </div>
                 <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min">
-                    <p>Aller à {idOfNextNode}</p>
+                    <p>Aller à {updatedNode?.nextNode.id}</p>
                 </button>
             </div>
         </div>
