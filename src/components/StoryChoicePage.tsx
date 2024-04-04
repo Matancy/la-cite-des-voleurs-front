@@ -51,20 +51,19 @@ const StoryChoicePage = () => {
     useEffect(() => {
         async function getImgUrl() {
             let imageUrl = updatedNode?.imageURL.toString();
-            console.log("image: "+imageUrl)
-            if(imageUrl !== "null"){
-                let url = API_URL+"/images/"+id
-    
-                localStorage.setItem("imageUrl",url)
-                setImageUrl(url)
-            }else{
-                setImageUrl(localStorage.getItem("imageUrl") as string)
+            if(imageUrl != undefined){
+                if(imageUrl !== "null"){
+                    let url = API_URL+"/images/"+updatedNode?.id
+                    localStorage.setItem("imageUrl",url)
+                    setImageUrl(url)
+                }else{
+                    setImageUrl(localStorage.getItem("imageUrl") as string)
+                }
             }
+            
         }
         getImgUrl();
-
-
-    }, [id])
+    }, [updatedNode])
 
 
 
