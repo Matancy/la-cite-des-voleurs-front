@@ -6,8 +6,9 @@ interface DiceRollProps {
     adjustScore: number;
     buttonPosition: "top" | "bottom" | "left" | "right";
     isCharacterCreation: boolean;
-    rolling?: boolean;
+    rolling: boolean;
     onRollingChange?: (rolling: boolean) => void;
+    setDiceRolling?: (rolling: boolean) => void;
 }
 
 const getRandomNumber = (min: number, max: number) => {
@@ -32,6 +33,7 @@ const DiceRoll: React.FC<
     isCharacterCreation,
     rolling,
     onRollingChange,
+    setDiceRolling,
 }) => {
         const [diceCount] = useState<number>(numberOfDice);
         const [diceResults, setDiceResults] = useState<number[]>([]);
@@ -40,7 +42,7 @@ const DiceRoll: React.FC<
         const diceRefs = useRef<(HTMLDivElement | null)[]>([]);
 
         const setRolling = (rolling: boolean) => {
-            onRollingChange(rolling);
+            onRollingChange!(rolling);
         }
 
         const rollDice = () => {
@@ -57,10 +59,9 @@ const DiceRoll: React.FC<
             setDiceResults(results);
             setTotal(results.reduce((acc, curr) => acc + curr, 0) + adjustScore);
             setTotalDice(results.reduce((acc, curr) => acc + curr, 0));
-        };
-
-        const enableDice = () => {
-            setRolling(false);
+            if (setDiceRolling) {
+                setDiceRolling(true);
+            }
         };
 
         useEffect(() => {
@@ -143,8 +144,8 @@ const DiceRoll: React.FC<
                     onClick={rollDice}
                     disabled={rolling}
                     className={`${isCharacterCreation
-                            ? "bg-light-gray/[.8] rounded-lg px-3 w-40 border-solid border-2 border-black"
-                            : "bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded h-min flex items-center"
+                        ? "bg-light-gray/[.8] rounded-lg px-3 w-40 border-solid border-2 border-black"
+                        : "bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded h-min flex items-center"
                         } ${rolling
                             ? "opacity-50 cursor-not-allowed"
                             : `${isCharacterCreation

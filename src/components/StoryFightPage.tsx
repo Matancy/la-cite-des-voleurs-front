@@ -18,11 +18,50 @@ const StoryFightPage = () => {
     const [monsterLife, setMonsterLife] = useState<number>(
         parseInt(updatedNode?.foeStamina)
     );
-    const [rolling, setRolling] = useState(false);
+    const [rollingOne, setRollingOne] = useState(false);
+    const [rollingTwo, setRollingTwo] = useState(false);
+    const [diceOneRolling, setDiceOneRolling] = useState(false);
+    const [diceTwoRolling, setDiceTwoRolling] = useState(false);
+
+    const [diceOneHasRolled, setDiceOneHasRolled] = useState(false);
+    const [diceTwoHasRolled, setDiceTwoHasRolled] = useState(false);
 
     const id = params.id;
-
     let node: FightNode;
+
+    useEffect(() => {
+        checkResetRolling();
+        console.log("ok one" + diceOneHasRolled);
+    }, [diceOneHasRolled]);
+    useEffect(() => {
+        checkResetRolling();
+        console.log("ok two" + diceTwoHasRolled);
+    }, [diceTwoHasRolled]);
+
+    const diceOneRollingFromChild = (rolling: boolean) => {
+        setTimeout(() => {
+            setDiceOneRolling(rolling);
+            setDiceOneHasRolled(true);
+        }, 3000);
+    }
+    const diceTwoRollingFromChild = (rolling: boolean) => {
+        setTimeout(() => {
+            setDiceTwoRolling(rolling);
+            setDiceTwoHasRolled(true);
+        }, 3000);
+    }
+
+    const checkResetRolling = () => {
+        if (diceOneHasRolled && diceTwoHasRolled) {
+            console.log("reset");
+            setRollingOne(false);
+            setRollingTwo(false);
+            setDiceOneHasRolled(false);
+            setDiceTwoHasRolled(false);
+        } else {
+            console.log("not reset");
+        }
+    }
 
     useEffect(() => {
         async function fetchData() {
@@ -113,8 +152,9 @@ const StoryFightPage = () => {
                             />
                         </div>
                         <Dice
-                            rolling={rolling}
-                            onRollingChange={setRolling}
+                            rolling={rollingOne}
+                            onRollingChange={setRollingOne}
+                            setDiceRolling={diceOneRollingFromChild}
                             numberOfDice={2}
                             adjustScore={user.hability}
                             onTotalChange={handlePlayerHability}
@@ -134,8 +174,9 @@ const StoryFightPage = () => {
                             />
                         </div>
                         <Dice
-                            rolling={rolling}
-                            onRollingChange={setRolling}
+                            rolling={rollingTwo}
+                            onRollingChange={setRollingTwo}
+                            setDiceRolling={diceTwoRollingFromChild}
                             numberOfDice={2}
                             adjustScore={Number(updatedNode?.foeHability)}
                             onTotalChange={handleMonsterHability}
