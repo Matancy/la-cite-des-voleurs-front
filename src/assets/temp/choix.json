@@ -5,16 +5,19 @@
     "imageURL": "https://french-steampunk.fr/wp-content/uploads/2016/01/Antoine-Daniel.jpg",
     "links": [
         {
-            "cost": "0",
-            "nextNode": "202"
+            "cost": "5",
+            "nextNode": "202",
+            "type": "fight"
         },
         {
             "cost": "0",
-            "nextNode": "33"
+            "nextNode": "33",
+            "type": "dice"
         },
         {
-            "cost": "0",
-            "nextNode": "49"
+            "cost": "2",
+            "nextNode": "49",
+            "type": "choice"
         }
     ]
 }

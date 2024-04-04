@@ -5,6 +5,7 @@ interface DiceRollProps {
     numberOfDice: number;
     adjustScore: number;
     buttonPosition: "top" | "bottom" | "left" | "right";
+    isCharacterCreation: boolean;
 }
 
 const getRandomNumber = (min: number, max: number) => {
@@ -21,7 +22,13 @@ const DiceRoll: React.FC<
             rolling: boolean
         ) => void;
     }
-> = ({ numberOfDice, adjustScore, buttonPosition, onTotalChange }) => {
+> = ({
+    numberOfDice,
+    adjustScore,
+    buttonPosition,
+    onTotalChange,
+    isCharacterCreation,
+}) => {
     const [diceCount] = useState<number>(numberOfDice);
     const [diceResults, setDiceResults] = useState<number[]>([]);
     const [total, setTotal] = useState<number>(0);
@@ -124,11 +131,19 @@ const DiceRoll: React.FC<
                 id="roll-button"
                 onClick={rollDice}
                 disabled={rolling}
-                className={`bg-light-gray/[.8] rounded-lg px-3 w-40 border-solid border-2 border-black ${
+                className={`${
+                    isCharacterCreation
+                        ? "bg-light-gray/[.8] rounded-lg px-3 w-40 border-solid border-2 border-black"
+                        : "bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded h-min flex items-center"
+                } ${
                     rolling
                         ? "opacity-50 cursor-not-allowed"
-                        : "hover:bg-light-gray"
-                } ${margin}`}
+                        : `${
+                              isCharacterCreation
+                                  ? "hover:bg-gray-400"
+                                  : "hover:bg-light-gray"
+                          }`
+                } ${margin} `}
             >
                 <p className={`${rolling ? "cursor-not-allowed" : ""}`}>
                     Lancer dé

@@ -15,11 +15,13 @@ const StoryFightPage = () => {
         <div className="p-4 font-Inter text-xl flex flex-col background-old-page overflow-auto">
             <HeaderStoryPage />
             <div className="text-center flex flex-col items-center">
-                <h2 className="font-bold text-3xl mb-4">Cellule {id}</h2>
+                <h2 className="font-bold text-5xl mb-4 font-GrenzeGotisch text-white text-stroke-2px">
+                    Cellule {id}
+                </h2>
                 <img
                     src={imageURL}
                     alt="Illustration de la situation"
-                    className="w-2/5 mb-3"
+                    className="w-2/5 mb-3 rounded-3xl"
                 />
                 <div
                     className="mb-6 w-2/3"
@@ -42,6 +44,7 @@ const StoryFightPage = () => {
                             adjustScore={6}
                             onTotalChange={test}
                             buttonPosition="left"
+                            isCharacterCreation={false}
                         />
                     </div>
                     <div className="flex flex-col w-2/5">
@@ -60,6 +63,7 @@ const StoryFightPage = () => {
                             adjustScore={6}
                             onTotalChange={test}
                             buttonPosition="right"
+                            isCharacterCreation={false}
                         />
                     </div>
                 </div>

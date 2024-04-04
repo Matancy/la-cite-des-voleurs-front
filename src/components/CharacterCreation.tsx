@@ -104,6 +104,7 @@ const CharacterCreation = () => {
                             adjustScore={12}
                             onTotalChange={handleEnduranceTotalChange}
                             buttonPosition="bottom"
+                            isCharacterCreation={true}
                         />
                     </div>
                     <div className="w-1/3 flex flex-col items-center justify-between h-full">
@@ -128,6 +129,7 @@ const CharacterCreation = () => {
                             adjustScore={6}
                             onTotalChange={handleHabileteTotalChange}
                             buttonPosition="bottom"
+                            isCharacterCreation={true}
                         />
                     </div>
                     <div className="w-1/3 flex flex-col items-center justify-between h-full">
@@ -152,6 +154,7 @@ const CharacterCreation = () => {
                             adjustScore={6}
                             onTotalChange={handleChanceTotalChange}
                             buttonPosition="bottom"
+                            isCharacterCreation={true}
                         />
                     </div>
                     <div className="w-1/3 flex flex-col items-center justify-between h-full">

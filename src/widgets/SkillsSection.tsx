@@ -2,14 +2,17 @@ import React, { useState } from "react";
 import ProgressBar from "./progressBar.tsx";
 import statsIcon from "../assets/images/stats.png";
 import hiddenStatsIcon from "../assets/images/hide_stats.png";
+import piece from "../assets/images/gold-piece.png";
 
 const SkillsSection = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [iconSrc, setIconSrc] = useState(statsIcon);
 
     const toggleVisibility = () => {
-        setIsVisible(prevState => !prevState); // Utilisation de la fonction de mise à jour de l'état
-        setIconSrc(prevIconSrc => prevIconSrc === statsIcon ? hiddenStatsIcon : statsIcon);
+        setIsVisible((prevState) => !prevState); // Utilisation de la fonction de mise à jour de l'état
+        setIconSrc((prevIconSrc) =>
+            prevIconSrc === statsIcon ? hiddenStatsIcon : statsIcon
+        );
     };
 
     return (
@@ -18,60 +21,69 @@ const SkillsSection = () => {
                 onClick={toggleVisibility}
                 className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-2 rounded h-min  self-end flex items-center justify-center mb-2"
             >
-                <img
-                    src={iconSrc}
-                    alt="Toggle"
-                    className="h-6"
-                />
+                <p className="mr-2">Statistiques personnage</p>
+                <img src={iconSrc} alt="Toggle" className="h-6" />
             </button>
             <div
-                className={`mb-2 flex items-center ${
+                className={`bg-black/[.7] rounded-2xl p-2 ${
                     isVisible ? "" : "hidden"
-                }`}
+                } flex flex-col`}
             >
-                <div className="w-32 mr-2">
-                    <span className="text-white">Habileté :</span>
+                <div className="text-white self-end mr-2 mb-2 flex items-center">
+                    <p>Pièce(s) d'or : 2</p>
+                    <img src={piece} alt="Back" className="w-4 h-4 ml-2" />
                 </div>
-                <div style={{ width: "80%" }}>
-                    <ProgressBar
-                        key={1}
-                        bgcolor={"#50C0FF"}
-                        completed={30}
-                        max={90}
-                        changeColorBasedOnPercentage={false}
-                    />
+                <div
+                    className={`mb-2 flex items-center ${
+                        isVisible ? "" : "hidden"
+                    }`}
+                >
+                    <div className="w-32 mr-2">
+                        <span className="text-white">Habileté :</span>
+                    </div>
+                    <div style={{ width: "80%" }}>
+                        <ProgressBar
+                            key={1}
+                            bgcolor={"#50C0FF"}
+                            completed={30}
+                            max={90}
+                            changeColorBasedOnPercentage={false}
+                        />
+                    </div>
                 </div>
-            </div>
-            <div
-                className={`mb-2 flex items-center ${
-                    isVisible ? "" : "hidden"
-                }`}
-            >
-                <div className="w-32 mr-2">
-                    <span className="text-white">Endurance :</span>
+                <div
+                    className={`mb-2 flex items-center ${
+                        isVisible ? "" : "hidden"
+                    }`}
+                >
+                    <div className="w-32 mr-2">
+                        <span className="text-white">Endurance :</span>
+                    </div>
+                    <div style={{ width: "80%" }}>
+                        <ProgressBar
+                            key={2}
+                            bgcolor={"#67BF48"}
+                            completed={100}
+                            max={100}
+                            changeColorBasedOnPercentage={true}
+                        />
+                    </div>
                 </div>
-                <div style={{ width: "80%" }}>
-                    <ProgressBar
-                        key={2}
-                        bgcolor={"#67BF48"}
-                        completed={100}
-                        max={100}
-                        changeColorBasedOnPercentage={true}
-                    />
-                </div>
-            </div>
-            <div className={`flex items-center ${isVisible ? "" : "hidden"}`}>
-                <div className="w-32 mr-2">
-                    <span className="text-white">Chance :</span>
-                </div>
-                <div style={{ width: "80%" }}>
-                    <ProgressBar
-                        key={3}
-                        bgcolor={"#DCD304"}
-                        completed={50}
-                        max={50}
-                        changeColorBasedOnPercentage={false}
-                    />
+                <div
+                    className={`flex items-center ${isVisible ? "" : "hidden"}`}
+                >
+                    <div className="w-32 mr-2">
+                        <span className="text-white">Chance :</span>
+                    </div>
+                    <div style={{ width: "80%" }}>
+                        <ProgressBar
+                            key={3}
+                            bgcolor={"#DCD304"}
+                            completed={50}
+                            max={50}
+                            changeColorBasedOnPercentage={false}
+                        />
+                    </div>
                 </div>
             </div>
         </div>

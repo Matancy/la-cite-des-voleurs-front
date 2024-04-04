@@ -29,11 +29,13 @@ const StoryLuckPage = () => {
         <div className="p-4 font-Inter text-xl flex flex-col background-old-page overflow-auto">
             <HeaderStoryPage />
             <div className="text-center flex flex-col items-center">
-                <h2 className="font-bold text-3xl mb-4">Cellule {id}</h2>
+                <h2 className="font-bold text-5xl mb-4 font-GrenzeGotisch text-white text-stroke-2px">
+                    Cellule {id}
+                </h2>
                 <img
                     src={imageURL}
                     alt="Illustration de la situation"
-                    className="w-2/5 mb-3"
+                    className="w-2/5 mb-3 rounded-3xl"
                 />
                 <div
                     className="mb-6 w-2/3"
@@ -44,12 +46,13 @@ const StoryLuckPage = () => {
                     adjustScore={0}
                     onTotalChange={handleChance}
                     buttonPosition="left"
+                    isCharacterCreation={false}
                 />
                 <div className="flex w-1/3 justify-between">
                     <button
-                        className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min ${
+                        className={`bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded h-min ${
                             isSuccessActive
-                                ? ""
+                                ? "hover:bg-gray-400"
                                 : "opacity-50 cursor-not-allowed hover:bg-gray-300"
                         }`}
                         disabled={!isSuccessActive}
@@ -63,9 +66,9 @@ const StoryLuckPage = () => {
                         </p>
                     </button>
                     <button
-                        className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min ${
+                        className={`bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded h-min ${
                             isFailActive
-                                ? ""
+                                ? "hover:bg-gray-400"
                                 : "opacity-50 cursor-not-allowed hover:bg-gray-300"
                         }`}
                         disabled={!isFailActive}
