@@ -129,14 +129,14 @@ const StoryFightPage = () => {
     useEffect(() => {
         if (playerAttack > 0 && monsterAttack > 0) {
             if (playerAttack > monsterAttack) {
-                setMonsterLife(monsterLife - 2);
+                setMonsterLife(monsterLife - 1);
                 setMonsterAttack(0);
                 setPlayerAttack(0);
                 if (monsterLife > 0) {
                     //dégriser le button dans diceRoll
                 }
             } else if (playerAttack < monsterAttack) {
-                setPlayerLife(playerLife - 2);
+                setPlayerLife(playerLife - 1);
                 setMonsterAttack(0);
                 setPlayerAttack(0);
                 if (playerLife > 0) {

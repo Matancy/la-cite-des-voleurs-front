@@ -23,7 +23,6 @@ const StoryLuckPage = () => {
     let user: Character = JSON.parse(json!);
     const [imageUrl, setImageUrl] = useState<string>("");
 
-
     const handleChance = (total: number) => {
         // Comparer le total du dé avec la chance du joueur
         if (total !== 0) {
@@ -42,6 +41,15 @@ const StoryLuckPage = () => {
     useEffect(() => {
         async function fetchData() {
             let temp_node = await getNode(Number(id));
+            let type = temp_node?.type;
+
+            if (type === "dice") {
+                node = temp_node;
+            } else {
+                navigate("/");
+            }
+
+            setUpdatedNode(node);
         }
 
         fetchData();
