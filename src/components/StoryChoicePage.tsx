@@ -6,11 +6,17 @@ import { DirectLinkNode } from "../model/DirectLinkNode.ts";
 import { ChoicesNode } from "../model/ChoicesNode.ts";
 import { EndNode } from "../model/EndNode.ts";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../model/utils.ts";
+
 
 const StoryChoicePage = () => {
+    const [imageUrl, setImageUrl] = useState<string>("");
+
     const params = useParams();
     const id = params.id;
     const navigate = useNavigate();
+
+
     let user: Character = JSON.parse(localStorage.getItem("character"));
     let node: DirectLinkNode | ChoicesNode | EndNode;
 
@@ -19,6 +25,7 @@ const StoryChoicePage = () => {
     >();
 
     useEffect(() => {
+
         async function fetchData() {
             let temp_node = await getNode(id);
             let type = temp_node?.type;
@@ -39,6 +46,29 @@ const StoryChoicePage = () => {
         fetchData();
     }, [id]);
 
+   
+    
+    useEffect(() => {
+        async function getImgUrl() {
+            let imageUrl = updatedNode?.imageURL.toString();
+            console.log("image: "+imageUrl)
+            if(imageUrl !== "null"){
+                let url = API_URL+"/images/"+id
+    
+                localStorage.setItem("imageUrl",url)
+                setImageUrl(url)
+            }else{
+                setImageUrl(localStorage.getItem("imageUrl") as string)
+            }
+        }
+        getImgUrl();
+
+
+    }, [id])
+
+
+
+
     return (
         <div className="p-4 font-Inter text-xl flex flex-col background-old-page overflow-auto min-h-screen">
             <HeaderStoryPage />
@@ -47,7 +77,7 @@ const StoryChoicePage = () => {
                     Cellule {updatedNode?.id} {updatedNode?.type === "end" ? " - Fin" : ""}
                 </h2>
                 <img
-                    src={updatedNode?.imageURL}
+                    src={imageUrl}
                     alt="Illustration de la situation"
                     className="w-2/5 mb-3 rounded-3xl"
                 />
@@ -89,7 +119,7 @@ const StoryChoicePage = () => {
                                 className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min ${
                                     user.gold < link.cost &&
                                     "opacity-50 cursor-not-allowed"
-                                }`}
+                                    }`}
                                 disabled={user.gold < link.cost}
                             >
                                 <p>Aller à {link.id}</p>
