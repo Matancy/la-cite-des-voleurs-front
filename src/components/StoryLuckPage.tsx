@@ -47,8 +47,6 @@ const StoryLuckPage = () => {
         fetchData();
     }, [id]);
 
-    console.log(updatedNode);
-
     return (
         <div className="p-4 font-Inter text-xl flex flex-col background-old-page overflow-auto min-h-screen">
             <HeaderStoryPage />
@@ -71,6 +69,7 @@ const StoryLuckPage = () => {
                     onTotalChange={handleChance}
                     buttonPosition="left"
                     isCharacterCreation={false}
+                    isLuckRoll={true}
                 />
                 <div className="flex w-1/3 justify-between">
                     <button
