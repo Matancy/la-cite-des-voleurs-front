@@ -15,9 +15,6 @@ const StoryFightPage = () => {
     const [playerAttack, setPlayerAttack] = useState<number>(0);
     const [monsterAttack, setMonsterAttack] = useState<number>(0);
     const [playerLife, setPlayerLife] = useState<number>(user.stamina);
-    const [monsterLife, setMonsterLife] = useState<number>(
-        parseInt(updatedNode?.foeStamina)
-    );
     const [rollingOne, setRollingOne] = useState(false);
     const [rollingTwo, setRollingTwo] = useState(false);
     const [diceOneRolling, setDiceOneRolling] = useState(false);
