@@ -106,14 +106,14 @@ const StoryFightPage = () => {
                             <ProgressBar
                                 key={1}
                                 bgcolor={"#67BF48"}
-                                completed={user.stamina}
+                                completed={playerLife}
                                 max={user.stamina}
                                 changeColorBasedOnPercentage={true}
                             />
                         </div>
                         <Dice
                             numberOfDice={2}
-                            adjustScore={6}
+                            adjustScore={user.hability}
                             onTotalChange={handlePlayerHability}
                             buttonPosition="left"
                             isCharacterCreation={false}
@@ -125,14 +125,14 @@ const StoryFightPage = () => {
                             <ProgressBar
                                 key={1}
                                 bgcolor={"#67BF48"}
-                                completed={updatedNode?.foeStamina}
+                                completed={monsterLife}
                                 max={Number(updatedNode?.foeStamina)}
                                 changeColorBasedOnPercentage={true}
                             />
                         </div>
                         <Dice
                             numberOfDice={2}
-                            adjustScore={6}
+                            adjustScore={Number(updatedNode?.foeHability)}
                             onTotalChange={handleMonsterHability}
                             buttonPosition="right"
                             isCharacterCreation={false}
