@@ -1,25 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import HeaderStoryPage from "../widgets/HeaderStoryPage.tsx";
-import StoryData from "../assets/temp/dice.json";
 import Dice from "../widgets/dice/Dice.tsx";
 import { useParams } from "react-router-dom";
+import { getNode } from "../model/callApi.ts";
+import { DiceNode } from "../model/DiceNode.ts";
+import { useNavigate } from "react-router-dom";
 
 const StoryLuckPage = () => {
-    const { text, imageURL, action } = StoryData;
-    const { success, fail } = action;
-
     const params = useParams();
     const id = params.id;
-
     const [isSuccessActive, setIsSuccessActive] = useState(false);
     const [isFailActive, setIsFailActive] = useState(false);
-
-    const chanceJoueur = 6; // Exemple de valeur de la chance du joueur, à remplacer avec la valeur réelle récupérée depuis la base de données
+    const [updatedNode, setUpdatedNode] = useState<DiceNode>();
+    const navigate = useNavigate();
+    let user: Character = JSON.parse(localStorage.getItem("character"));
 
     const handleChance = (total: number) => {
         // Comparer le total du dé avec la chance du joueur
         if (total !== 0) {
-            if (total <= chanceJoueur) {
+            if (total <= user.luck) {
                 setIsSuccessActive(true); // Activer le bouton de succès
                 setIsFailActive(false); // Désactiver le bouton d'échec
             } else {
@@ -29,21 +28,42 @@ const StoryLuckPage = () => {
         }
     };
 
+    let node: DiceNode;
+
+    useEffect(() => {
+        async function fetchData() {
+            let temp_node = await getNode(id);
+            let type = temp_node?.type;
+
+            if (type === "dice") {
+                node = temp_node;
+            } else {
+                navigate("/");
+            }
+
+            setUpdatedNode(node);
+        }
+
+        fetchData();
+    }, [id]);
+
+    console.log(updatedNode);
+
     return (
         <div className="p-4 font-Inter text-xl flex flex-col background-old-page overflow-auto min-h-screen">
             <HeaderStoryPage />
             <div className="text-center flex flex-col items-center">
                 <h2 className="font-bold text-5xl mb-4 font-GrenzeGotisch text-white text-stroke-2px">
-                    Cellule {id}
+                    Cellule {updatedNode?.id}
                 </h2>
                 <img
-                    src={imageURL}
+                    src={updatedNode?.imageURL}
                     alt="Illustration de la situation"
                     className="w-2/5 mb-3 rounded-3xl"
                 />
                 <div
                     className="mb-6 w-2/3"
-                    dangerouslySetInnerHTML={{ __html: text }}
+                    dangerouslySetInnerHTML={{ __html: updatedNode?.text }}
                 />
                 <Dice
                     numberOfDice={2}
@@ -64,7 +84,7 @@ const StoryLuckPage = () => {
                             className={`${isSuccessActive ? "" : "cursor-not-allowed"
                                 }`}
                         >
-                            Aller à {success}
+                            Aller à {updatedNode?.action.success.id}
                         </p>
                     </button>
                     <button
@@ -79,7 +99,7 @@ const StoryLuckPage = () => {
                             className={`${isFailActive ? "" : "cursor-not-allowed"
                                 }`}
                         >
-                            Aller à {fail}
+                            Aller à {updatedNode?.action.fail.id}
                         </p>
                     </button>
                 </div>

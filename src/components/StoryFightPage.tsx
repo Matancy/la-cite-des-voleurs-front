@@ -83,8 +83,6 @@ const StoryFightPage = () => {
         fetchData();
     }, [id]);
 
-    console.log(updatedNode);
-
     return (
         <div className="p-4 font-Inter text-xl flex flex-col background-old-page overflow-auto min-h-screen">
             <HeaderStoryPage />
