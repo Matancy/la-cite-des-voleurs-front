@@ -24,12 +24,9 @@ const StoryFightPage = () => {
     const [rollingTwo, setRollingTwo] = useState(false);
     const [diceOneRolling, setDiceOneRolling] = useState(false);
     const [diceTwoRolling, setDiceTwoRolling] = useState(false);
-
-
     const [diceOneHasRolled, setDiceOneHasRolled] = useState(false);
     const [diceTwoHasRolled, setDiceTwoHasRolled] = useState(false);
     const [imageUrl, setImageUrl] = useState<string>("");
-
 
     const id = params.id;
     let node: FightNode;
@@ -38,6 +35,7 @@ const StoryFightPage = () => {
         checkResetRolling();
         console.log("ok one" + diceOneHasRolled);
     }, [diceOneHasRolled]);
+
     useEffect(() => {
         checkResetRolling();
         console.log("ok two" + diceTwoHasRolled);
@@ -48,13 +46,14 @@ const StoryFightPage = () => {
             setDiceOneRolling(rolling);
             setDiceOneHasRolled(true);
         }, 3000);
-    }
+    };
+
     const diceTwoRollingFromChild = (rolling: boolean) => {
         setTimeout(() => {
             setDiceTwoRolling(rolling);
             setDiceTwoHasRolled(true);
         }, 3000);
-    }
+    };
 
     const checkResetRolling = () => {
         if (diceOneHasRolled && diceTwoHasRolled) {
@@ -66,7 +65,7 @@ const StoryFightPage = () => {
         } else {
             console.log("not reset");
         }
-    }
+    };
 
     useEffect(() => {
         async function fetchData() {
@@ -90,17 +89,16 @@ const StoryFightPage = () => {
             let imageUrl = updatedNode?.imageURL.toString();
             if (imageUrl != undefined) {
                 if (imageUrl !== "null") {
-                    let url = API_URL + "/images/" + updatedNode?.id
-                    localStorage.setItem("imageUrl", url)
-                    setImageUrl(url)
+                    let url = API_URL + "/images/" + updatedNode?.id;
+                    localStorage.setItem("imageUrl", url);
+                    setImageUrl(url);
                 } else {
-                    setImageUrl(localStorage.getItem("imageUrl") as string)
+                    setImageUrl(localStorage.getItem("imageUrl") as string);
                 }
             }
-
         }
         getImgUrl();
-    }, [updatedNode])
+    }, [updatedNode]);
 
     const handlePlayerHability = (
         total: number,
@@ -217,22 +215,22 @@ const StoryFightPage = () => {
                 <button
                     className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min"
                     onClick={() => {
-                        switch (updatedNode?.nextNode.type) {
+                        switch (updatedNode?.links.type) {
                             case "choice":
                             case "end":
                             case "directLink":
                                 navigate(
-                                    "/story-choice/" + updatedNode?.nextNode.id
+                                    "/story-choice/" + updatedNode?.links.id
                                 );
                                 break;
                             case "dice":
                                 navigate(
-                                    "/story-luck/" + updatedNode?.nextNode.id
+                                    "/story-luck/" + updatedNode?.links.id
                                 );
                                 break;
                             case "fight":
                                 navigate(
-                                    "/story-fight/" + updatedNode?.nextNode.id
+                                    "/story-fight/" + updatedNode?.links.id
                                 );
                                 break;
                             default:
@@ -241,7 +239,7 @@ const StoryFightPage = () => {
                         }
                     }}
                 >
-                    <p>Aller à {updatedNode?.nextNode.id}</p>
+                    <p>Aller à {updatedNode?.links.id}</p>
                 </button>
             </div>
         </div>
