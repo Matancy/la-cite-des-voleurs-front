@@ -25,7 +25,7 @@ export default function MainPage() {
     return (
         <div className="flex flex-col h-screen background-main-page font-Inter text-xl">
             <div className="w-full flex justify-end">
-                <button className="bg-light-gray/[.8] hover:bg-light-gray p-3 m-4 rounded-2xl"
+                <button className="bg-light-gray/[.8] hover:bg-light-gray p-3 mt-4 mr-4 rounded-2xl"
                     onClick={navigateToLogin}>
                     <img src={accountImage} alt="Compte" className="w-8 h-8" />
                 </button>

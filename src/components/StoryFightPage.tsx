@@ -73,7 +73,14 @@ const StoryFightPage = () => {
         } else {
             console.log("not reset");
         }
-        console.log("diceOneHasRolled " + diceOneHasRolled + " diceTwoHasRolled " + diceTwoHasRolled + " allowUpdateLife " + allowUpdateLife);
+        console.log(
+            "diceOneHasRolled " +
+                diceOneHasRolled +
+                " diceTwoHasRolled " +
+                diceTwoHasRolled +
+                " allowUpdateLife " +
+                allowUpdateLife
+        );
     };
 
     useEffect(() => {
@@ -184,7 +191,9 @@ const StoryFightPage = () => {
                         </h2>
                         <div
                             className="w-4/5 m-auto"
-                            dangerouslySetInnerHTML={{ __html: updatedNode?.text }}
+                            dangerouslySetInnerHTML={{
+                                __html: updatedNode?.text,
+                            }}
                         />
                         <div className="w-full flex justify-evenly items-center">
                             <div className="flex flex-col w-2/5">
@@ -225,7 +234,9 @@ const StoryFightPage = () => {
                                     onRollingChange={setRollingTwo}
                                     setDiceRolling={diceTwoRollingFromChild}
                                     numberOfDice={2}
-                                    adjustScore={Number(updatedNode?.foeHability)}
+                                    adjustScore={Number(
+                                        updatedNode?.foeHability
+                                    )}
                                     onTotalChange={handleMonsterHability}
                                     buttonPosition="right"
                                     isCharacterCreation={false}
@@ -234,25 +245,31 @@ const StoryFightPage = () => {
                         </div>
                         <button
                             disabled={nextStep}
-                            className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min ${nextStep ? "opacity-50 cursor-not-allowed" : ""
-                                }`}
+                            className={`bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded h-min ${
+                                nextStep
+                                    ? "opacity-50 cursor-not-allowed"
+                                    : "hover:bg-gray-400"
+                            }`}
                             onClick={() => {
                                 switch (updatedNode?.links.type) {
                                     case "choice":
                                     case "end":
                                     case "directLink":
                                         navigate(
-                                            "/story-choice/" + updatedNode?.links.id
+                                            "/story-choice/" +
+                                                updatedNode?.links.id
                                         );
                                         break;
                                     case "dice":
                                         navigate(
-                                            "/story-luck/" + updatedNode?.links.id
+                                            "/story-luck/" +
+                                                updatedNode?.links.id
                                         );
                                         break;
                                     case "fight":
                                         navigate(
-                                            "/story-fight/" + updatedNode?.links.id
+                                            "/story-fight/" +
+                                                updatedNode?.links.id
                                         );
                                         break;
                                     default:
@@ -261,7 +278,13 @@ const StoryFightPage = () => {
                                 }
                             }}
                         >
-                            <p>Aller à {updatedNode?.links.id}</p>
+                            <p
+                                className={`${
+                                    nextStep ? "cursor-not-allowed" : ""
+                                }`}
+                            >
+                                Aller à {updatedNode?.links.id}
+                            </p>
                         </button>
                     </div>
                 </div>

@@ -22,7 +22,7 @@ const StoryChoicePage = () => {
         navigate("/");
     }
 
-    let user: Character = JSON.parse(json!);
+    let user: Character = Character.fromJson(JSON.parse(json!));
     let node: DirectLinkNode | ChoicesNode | EndNode;
 
     const [updatedNode, setUpdatedNode] = useState<
@@ -66,6 +66,13 @@ const StoryChoicePage = () => {
         getImgUrl();
     }, [updatedNode]);
 
+    const retirerPiece = (quantite) => {
+        if (user.gold >= quantite) {
+            user.setCurrentGold(user.gold - quantite);
+            localStorage.setItem("character", JSON.stringify(user));
+        }
+    };
+
     return (
         <div className="p-4 font-Inter text-xl flex flex-col background-old-page overflow-auto min-h-screen">
             <HeaderStoryPage />
@@ -104,6 +111,9 @@ const StoryChoicePage = () => {
                                     <button
                                         key={index}
                                         onClick={() => {
+                                            if (link.cost > 0) {
+                                                retirerPiece(link.cost);
+                                            }
                                             switch (link.type) {
                                                 case "choice":
                                                 case "end":

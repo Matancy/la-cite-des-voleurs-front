@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const SkillsSection = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [iconSrc, setIconSrc] = useState(statsIcon);
-    let user: Character | null = JSON.parse(localStorage.getItem("character"));
+    let user: Character | null = JSON.parse(localStorage.getItem("character")!);
     const navigate = useNavigate();
 
     if (!user) {
@@ -21,6 +21,10 @@ const SkillsSection = () => {
             prevIconSrc === statsIcon ? hiddenStatsIcon : statsIcon
         );
     };
+
+    const refreshUser = () => {
+        user = JSON.parse(localStorage.getItem("character")!);
+    }
 
     return (
         <div
@@ -43,7 +47,7 @@ const SkillsSection = () => {
                     <ProgressBar
                         key={1}
                         bgcolor={"#50C0FF"}
-                        completed={user.hability}
+                        completed={user.currentHability}
                         max={user.hability}
                         changeColorBasedOnPercentage={false}
                     />
@@ -59,7 +63,7 @@ const SkillsSection = () => {
                     <ProgressBar
                         key={2}
                         bgcolor={"#67BF48"}
-                        completed={user.stamina}
+                        completed={user.currentStamina}
                         max={user.stamina}
                         changeColorBasedOnPercentage={true}
                     />
@@ -75,7 +79,7 @@ const SkillsSection = () => {
                     <ProgressBar
                         key={3}
                         bgcolor={"#DCD304"}
-                        completed={user.luck}
+                        completed={user.currentLuck}
                         max={user.luck}
                         changeColorBasedOnPercentage={false}
                     />
