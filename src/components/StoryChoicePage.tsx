@@ -84,7 +84,7 @@ const StoryChoicePage = () => {
                             {updatedNode?.type === "end" ? " - Fin" : ""}
                         </h2>
                         <div
-                            className="mb-6 w-4/5 m-auto"
+                            className="w-4/5 m-auto"
                             dangerouslySetInnerHTML={{ __html: updatedNode?.text }}
                         />
                         <div
