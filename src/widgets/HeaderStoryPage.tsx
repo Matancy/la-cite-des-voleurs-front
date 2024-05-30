@@ -19,9 +19,6 @@ const HeaderStoryPage = () => {
                 <img src={backArrowIcon} alt="Back" className="w-4 h-4 mr-2" />{" "}
                 Retour au menu
             </button>
-            <div className="w-2/5">
-                <SkillsSection />
-            </div>
         </div>
     );
 };

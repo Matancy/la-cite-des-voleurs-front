@@ -7,6 +7,7 @@ import { FightNode } from "../model/FightNode.ts";
 import { useNavigate, useParams } from "react-router-dom";
 import { Character } from "../model/Character.ts";
 import { API_URL } from "../model/utils.ts";
+import LeftStorySection from "../widgets/LeftStorySection.tsx";
 
 const StoryFightPage = () => {
     const params = useParams();
@@ -158,96 +159,95 @@ const StoryFightPage = () => {
         <div className="p-4 font-Inter text-xl flex flex-col background-old-page overflow-auto min-h-screen">
             <HeaderStoryPage />
             <div className="text-center flex flex-col items-center">
-                <h2 className="font-bold text-5xl mb-4 font-GrenzeGotisch text-white text-stroke-2px">
-                    Cellule {updatedNode?.id}
-                </h2>
-                <img
-                    src={imageUrl}
-                    alt="Illustration de la situation"
-                    className="w-2/5 mb-3 rounded-3xl"
-                />
-                <div
-                    className="mb-6 w-2/3"
-                    dangerouslySetInnerHTML={{ __html: updatedNode?.text }}
-                />
-                <div className="w-2/3 flex justify-between items-center mb-6">
-                    <div className="flex flex-col w-2/5">
-                        <h2 className="mb-2">Endurance joueur :</h2>
-                        <div className="mb-4">
-                            <ProgressBar
-                                key={1}
-                                bgcolor={"#67BF48"}
-                                completed={playerLife}
-                                max={user.stamina}
-                                changeColorBasedOnPercentage={true}
-                            />
-                        </div>
-                        <Dice
-                            rolling={rollingOne}
-                            onRollingChange={setRollingOne}
-                            setDiceRolling={diceOneRollingFromChild}
-                            numberOfDice={2}
-                            adjustScore={user.hability}
-                            onTotalChange={handlePlayerHability}
-                            buttonPosition="left"
-                            isCharacterCreation={false}
+                <div className="flex">
+                    <LeftStorySection imageUrl={imageUrl} />
+                    <div className="flex flex-col basis-9/12">
+                        <h2 className="font-bold text-5xl mb-4 font-GrenzeGotisch text-white text-stroke-2px">
+                            Cellule {updatedNode?.id}
+                        </h2>
+                        <div
+                            className="w-4/5 m-auto"
+                            dangerouslySetInnerHTML={{ __html: updatedNode?.text }}
                         />
-                    </div>
-                    <div className="flex flex-col w-2/5">
-                        <h2 className="mb-2">Endurance monstre :</h2>
-                        <div className="mb-4">
-                            <ProgressBar
-                                key={1}
-                                bgcolor={"#67BF48"}
-                                completed={monsterLife}
-                                max={Number(updatedNode?.foeStamina)}
-                                changeColorBasedOnPercentage={true}
-                            />
+                        <div className="w-full flex justify-evenly items-center">
+                            <div className="flex flex-col w-2/5">
+                                <h2 className="mb-2">Endurance joueur :</h2>
+                                <div className="mb-4 flex justify-center">
+                                    <ProgressBar
+                                        key={1}
+                                        bgcolor={"#67BF48"}
+                                        completed={playerLife}
+                                        max={user.stamina}
+                                        changeColorBasedOnPercentage={true}
+                                    />
+                                </div>
+                                <Dice
+                                    rolling={rollingOne}
+                                    onRollingChange={setRollingOne}
+                                    setDiceRolling={diceOneRollingFromChild}
+                                    numberOfDice={2}
+                                    adjustScore={user.hability}
+                                    onTotalChange={handlePlayerHability}
+                                    buttonPosition="left"
+                                    isCharacterCreation={false}
+                                />
+                            </div>
+                            <div className="flex flex-col w-2/5">
+                                <h2 className="mb-2">Endurance monstre :</h2>
+                                <div className="mb-4 flex justify-center">
+                                    <ProgressBar
+                                        key={1}
+                                        bgcolor={"#67BF48"}
+                                        completed={monsterLife}
+                                        max={Number(updatedNode?.foeStamina)}
+                                        changeColorBasedOnPercentage={true}
+                                    />
+                                </div>
+                                <Dice
+                                    rolling={rollingTwo}
+                                    onRollingChange={setRollingTwo}
+                                    setDiceRolling={diceTwoRollingFromChild}
+                                    numberOfDice={2}
+                                    adjustScore={Number(updatedNode?.foeHability)}
+                                    onTotalChange={handleMonsterHability}
+                                    buttonPosition="right"
+                                    isCharacterCreation={false}
+                                />
+                            </div>
                         </div>
-                        <Dice
-                            rolling={rollingTwo}
-                            onRollingChange={setRollingTwo}
-                            setDiceRolling={diceTwoRollingFromChild}
-                            numberOfDice={2}
-                            adjustScore={Number(updatedNode?.foeHability)}
-                            onTotalChange={handleMonsterHability}
-                            buttonPosition="right"
-                            isCharacterCreation={false}
-                        />
+                        <button
+                            disabled={nextStep}
+                            className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min ${nextStep ? "opacity-50 cursor-not-allowed" : ""
+                                }`}
+                            onClick={() => {
+                                switch (updatedNode?.links.type) {
+                                    case "choice":
+                                    case "end":
+                                    case "directLink":
+                                        navigate(
+                                            "/story-choice/" + updatedNode?.links.id
+                                        );
+                                        break;
+                                    case "dice":
+                                        navigate(
+                                            "/story-luck/" + updatedNode?.links.id
+                                        );
+                                        break;
+                                    case "fight":
+                                        navigate(
+                                            "/story-fight/" + updatedNode?.links.id
+                                        );
+                                        break;
+                                    default:
+                                        navigate("/");
+                                        break;
+                                }
+                            }}
+                        >
+                            <p>Aller à {updatedNode?.links.id}</p>
+                        </button>
                     </div>
                 </div>
-                <button
-                    disabled={nextStep}
-                    className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min ${
-                        nextStep ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
-                    onClick={() => {
-                        switch (updatedNode?.links.type) {
-                            case "choice":
-                            case "end":
-                            case "directLink":
-                                navigate(
-                                    "/story-choice/" + updatedNode?.links.id
-                                );
-                                break;
-                            case "dice":
-                                navigate(
-                                    "/story-luck/" + updatedNode?.links.id
-                                );
-                                break;
-                            case "fight":
-                                navigate(
-                                    "/story-fight/" + updatedNode?.links.id
-                                );
-                                break;
-                            default:
-                                navigate("/");
-                                break;
-                        }
-                    }}
-                >
-                    <p>Aller à {updatedNode?.links.id}</p>
-                </button>
             </div>
         </div>
     );
