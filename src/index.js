@@ -10,12 +10,14 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Rules from "./components/Rules.tsx";
 import MainPage from "./components/MainPage.tsx";
 import './index.css';
+import Died from "./components/Died.tsx";
 
 export default function Main() {
     return (
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<MainPage />}></Route>
+                <Route path="/died" element={<Died />}></Route>
                 <Route path="/rules" element={<Rules />}></Route>
                 <Route path="/character-creation" element={<CharacterCreation />}></Route>
                 <Route path="/story-choice/:id" element={<StoryChoicePage />}></Route>
