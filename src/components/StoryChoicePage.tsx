@@ -8,6 +8,7 @@ import { EndNode } from "../model/EndNode.ts";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../model/utils.ts";
 import { Character } from "../model/Character.ts";
+import piece from "../assets/images/gold-piece.png";
 
 const StoryChoicePage = () => {
     const [imageUrl, setImageUrl] = useState<string>("");
@@ -119,7 +120,16 @@ const StoryChoicePage = () => {
                                 disabled={user.gold < link.cost}
                             >
                                 <p>Aller à {link.id}</p>
-                                {link.cost > 0 && <p>cout : {link.cost}</p>}
+                                {link.cost > 0 && (
+                                    <div className="flex justify-center items-center">
+                                        <p>Coût : {link.cost}</p>
+                                        <img
+                                            src={piece}
+                                            alt="Back"
+                                            className="w-4 h-4 ml-2"
+                                        />
+                                    </div>
+                                )}
                             </button>
                         ))}
                 </div>

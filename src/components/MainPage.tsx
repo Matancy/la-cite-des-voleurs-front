@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Character } from "../model/Character";
+import accountImage from "../assets/images/account.png";
 
 export default function MainPage() {
     const navigate = useNavigate();
@@ -17,8 +18,18 @@ export default function MainPage() {
         user = JSON.parse(json!);
     }
 
+    const navigateToLogin = () => {
+        navigate("/login");
+    };
+
     return (
         <div className="flex flex-col h-screen background-main-page font-Inter text-xl">
+            <div className="w-full flex justify-end">
+                <button className="bg-light-gray/[.8] hover:bg-light-gray p-3 m-4 rounded-2xl"
+                    onClick={navigateToLogin}>
+                    <img src={accountImage} alt="Compte" className="w-8 h-8" />
+                </button>
+            </div>
             <div className="m-auto">
                 <h1 className="text-center mb-8 font-GrenzeGotisch text-8xl border-solid text-white text-stroke-2px">
                     La Cité des Voleurs

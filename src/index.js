@@ -4,6 +4,8 @@ import CharacterCreation from "./components/CharacterCreation.tsx";
 import StoryChoicePage from "./components/StoryChoicePage.tsx";
 import StoryFightPage from "./components/StoryFightPage.tsx";
 import StoryLuckPage from "./components/StoryLuckPage.tsx";
+import LoginPage from "./components/LoginPage.tsx";
+import RegistrationPage from "./components/RegistrationPage.tsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Rules from "./components/Rules.tsx";
 import MainPage from "./components/MainPage.tsx";
@@ -19,6 +21,8 @@ export default function Main() {
                 <Route path="/story-choice/:id" element={<StoryChoicePage />}></Route>
                 <Route path="/story-fight/:id" element={<StoryFightPage />}></Route>
                 <Route path="/story-luck/:id" element={<StoryLuckPage />}></Route>
+                <Route path="/login" element={<LoginPage />}></Route>
+                <Route path="/register" element={<RegistrationPage />}></Route>
             </Routes>
         </BrowserRouter>
     );
