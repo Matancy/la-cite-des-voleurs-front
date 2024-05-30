@@ -33,15 +33,17 @@ const StoryFightPage = () => {
     const [imageUrl, setImageUrl] = useState<string>("");
     const id = params.id;
     let node: FightNode;
+    const [allowUpdateLife, setAllowUpdateLife] = useState(false);
+    const [monsterLife, setMonsterLife] = useState<number>(
+        updatedNode?.foeStamina
+    );
 
     useEffect(() => {
         checkResetRolling();
-        console.log("ok one" + diceOneHasRolled);
     }, [diceOneHasRolled]);
 
     useEffect(() => {
         checkResetRolling();
-        console.log("ok two" + diceTwoHasRolled);
     }, [diceTwoHasRolled]);
 
     const diceOneRollingFromChild = (rolling: boolean) => {
@@ -60,6 +62,7 @@ const StoryFightPage = () => {
 
     const checkResetRolling = () => {
         if (diceOneHasRolled && diceTwoHasRolled) {
+            setAllowUpdateLife(true);
             if (monsterLife > 0 && playerLife > 0) {
                 console.log("reset");
                 setRollingOne(false);
@@ -70,6 +73,7 @@ const StoryFightPage = () => {
         } else {
             console.log("not reset");
         }
+        console.log("diceOneHasRolled " + diceOneHasRolled + " diceTwoHasRolled " + diceTwoHasRolled + " allowUpdateLife " + allowUpdateLife);
     };
 
     useEffect(() => {
@@ -105,6 +109,18 @@ const StoryFightPage = () => {
         getImgUrl();
     }, [updatedNode]);
 
+    useEffect(() => {
+        if (playerLife <= 0) {
+            navigate("/died");
+        }
+    }, [playerLife]);
+
+    useEffect(() => {
+        if (monsterLife <= 0) {
+            setnextStep(false);
+        }
+    }, [monsterLife]);
+
     const handlePlayerHability = (
         total: number,
         totalDice: number,
@@ -121,10 +137,6 @@ const StoryFightPage = () => {
         setMonsterAttack(total);
     };
 
-    const [monsterLife, setMonsterLife] = useState<number>(
-        updatedNode?.foeStamina
-    );
-
     useEffect(() => {
         if (updatedNode?.foeStamina) {
             setMonsterLife(parseInt(updatedNode.foeStamina));
@@ -132,28 +144,33 @@ const StoryFightPage = () => {
     }, [updatedNode?.foeStamina]);
 
     useEffect(() => {
-        if (playerAttack > 0 && monsterAttack > 0) {
-            if (playerAttack > monsterAttack) {
-                setMonsterLife(monsterLife - 1);
-                setMonsterAttack(0);
-                setPlayerAttack(0);
-                if (monsterLife <= 0) {
-                    setnextStep(false);
+        console.log(allowUpdateLife);
+        if (allowUpdateLife) {
+            if (playerAttack > 0 && monsterAttack > 0) {
+                if (playerAttack > monsterAttack) {
+                    if (monsterLife - 2 < 0) {
+                        setMonsterLife(0);
+                    } else {
+                        setMonsterLife(monsterLife - 2);
+                    }
+                    setMonsterAttack(0);
+                    setPlayerAttack(0);
+                } else if (playerAttack < monsterAttack) {
+                    if (playerLife - 2 < 0) {
+                        setPlayerLife(0);
+                    } else {
+                        setPlayerLife(playerLife - 2);
+                    }
+                    setMonsterAttack(0);
+                    setPlayerAttack(0);
+                } else {
+                    setMonsterAttack(0);
+                    setPlayerAttack(0);
                 }
-            } else if (playerAttack < monsterAttack) {
-                setPlayerLife(playerLife - 1);
-                setMonsterAttack(0);
-                setPlayerAttack(0);
-                if (playerLife <= 0) {
-                    //dégriser le button dans diceRoll
-                }
-            } else {
-                setMonsterAttack(0);
-                setPlayerAttack(0);
-                //dégriser le button dans diceRoll
             }
+            setAllowUpdateLife(false);
         }
-    }, [playerAttack, monsterAttack]);
+    }, [allowUpdateLife]);
 
     return (
         <div className="p-4 font-Inter text-xl flex flex-col background-old-page overflow-auto min-h-screen">
