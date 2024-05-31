@@ -1,8 +1,4 @@
-import React, {
-    useState,
-    useEffect,
-    HTMLInputAutoCompleteAttribute,
-} from "react";
+import React, { useState, useEffect } from "react";
 import Dice from "../widgets/dice/Dice.tsx";
 import backArrowIcon from "../assets/images/back_arrow.png";
 import { useNavigate } from "react-router-dom";
@@ -14,14 +10,20 @@ const INITIAL_GOLD_AMOUNT = 30;
 const CharacterCreation = () => {
     const [enduranceTotal, setEnduranceTotal] = useState<number>(0);
     const [enduranceTotalDice, setEnduranceTotalDice] = useState<number>(0);
+    const [enduranceNumberDice, setEnduranceNumberDice] = useState<number>(2);
+    const [enduranceAdjustScore, setEnduranceAdjustScore] = useState<number>(12);
     const [rollingEndurance, setRollingEndurance] = useState<boolean>(false);
 
     const [habileteTotal, setHabileteTotal] = useState<number>(0);
-    const [habileteTotalDice, setHabileteTotalDice] = useState<number>(0);
-    const [rollinghabilete, setRollinghabilete] = useState<boolean>(false);
+    const [habileteTotalDice, setHabileteTotalDice] = useState<number>(0); // Initialisé à 1 par défaut
+    const [habileteNumberDice, setHabileteNumberDice] = useState<number>(1);
+    const [habileteAdjustScore, setHabileteAdjustScore] = useState<number>(6); // Initialisé à 6 par défaut
+    const [rollingHabilete, setRollingHabilete] = useState<boolean>(false);
 
     const [chanceTotal, setChanceTotal] = useState<number>(0);
-    const [chanceTotalDice, setChanceTotalDice] = useState<number>(0);
+    const [chanceTotalDice, setChanceTotalDice] = useState<number>(0); // Initialisé à 1 par défaut
+    const [chanceNumberDice, setChanceNumberDice] = useState<number>(1);
+    const [chanceAdjustScore, setChanceAdjustScore] = useState<number>(6);
     const [rollingChance, setRollingChance] = useState<boolean>(false);
     const [name, setName] = useState<string>("");
 
@@ -30,14 +32,13 @@ const CharacterCreation = () => {
     const [rollingThree, setRollingThree] = useState(false);
 
     const [allRolling, setAllRolling] = useState<boolean>(true);
+    const [difficulty, setDifficulty] = useState<string>("normal");
 
-    // Fonction de rappel pour recevoir les valeurs de total et totalDice
     const handleEnduranceTotalChange = async (
         total: number,
         totalDice: number,
         rolling: boolean
     ) => {
-        // Mettre à jour l'état
         setEnduranceTotal(total);
         setEnduranceTotalDice(totalDice);
         setRollingEndurance(rolling);
@@ -48,10 +49,9 @@ const CharacterCreation = () => {
         totalDice: number,
         rolling: boolean
     ) => {
-        // Mettre à jour l'état
         setHabileteTotal(total);
         setHabileteTotalDice(totalDice);
-        setRollinghabilete(rolling);
+        setRollingHabilete(rolling);
     };
 
     const handleChanceTotalChange = (
@@ -59,7 +59,6 @@ const CharacterCreation = () => {
         totalDice: number,
         rolling: boolean
     ) => {
-        // Mettre à jour l'état
         setChanceTotal(total);
         setChanceTotalDice(totalDice);
         setRollingChance(rolling);
@@ -70,16 +69,81 @@ const CharacterCreation = () => {
         setName(name.value);
     };
 
+    const resetDice = () => {
+        setRollingOne(false);
+        setRollingTwo(false);
+        setRollingThree(false);
+        setChanceTotalDice(0);
+        setEnduranceTotalDice(0);
+        setHabileteTotalDice(0);
+        setChanceTotal(0);
+        setEnduranceTotal(0);
+        setHabileteTotal(0);
+    };
+    
+
+    const handleDifficultyChange = (newDifficulty: string) => {
+        resetDice(); // Réinitialiser les dés
+        setDifficulty(newDifficulty);
+        // Mise à jour du nombre de dés et du score d'ajustement en fonction de la difficulté
+        switch (newDifficulty) {
+            case "easy":
+                setHabileteNumberDice(3); // Changer le nombre de dés
+                setHabileteAdjustScore(6); // Changer le score d'ajustement
+    
+                setEnduranceNumberDice(2)
+                setEnduranceAdjustScore(12);
+    
+                setChanceNumberDice(2);
+                setChanceAdjustScore(6);
+                break;
+            case "normal":
+                setHabileteNumberDice(1);
+                setHabileteAdjustScore(6);
+    
+                setEnduranceNumberDice(2)
+                setEnduranceAdjustScore(12);
+    
+                setChanceNumberDice(1);
+                setChanceAdjustScore(6);
+                break;
+            case "hard":
+                setHabileteNumberDice(1);
+                setHabileteAdjustScore(6);
+    
+                setEnduranceNumberDice(1)
+                setEnduranceAdjustScore(6);
+    
+                setChanceNumberDice(1);
+                setChanceAdjustScore(0);
+                break;
+            case "eco":
+                setHabileteNumberDice(1);
+                setHabileteAdjustScore(0);
+    
+                setEnduranceNumberDice(1)
+                setEnduranceAdjustScore(0);
+        
+                setChanceNumberDice(1);
+                setChanceAdjustScore(0);
+                break;
+            default:
+                break;
+        }
+    };
+    
+    
+
     useEffect(() => {
         if (
             rollingChance &&
             rollingEndurance &&
-            rollinghabilete &&
+            rollingHabilete &&
             name.length !== 0
         ) {
             setAllRolling(false);
         }
-    }, [rollingChance, rollingEndurance, rollinghabilete, name]);
+    }, [rollingChance, rollingEndurance, rollingHabilete, name]);
 
     const navigate = useNavigate();
 
@@ -87,14 +151,16 @@ const CharacterCreation = () => {
         navigate("/");
     };
 
-    //@here
+    
+
     const createCharacter = () => {
         let character: Character = new Character(
             { name }.name,
             { habileteTotal }.habileteTotal,
             { enduranceTotal }.enduranceTotal,
             { chanceTotal }.chanceTotal,
-            INITIAL_GOLD_AMOUNT
+            INITIAL_GOLD_AMOUNT,
+            difficulty
         );
         localStorage.setItem("character", JSON.stringify(character));
         postCharacter(character);
@@ -121,17 +187,67 @@ const CharacterCreation = () => {
                         id="name"
                     />
                 </div>
-                <div className="bg-light-gray/[.8] rounded-3xl w-full flex justify-between items-center py-2 mb-3 h-min">
+                 {/* Interface pour modifier la difficulté */}
+                 <div className="bg-light-gray/[.8] rounded-3xl w-full h-min flex flex-col items-center py-2 mb-3">
+                    <h1 className="font-GrenzeGotisch text-white text-stroke-2px text-4xl text-center mb-2">
+                        Difficulté
+                    </h1>
+                    <div className="flex justify-center">
+                        <button
+                            className={`rounded-3xl px-4 py-2 mx-2 ${
+                                difficulty === "easy"
+                                    ? "bg-green-500 text-white"
+                                    : "bg-light-gray text-gray-800"
+                            }`}
+                            onClick={() => handleDifficultyChange("easy")}
+                        >
+                            Facile
+                        </button>
+                        <button
+                            className={`rounded-3xl px-4 py-2 mx-2 ${
+                                difficulty === "normal"
+                                    ? "bg-blue-500 text-white"
+                                    : "bg-light-gray text-gray-800"
+                            }`}
+                            onClick={() => handleDifficultyChange("normal")}
+                        >
+                            Normal
+                        </button>
+                        <button
+                            className={`rounded-3xl px-4 py-2 mx-2 ${
+                                difficulty === "hard"
+                                    ? "bg-red-500 text-white"
+                                    : "bg-light-gray text-gray-800"
+                            }`}
+                            onClick={() => handleDifficultyChange("hard")}
+                        >
+                            Difficile
+                        </button>
+                        { name === "Genaivre" && (
+                            <button
+                            className={`rounded-3xl px-4 py-2 mx-2 ${
+                                difficulty === "eco"
+                                    ? "bg-black text-white"
+                                    : "bg-light-gray text-gray-800"
+                            }`}
+                            onClick={() => handleDifficultyChange("eco")}
+                        >
+                            Eco (Ultra Hardcore)
+                        </button>
+                        )}
+
+                    </div>
+                </div>
+                <div className="bg-light-gray/[.8] rounded-3xl w-full h-min flex justify-between items-center py-2 mb-3">
                     <h1 className="font-GrenzeGotisch text-white text-stroke-2px text-4xl w-1/3 text-center">
                         Endurance
                     </h1>
                     <div className="flex flex-col items-center justify-between h-full w-1/3">
-                        {/* @here */}
                         <Dice
                             rolling={rollingOne}
                             onRollingChange={setRollingOne}
-                            numberOfDice={2}
-                            adjustScore={12}
+                            numberOfDice={enduranceNumberDice}
+                            adjustScore={enduranceAdjustScore}
                             onTotalChange={handleEnduranceTotalChange}
                             buttonPosition="bottom"
                             isCharacterCreation={true}
@@ -142,7 +258,7 @@ const CharacterCreation = () => {
                             Score :
                         </p>
                         <p className="text-2xl text-white text-stroke-1px">
-                            {enduranceTotalDice} + 12
+                            {enduranceTotalDice} + {enduranceAdjustScore}
                         </p>
                         <p className="bg-light-gray/[.8] rounded-lg py-1 px-3 border-solid border-2 border-black">
                             Total : {enduranceTotal}
@@ -157,8 +273,8 @@ const CharacterCreation = () => {
                         <Dice
                             rolling={rollingTwo}
                             onRollingChange={setRollingTwo}
-                            numberOfDice={1}
-                            adjustScore={6}
+                            numberOfDice={habileteNumberDice} // Utiliser le nombre de dés dynamique
+                            adjustScore={habileteAdjustScore} // Utiliser le score d'ajustement dynamique
                             onTotalChange={handleHabileteTotalChange}
                             buttonPosition="bottom"
                             isCharacterCreation={true}
@@ -169,7 +285,7 @@ const CharacterCreation = () => {
                             Score :
                         </p>
                         <p className="text-2xl text-white text-stroke-1px">
-                            {habileteTotalDice} + 6
+                            {habileteTotalDice} + {habileteAdjustScore}
                         </p>
                         <p className="bg-light-gray/[.8] rounded-lg py-1 px-3 border-solid border-2 border-black">
                             Total : {habileteTotal}
@@ -184,8 +300,8 @@ const CharacterCreation = () => {
                         <Dice
                             rolling={rollingThree}
                             onRollingChange={setRollingThree}
-                            numberOfDice={1}
-                            adjustScore={6}
+                            numberOfDice={chanceNumberDice} // Utiliser le nombre de dés dynamique
+                            adjustScore={chanceAdjustScore}
                             onTotalChange={handleChanceTotalChange}
                             buttonPosition="bottom"
                             isCharacterCreation={true}
@@ -196,7 +312,7 @@ const CharacterCreation = () => {
                             Score :
                         </p>
                         <p className="text-2xl text-white text-stroke-1px">
-                            {chanceTotalDice} + 6
+                            {chanceTotalDice} + {chanceAdjustScore}
                         </p>
                         <p className="bg-light-gray/[.8] rounded-lg py-1 px-3 border-solid border-2 border-black">
                             Total : {chanceTotal}
@@ -232,3 +348,6 @@ const CharacterCreation = () => {
     );
 };
 export default CharacterCreation;
+
+
+
