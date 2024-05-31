@@ -70,11 +70,13 @@ const DiceRoll: React.FC<DiceRollProps & {
         }
     };
 
-    useEffect(() => {
-        setTimeout(() => {
-            onTotalChange(total, totalDice, rolling);
-        }, 3000);
-    }, [total, totalDice, rolling]);
+        useEffect(() => {
+            setTimeout(() => {
+                if (total != 0 && rolling == true) {
+                    onTotalChange(total, totalDice, rolling);
+                }
+            }, 3000);
+        }, [total, totalDice, rolling]);
 
     const toggleClasses = (die: HTMLDivElement) => {
         die.classList.toggle("odd-roll");

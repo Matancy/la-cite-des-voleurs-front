@@ -157,6 +157,8 @@ const CharacterCreation = () => {
         let character: Character = new Character(
             { name }.name,
             { habileteTotal }.habileteTotal,
+            { habileteTotal }.habileteTotal,
+            { enduranceTotal }.enduranceTotal,
             { enduranceTotal }.enduranceTotal,
             { chanceTotal }.chanceTotal,
             INITIAL_GOLD_AMOUNT,

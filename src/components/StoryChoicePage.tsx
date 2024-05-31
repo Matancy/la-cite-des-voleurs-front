@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { API_URL } from "../model/utils.ts";
 import { Character } from "../model/Character.ts";
 import SkillsSection from "../widgets/SkillsSection.tsx";
+import piece from "../assets/images/gold-piece.png";
 
 const StoryChoicePage = () => {
     const [imageUrl, setImageUrl] = useState<string>("");
@@ -21,12 +22,19 @@ const StoryChoicePage = () => {
         navigate("/");
     }
 
-    let user: Character = JSON.parse(json!);
+    let user: Character = Character.fromJson(JSON.parse(json!));
     let node: DirectLinkNode | ChoicesNode | EndNode;
 
     const [updatedNode, setUpdatedNode] = useState<
         DirectLinkNode | ChoicesNode | EndNode
     >();
+
+    const retirerPiece = (quantite) => {
+        if (user.gold >= quantite) {
+            user.setGold(user.gold - quantite);
+            localStorage.setItem("character", JSON.stringify(user));
+        }
+    };
 
     useEffect(() => {
         async function fetchData() {
@@ -84,48 +92,70 @@ const StoryChoicePage = () => {
                             {updatedNode?.type === "end" ? " - Fin" : ""}
                         </h2>
                         <div
-                            className="mb-6 w-4/5 m-auto"
-                            dangerouslySetInnerHTML={{ __html: updatedNode?.text }}
+                            className="w-4/5 m-auto"
+                            dangerouslySetInnerHTML={{
+                                __html: updatedNode?.text,
+                            }}
                         />
                         <div
-                            className={`flex justify-${updatedNode?.links && updatedNode?.links.length === 1
-                                ? "center"
-                                : "between"
-                                } w-1/3 mt-10`}
-                        >
-                        </div>
+                            className={`flex justify-${
+                                updatedNode?.links &&
+                                updatedNode?.links.length === 1
+                                    ? "center"
+                                    : "between"
+                            } w-1/3 mt-10`}
+                        ></div>
                         <div className="flex justify-evenly">
                             {updatedNode?.links &&
                                 updatedNode.links.map((link, index) => (
                                     <button
                                         key={index}
                                         onClick={() => {
+                                            if (link.cost > 0) {
+                                                retirerPiece(link.cost);
+                                            }
                                             switch (link.type) {
                                                 case "choice":
                                                 case "end":
                                                 case "directLink":
                                                     navigate(
-                                                        "/story-choice/" + link.id
+                                                        "/story-choice/" +
+                                                            link.id
                                                     );
                                                     break;
                                                 case "dice":
-                                                    navigate("/story-luck/" + link.id);
+                                                    navigate(
+                                                        "/story-luck/" + link.id
+                                                    );
                                                     break;
                                                 case "fight":
-                                                    navigate("/story-fight/" + link.id);
+                                                    navigate(
+                                                        "/story-fight/" +
+                                                            link.id
+                                                    );
                                                     break;
                                                 default:
                                                     navigate("/");
                                                     break;
                                             }
                                         }}
-                                        className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min ${user.gold < link.cost &&
+                                        className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min ${
+                                            user.gold < link.cost &&
                                             "opacity-50 cursor-not-allowed"
-                                            }`}
+                                        }`}
                                         disabled={user.gold < link.cost}
                                     >
                                         <p>Aller à {link.id}</p>
-                                        {link.cost > 0 && <p>cout : {link.cost}</p>}
+                                        {link.cost > 0 && (
+                                            <div className="flex justify-center items-center">
+                                                <p>Coût : {link.cost}</p>
+                                                <img
+                                                    src={piece}
+                                                    alt="Back"
+                                                    className="w-4 h-4 ml-2"
+                                                />
+                                            </div>
+                                        )}
                                     </button>
                                 ))}
                         </div>

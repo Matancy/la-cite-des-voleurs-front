@@ -7,6 +7,7 @@ import { FightNode } from "../model/FightNode.ts";
 import { useNavigate, useParams } from "react-router-dom";
 import { Character } from "../model/Character.ts";
 import { API_URL } from "../model/utils.ts";
+import LeftStorySection from "../widgets/LeftStorySection.tsx";
 
 const StoryFightPage = () => {
     const params = useParams();
@@ -32,15 +33,17 @@ const StoryFightPage = () => {
     const [imageUrl, setImageUrl] = useState<string>("");
     const id = params.id;
     let node: FightNode;
+    const [allowUpdateLife, setAllowUpdateLife] = useState(false);
+    const [monsterLife, setMonsterLife] = useState<number>(
+        updatedNode?.foeStamina
+    );
 
     useEffect(() => {
         checkResetRolling();
-        console.log("ok one" + diceOneHasRolled);
     }, [diceOneHasRolled]);
 
     useEffect(() => {
         checkResetRolling();
-        console.log("ok two" + diceTwoHasRolled);
     }, [diceTwoHasRolled]);
 
     const diceOneRollingFromChild = (rolling: boolean) => {
@@ -59,6 +62,7 @@ const StoryFightPage = () => {
 
     const checkResetRolling = () => {
         if (diceOneHasRolled && diceTwoHasRolled) {
+            setAllowUpdateLife(true);
             if (monsterLife > 0 && playerLife > 0) {
                 console.log("reset");
                 setRollingOne(false);
@@ -69,6 +73,14 @@ const StoryFightPage = () => {
         } else {
             console.log("not reset");
         }
+        console.log(
+            "diceOneHasRolled " +
+                diceOneHasRolled +
+                " diceTwoHasRolled " +
+                diceTwoHasRolled +
+                " allowUpdateLife " +
+                allowUpdateLife
+        );
     };
 
     useEffect(() => {
@@ -104,6 +116,18 @@ const StoryFightPage = () => {
         getImgUrl();
     }, [updatedNode]);
 
+    useEffect(() => {
+        if (playerLife <= 0) {
+            navigate("/died");
+        }
+    }, [playerLife]);
+
+    useEffect(() => {
+        if (monsterLife <= 0) {
+            setnextStep(false);
+        }
+    }, [monsterLife]);
+
     const handlePlayerHability = (
         total: number,
         totalDice: number,
@@ -120,10 +144,6 @@ const StoryFightPage = () => {
         setMonsterAttack(total);
     };
 
-    const [monsterLife, setMonsterLife] = useState<number>(
-        updatedNode?.foeStamina
-    );
-
     useEffect(() => {
         if (updatedNode?.foeStamina) {
             setMonsterLife(parseInt(updatedNode.foeStamina));
@@ -131,123 +151,143 @@ const StoryFightPage = () => {
     }, [updatedNode?.foeStamina]);
 
     useEffect(() => {
-        if (playerAttack > 0 && monsterAttack > 0) {
-            if (playerAttack > monsterAttack) {
-                setMonsterLife(monsterLife - 1);
-                setMonsterAttack(0);
-                setPlayerAttack(0);
-                if (monsterLife <= 0) {
-                    setnextStep(false);
+        console.log(allowUpdateLife);
+        if (allowUpdateLife) {
+            if (playerAttack > 0 && monsterAttack > 0) {
+                if (playerAttack > monsterAttack) {
+                    if (monsterLife - 2 < 0) {
+                        setMonsterLife(0);
+                    } else {
+                        setMonsterLife(monsterLife - 2);
+                    }
+                    setMonsterAttack(0);
+                    setPlayerAttack(0);
+                } else if (playerAttack < monsterAttack) {
+                    if (playerLife - 2 < 0) {
+                        setPlayerLife(0);
+                    } else {
+                        setPlayerLife(playerLife - 2);
+                    }
+                    setMonsterAttack(0);
+                    setPlayerAttack(0);
+                } else {
+                    setMonsterAttack(0);
+                    setPlayerAttack(0);
                 }
-            } else if (playerAttack < monsterAttack) {
-                setPlayerLife(playerLife - 1);
-                setMonsterAttack(0);
-                setPlayerAttack(0);
-                if (playerLife <= 0) {
-                    //dégriser le button dans diceRoll
-                }
-            } else {
-                setMonsterAttack(0);
-                setPlayerAttack(0);
-                //dégriser le button dans diceRoll
             }
+            setAllowUpdateLife(false);
         }
-    }, [playerAttack, monsterAttack]);
+    }, [allowUpdateLife]);
 
     return (
         <div className="p-4 font-Inter text-xl flex flex-col background-old-page overflow-auto min-h-screen">
             <HeaderStoryPage />
             <div className="text-center flex flex-col items-center">
-                <h2 className="font-bold text-5xl mb-4 font-GrenzeGotisch text-white text-stroke-2px">
-                    Cellule {updatedNode?.id}
-                </h2>
-                <img
-                    src={imageUrl}
-                    alt="Illustration de la situation"
-                    className="w-2/5 mb-3 rounded-3xl"
-                />
-                <div
-                    className="mb-6 w-2/3"
-                    dangerouslySetInnerHTML={{ __html: updatedNode?.text }}
-                />
-                <div className="w-2/3 flex justify-between items-center mb-6">
-                    <div className="flex flex-col w-2/5">
-                        <h2 className="mb-2">Endurance joueur :</h2>
-                        <div className="mb-4">
-                            <ProgressBar
-                                key={1}
-                                bgcolor={"#67BF48"}
-                                completed={playerLife}
-                                max={user.stamina}
-                                changeColorBasedOnPercentage={true}
-                            />
-                        </div>
-                        <Dice
-                            rolling={rollingOne}
-                            onRollingChange={setRollingOne}
-                            setDiceRolling={diceOneRollingFromChild}
-                            numberOfDice={2}
-                            adjustScore={user.hability}
-                            onTotalChange={handlePlayerHability}
-                            buttonPosition="left"
-                            isCharacterCreation={false}
+                <div className="flex">
+                    <LeftStorySection imageUrl={imageUrl} />
+                    <div className="flex flex-col basis-9/12">
+                        <h2 className="font-bold text-5xl mb-4 font-GrenzeGotisch text-white text-stroke-2px">
+                            Cellule {updatedNode?.id}
+                        </h2>
+                        <div
+                            className="w-4/5 m-auto"
+                            dangerouslySetInnerHTML={{
+                                __html: updatedNode?.text,
+                            }}
                         />
-                    </div>
-                    <div className="flex flex-col w-2/5">
-                        <h2 className="mb-2">Endurance monstre :</h2>
-                        <div className="mb-4">
-                            <ProgressBar
-                                key={1}
-                                bgcolor={"#67BF48"}
-                                completed={monsterLife}
-                                max={Number(updatedNode?.foeStamina)}
-                                changeColorBasedOnPercentage={true}
-                            />
+                        <div className="w-full flex justify-evenly items-center">
+                            <div className="flex flex-col w-2/5">
+                                <h2 className="mb-2">Endurance joueur :</h2>
+                                <div className="mb-4 flex justify-center">
+                                    <ProgressBar
+                                        key={1}
+                                        bgcolor={"#67BF48"}
+                                        completed={playerLife}
+                                        max={user.stamina}
+                                        changeColorBasedOnPercentage={true}
+                                    />
+                                </div>
+                                <Dice
+                                    rolling={rollingOne}
+                                    onRollingChange={setRollingOne}
+                                    setDiceRolling={diceOneRollingFromChild}
+                                    numberOfDice={2}
+                                    adjustScore={user.hability}
+                                    onTotalChange={handlePlayerHability}
+                                    buttonPosition="left"
+                                    isCharacterCreation={false}
+                                />
+                            </div>
+                            <div className="flex flex-col w-2/5">
+                                <h2 className="mb-2">Endurance monstre :</h2>
+                                <div className="mb-4 flex justify-center">
+                                    <ProgressBar
+                                        key={1}
+                                        bgcolor={"#67BF48"}
+                                        completed={monsterLife}
+                                        max={Number(updatedNode?.foeStamina)}
+                                        changeColorBasedOnPercentage={true}
+                                    />
+                                </div>
+                                <Dice
+                                    rolling={rollingTwo}
+                                    onRollingChange={setRollingTwo}
+                                    setDiceRolling={diceTwoRollingFromChild}
+                                    numberOfDice={2}
+                                    adjustScore={Number(
+                                        updatedNode?.foeHability
+                                    )}
+                                    onTotalChange={handleMonsterHability}
+                                    buttonPosition="right"
+                                    isCharacterCreation={false}
+                                />
+                            </div>
                         </div>
-                        <Dice
-                            rolling={rollingTwo}
-                            onRollingChange={setRollingTwo}
-                            setDiceRolling={diceTwoRollingFromChild}
-                            numberOfDice={2}
-                            adjustScore={Number(updatedNode?.foeHability)}
-                            onTotalChange={handleMonsterHability}
-                            buttonPosition="right"
-                            isCharacterCreation={false}
-                        />
+                        <button
+                            disabled={nextStep}
+                            className={`bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded h-min ${
+                                nextStep
+                                    ? "opacity-50 cursor-not-allowed"
+                                    : "hover:bg-gray-400"
+                            }`}
+                            onClick={() => {
+                                switch (updatedNode?.links.type) {
+                                    case "choice":
+                                    case "end":
+                                    case "directLink":
+                                        navigate(
+                                            "/story-choice/" +
+                                                updatedNode?.links.id
+                                        );
+                                        break;
+                                    case "dice":
+                                        navigate(
+                                            "/story-luck/" +
+                                                updatedNode?.links.id
+                                        );
+                                        break;
+                                    case "fight":
+                                        navigate(
+                                            "/story-fight/" +
+                                                updatedNode?.links.id
+                                        );
+                                        break;
+                                    default:
+                                        navigate("/");
+                                        break;
+                                }
+                            }}
+                        >
+                            <p
+                                className={`${
+                                    nextStep ? "cursor-not-allowed" : ""
+                                }`}
+                            >
+                                Aller à {updatedNode?.links.id}
+                            </p>
+                        </button>
                     </div>
                 </div>
-                <button
-                    disabled={nextStep}
-                    className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min ${
-                        nextStep ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
-                    onClick={() => {
-                        switch (updatedNode?.links.type) {
-                            case "choice":
-                            case "end":
-                            case "directLink":
-                                navigate(
-                                    "/story-choice/" + updatedNode?.links.id
-                                );
-                                break;
-                            case "dice":
-                                navigate(
-                                    "/story-luck/" + updatedNode?.links.id
-                                );
-                                break;
-                            case "fight":
-                                navigate(
-                                    "/story-fight/" + updatedNode?.links.id
-                                );
-                                break;
-                            default:
-                                navigate("/");
-                                break;
-                        }
-                    }}
-                >
-                    <p>Aller à {updatedNode?.links.id}</p>
-                </button>
             </div>
         </div>
     );
