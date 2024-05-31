@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import HeaderStoryPage from "../widgets/HeaderStoryPage.tsx";
 import Dice from "../widgets/dice/Dice.tsx";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getNode } from "../model/callApi.ts";
 import { DiceNode } from "../model/DiceNode.ts";
-import { useNavigate } from "react-router-dom";
 import { API_URL } from "../model/utils.ts";
 import { Character } from "../model/Character.ts";
 import LeftStorySection from "../widgets/LeftStorySection.tsx";
@@ -28,7 +27,9 @@ const StoryLuckPage = () => {
 
     const handleChance = (total: number) => {
         // Comparer le total du dé avec la chance du joueur
+        console.log(total);
         if (total !== 0) {
+            setRollingOne(true);
             if (total <= user.luck) {
                 setIsSuccessActive(true); // Activer le bouton de succès
                 setIsFailActive(false); // Désactiver le bouton d'échec
@@ -39,11 +40,18 @@ const StoryLuckPage = () => {
         }
     };
 
-    const resetIsFailtActive = () => {
+    useEffect(() => {
+        setTimeout(() => {
+            setIsSuccessActive(false);
+            setIsFailActive(false);
+            setRollingOne(false);
+            console.log("useffect id")
+        }, 1000);
+    }, [id]);
+
+    const resetIsFailActive = () => {
         setIsFailActive(false);
     };
-
-    let node: DiceNode;
 
     useEffect(() => {
         async function fetchData() {
@@ -51,16 +59,14 @@ const StoryLuckPage = () => {
             let type = temp_node?.type;
 
             if (type === "dice") {
-                node = temp_node;
+                setUpdatedNode(temp_node);
             } else {
                 navigate("/");
             }
-
-            setUpdatedNode(node);
         }
 
         fetchData();
-    }, [id]);
+    }, [id, navigate]);
 
     useEffect(() => {
         async function getImgUrl() {
@@ -176,7 +182,7 @@ const StoryLuckPage = () => {
                                             navigate("/");
                                             break;
                                     }
-                                    resetIsFailtActive();
+                                    resetIsFailActive();
                                 }}
                             >
                                 <p
