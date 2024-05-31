@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Character } from "../model/Character";
+import { User } from "../model/User";
 import accountImage from "../assets/images/account.png";
+import disconnectImage from "../assets/images/disconnect.png";
 
 export default function MainPage() {
     const navigate = useNavigate();
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
+    useEffect(() => {
+        const json = localStorage.getItem("user");
+        if (json) {
+            setIsLoggedIn(true);
+        }
+    }, []);
 
     const navigateTo = (page: string) => {
         navigate(page);
@@ -18,18 +28,51 @@ export default function MainPage() {
         user = JSON.parse(json!);
     }
 
+    json = localStorage.getItem("user");
+    let userAccount: User | null = null;
+    if (json === null) {
+        userAccount = null;
+    } else {
+        userAccount = JSON.parse(json!);
+    }
+
     const navigateToLogin = () => {
         navigate("/login");
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem("user");
+        setIsLoggedIn(false);
+    };
+
     return (
         <div className="flex flex-col h-screen background-main-page font-Inter text-xl">
-            <div className="w-full flex justify-end">
-                <button className="bg-light-gray/[.8] hover:bg-light-gray p-3 mt-4 mr-4 rounded-2xl"
-                    onClick={navigateToLogin}>
-                    <img src={accountImage} alt="Compte" className="w-8 h-8" />
-                </button>
-            </div>
+            {!isLoggedIn && (
+                <div className="w-full flex justify-end items-center px-2 py-2">
+                    <p className="mr-4 text-white">Vous êtes déconnecté</p>
+                    <button
+                        className="bg-light-gray/[.8] hover:bg-light-gray p-3 rounded-2xl w-14 h-14"
+                        onClick={navigateToLogin}
+                    >
+                        <img src={accountImage} alt="Compte" className="" />
+                    </button>
+                </div>
+            )}
+            {isLoggedIn && (
+                <div className="w-full flex justify-end items-center px-2 py-2">
+                    <p className="mr-4 text-white">Bonjour {userAccount.id}</p>
+                    <button
+                        className="bg-light-gray/[.8] hover:bg-light-gray p-3 rounded-2xl w-14 h-14"
+                        onClick={handleLogout}
+                    >
+                        <img
+                            src={disconnectImage}
+                            alt="Déconnexion"
+                            className=""
+                        />
+                    </button>
+                </div>
+            )}
             <div className="m-auto">
                 <h1 className="text-center mb-8 font-GrenzeGotisch text-8xl border-solid text-white text-stroke-2px">
                     La Cité des Voleurs

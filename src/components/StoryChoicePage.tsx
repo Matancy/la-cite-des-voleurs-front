@@ -29,6 +29,13 @@ const StoryChoicePage = () => {
         DirectLinkNode | ChoicesNode | EndNode
     >();
 
+    const retirerPiece = (quantite) => {
+        if (user.gold >= quantite) {
+            user.setGold(user.gold - quantite);
+            localStorage.setItem("character", JSON.stringify(user));
+        }
+    };
+
     useEffect(() => {
         async function fetchData() {
             let temp_node = await getNode(Number(id));
@@ -65,13 +72,6 @@ const StoryChoicePage = () => {
         }
         getImgUrl();
     }, [updatedNode]);
-
-    const retirerPiece = (quantite) => {
-        if (user.gold >= quantite) {
-            user.setCurrentGold(user.gold - quantite);
-            localStorage.setItem("character", JSON.stringify(user));
-        }
-    };
 
     return (
         <div className="p-4 font-Inter text-xl flex flex-col background-old-page overflow-auto min-h-screen">

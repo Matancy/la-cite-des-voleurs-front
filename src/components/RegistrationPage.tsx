@@ -10,6 +10,7 @@ const RegistrationPage = () => {
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [error, setError] = useState<string>("");
+    const passwordSize = 4;
 
     const navigateToMainPage = () => {
         navigate("/");
@@ -21,18 +22,43 @@ const RegistrationPage = () => {
 
     const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
-    };
+    };    
 
-    const connectUser = () => {
-        if (password.length !== 16) {
-            setError("Le mot de passe doit comporter 16 caractères.");
+    const registerUser = () => {
+        if (password.length !== passwordSize) {
+            setError("Le mot de passe doit comporter "+passwordSize+" caractères.");
             return;
         }
 
         let user: User = new User(username, password);
         localStorage.setItem("user", JSON.stringify(user));
-        postRegister(user);
-        navigate("/");
+
+        fetch("http://localhost:3200/user/create", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(user),
+        })
+            .then((response) => {
+                if (response.status === 400) {
+                    setError(
+                        "Ce nom d'utilisateur est déjà utilisé"
+                    );
+                } else if (response.ok) {
+                    postRegister(user);
+                    navigate("/");
+                } else {
+                    setError(
+                        "Une erreur s'est produite lors de la création de compte"
+                    );
+                }
+            })
+            .catch((error) => {
+                setError(
+                    "Une erreur s'est produite lors de la création de compte"
+                );
+            });
     };
 
     const navigateToLogin = () => {
@@ -69,14 +95,14 @@ const RegistrationPage = () => {
                     <input
                         id="password"
                         type="password"
-                        placeholder="Mot de passe (16 caractères)"
-                        maxLength={16}
+                        placeholder={`Mot de passe (au moins ${passwordSize} caractères)`}
+                        maxLength={passwordSize}
                         onChange={handlePasswordChange}
                         className="mb-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-900 focus:border-orange-900 text-lg w-4/5"
                     />
                     {error && <p className="text-red-500 text-sm">{error}</p>}
                     <button
-                        onClick={connectUser}
+                        onClick={registerUser}
                         disabled={!username || !password}
                         className={`${
                             !username || !password

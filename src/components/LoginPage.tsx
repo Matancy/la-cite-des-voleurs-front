@@ -9,24 +9,53 @@ const LoginPage = () => {
 
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [error, setError] = useState<string>("");
 
     const navigateToMainPage = () => {
         navigate("/");
     };
 
-    const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleUsernameChange = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
         setUsername(event.target.value);
     };
 
-    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handlePasswordChange = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
         setPassword(event.target.value);
     };
 
     const connectUser = () => {
         let user: User = new User(username, password);
         localStorage.setItem("user", JSON.stringify(user));
-        postLogin(user);
-        navigate("/");
+
+        fetch("http://localhost:3200/user", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(user),
+        })
+            .then((response) => {
+                if (response.status === 401) {
+                    setError(
+                        "Nom d'utilisateur ou mot de passe incorrect"
+                    );
+                } else if (response.ok) {
+                    navigate("/");
+                } else {
+                    setError(
+                        "Une erreur s'est produite lors de la connexion"
+                    );
+                }
+            })
+            .catch((error) => {
+                setError(
+                    "Une erreur s'est produite lors de la connexion"
+                );
+            });
     };
 
     const navigateToRegistration = () => {
@@ -67,6 +96,9 @@ const LoginPage = () => {
                         onChange={handlePasswordChange}
                         className="mb-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-900 focus:border-orange-900 text-lg w-4/5"
                     />
+                    {error && (
+                        <p className="text-red-500 text-sm">{error}</p>
+                    )}
                     <button
                         onClick={connectUser}
                         disabled={!username || !password}
@@ -78,7 +110,9 @@ const LoginPage = () => {
                     >
                         <h2
                             className={`font-GrenzeGotisch text-stroke-2px text-2xl ${
-                                !username || !password ? "text-gray-300" : "text-white"
+                                !username || !password
+                                    ? "text-gray-300"
+                                    : "text-white"
                             }`}
                         >
                             Se connecter

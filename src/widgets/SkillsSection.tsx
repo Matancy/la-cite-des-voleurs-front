@@ -22,10 +22,6 @@ const SkillsSection = () => {
         );
     };
 
-    const refreshUser = () => {
-        user = JSON.parse(localStorage.getItem("character")!);
-    }
-
     return (
         <div
             className={`bg-black/[.7] rounded-2xl p-2 flex flex-col`}

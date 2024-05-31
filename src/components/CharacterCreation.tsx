@@ -92,8 +92,12 @@ const CharacterCreation = () => {
         let character: Character = new Character(
             { name }.name,
             { habileteTotal }.habileteTotal,
+            { habileteTotal }.habileteTotal,
+            { enduranceTotal }.enduranceTotal,
             { enduranceTotal }.enduranceTotal,
             { chanceTotal }.chanceTotal,
+            { chanceTotal }.chanceTotal,
+            INITIAL_GOLD_AMOUNT,
             INITIAL_GOLD_AMOUNT
         );
         localStorage.setItem("character", JSON.stringify(character));
