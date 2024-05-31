@@ -75,7 +75,9 @@ const DiceRoll: React.FC<
 
         useEffect(() => {
             setTimeout(() => {
-                onTotalChange(total, totalDice, rolling);
+                if (total != 0 && rolling == true) {
+                    onTotalChange(total, totalDice, rolling);
+                }
             }, 3000);
         }, [total, totalDice, rolling]);
 
