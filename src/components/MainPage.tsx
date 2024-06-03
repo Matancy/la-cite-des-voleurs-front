@@ -1,13 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Character } from "../model/Character";
 import { User } from "../model/User";
 import accountImage from "../assets/images/account.png";
 import disconnectImage from "../assets/images/disconnect.png";
+import backgroundMusic from "../assets/music/background.mp3"; // Assurez-vous d'avoir un fichier audio dans ce chemin
+import muteImage from "../assets/images/mute.png";
+import speakerImage from "../assets/images/speaker-filled-audio-tool.png";
 
 export default function MainPage() {
     const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    const [isPlaying, setIsPlaying] = useState<boolean>(false); // Initialement false
+    const audioRef = useRef<HTMLAudioElement>(null);
 
     useEffect(() => {
         const json = localStorage.getItem("user");
@@ -15,6 +20,16 @@ export default function MainPage() {
             setIsLoggedIn(true);
         }
     }, []);
+
+    useEffect(() => {
+        if (audioRef.current) {
+            if (isPlaying) {
+                audioRef.current.play().catch(error => console.log(error));
+            } else {
+                audioRef.current.pause();
+            }
+        }
+    }, [isPlaying]);
 
     const navigateTo = (page: string) => {
         navigate(page);
@@ -46,8 +61,13 @@ export default function MainPage() {
         setIsLoggedIn(false);
     };
 
+    const toggleMusic = () => {
+        setIsPlaying(!isPlaying);
+    };
+
     return (
-        <div className="flex flex-col h-screen background-main-page font-Inter text-xl">
+        <div className="flex flex-col h-screen background-main-page font-Inter text-xl relative">
+            <audio ref={audioRef} src={backgroundMusic} loop />
             {!isLoggedIn && (
                 <div className="w-full flex justify-end items-center px-2 pt-2">
                     <p className="mr-4 text-white">Vous êtes déconnecté</p>
@@ -66,11 +86,7 @@ export default function MainPage() {
                         className="bg-light-gray/[.8] hover:bg-light-gray p-3 rounded-2xl w-14 h-14"
                         onClick={handleLogout}
                     >
-                        <img
-                            src={disconnectImage}
-                            alt="Déconnexion"
-                            className=""
-                        />
+                        <img src={disconnectImage} alt="Déconnexion" className="" />
                     </button>
                 </div>
             )}
@@ -84,12 +100,9 @@ export default function MainPage() {
                             Nouvelle partie
                         </h2>
                         <p className="text-white text-stroke-1px text-2xl">
-                            {user && user.name
-                                ? `Bienvenue ${user.name} !`
-                                : ""}
+                            {user && user.name ? `Bienvenue ${user.name} !` : ""}
                         </p>
                     </div>
-                    {/* @here bonus : vérifie si un personnage est déjà dans le cache ou non, et modifie les actions en conséquences */}
                     <button
                         onClick={
                             !user || !user.name
@@ -115,6 +128,14 @@ export default function MainPage() {
                 >
                     <p>Règles</p>
                 </button>
+            </div>
+            <div className="absolute bottom-4 right-4">
+                <img
+                    src={isPlaying ? speakerImage : muteImage}
+                    alt={isPlaying ? "Couper la musique" : "Jouer la musique"}
+                    className="pointer bg-light-gray/[.8] hover:bg-light-gray rounded-lg mt-3 py-2 px-2 w-12 border-solid border-2 border-black"
+                    onClick={toggleMusic}
+                />
             </div>
         </div>
     );
