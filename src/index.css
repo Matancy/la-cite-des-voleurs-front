@@ -39,3 +39,13 @@
     background-size: cover;
     background-repeat: no-repeat;
 }
+
+body {
+    /* Curseur de base */
+    cursor: url('./assets/images/sword-cursor.png'), default;
+}
+
+/* Curseur pointeur */
+button, .pointer {
+    cursor: url('./assets/images/cursor-gauntlet.png'), auto !important; 
+}
