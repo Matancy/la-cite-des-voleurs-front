@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import backArrowIcon from "../assets/images/back_arrow.png";
-import { postRegister } from "../model/callApi.ts";
 import { User } from "../model/User.ts";
+import { API_URL } from "../model/utils.ts";
 
 const RegistrationPage = () => {
     const navigate = useNavigate();
@@ -34,31 +34,25 @@ const RegistrationPage = () => {
         let user: User = new User(username, password);
         localStorage.setItem("user", JSON.stringify(user));
 
-        fetch("http://localhost:3200/user/create", {
+        fetch(API_URL + "/user/create", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Accept": "*/*",
             },
             body: JSON.stringify(user),
         })
             .then((response) => {
                 if (response.status === 400) {
-                    setError(
-                        "Ce nom d'utilisateur est déjà utilisé"
-                    );
+                    setError("Ce nom d'utilisateur est déjà utilisé");
                 } else if (response.ok) {
-                    postRegister(user);
                     navigate("/");
                 } else {
-                    setError(
-                        "Une erreur s'est produite lors de la création de compte"
-                    );
+                    setError("Une erreur s'est produite lors de la création de compte");
                 }
             })
             .catch((error) => {
-                setError(
-                    "Une erreur s'est produite lors de la création de compte"
-                );
+                setError("Une erreur s'est produite lors de la création de compte");
             });
     };
 

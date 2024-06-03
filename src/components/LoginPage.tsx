@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import backArrowIcon from "../assets/images/back_arrow.png";
 import { postLogin } from "../model/callApi.ts";
 import { User } from "../model/User.ts";
+import { API_URL } from "../model/utils.ts";
 
 const LoginPage = () => {
     const navigate = useNavigate();
@@ -31,7 +32,7 @@ const LoginPage = () => {
         let user: User = new User(username, password);
         localStorage.setItem("user", JSON.stringify(user));
 
-        fetch("http://localhost:3200/user", {
+        fetch(API_URL+"/user", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

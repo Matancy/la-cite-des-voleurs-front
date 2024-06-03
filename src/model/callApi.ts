@@ -54,23 +54,3 @@ export async function postLogin(user: User) {
 
     fetch((API_URL + `/user`), requestOptions).then(response => console.log(response));
 }
-
-export async function postRegister(user: User) {
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
-    };
-
-    fetch((API_URL + `/user/create`), requestOptions).then(response => console.log(response));
-}
-
-export async function postSave(save) {
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(save)
-    };
-
-    fetch((API_URL + `/user/update`), requestOptions).then(response => console.log(response));
-}
