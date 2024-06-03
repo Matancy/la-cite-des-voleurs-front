@@ -11,6 +11,7 @@ const RegistrationPage = () => {
     const [password, setPassword] = useState<string>("");
     const [error, setError] = useState<string>("");
     const passwordSize = 4;
+    const maxPasswordSize = 16;
 
     const navigateToMainPage = () => {
         navigate("/");
@@ -25,8 +26,8 @@ const RegistrationPage = () => {
     };    
 
     const registerUser = () => {
-        if (password.length !== passwordSize) {
-            setError("Le mot de passe doit comporter "+passwordSize+" caractères.");
+        if (password.length < passwordSize) {
+            setError("Le mot de passe doit comporter au moins "+passwordSize+" caractères.");
             return;
         }
 
@@ -96,7 +97,8 @@ const RegistrationPage = () => {
                         id="password"
                         type="password"
                         placeholder={`Mot de passe (au moins ${passwordSize} caractères)`}
-                        maxLength={passwordSize}
+                        minLength={passwordSize}
+                        maxLength={maxPasswordSize}
                         onChange={handlePasswordChange}
                         className="mb-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-900 focus:border-orange-900 text-lg w-4/5"
                     />

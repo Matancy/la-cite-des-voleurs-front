@@ -79,9 +79,11 @@ const LoginPage = () => {
             </div>
             <div className="flex flex-grow items-center justify-center">
                 <div className="bg-light-gray/[.8] w-1/3 flex flex-col items-center justify-center p-4 rounded-lg">
-                    <h1 className="font-GrenzeGotisch text-white text-stroke-2px text-5xl mb-4">
+                    <h1 className="font-GrenzeGotisch text-white text-stroke-2px text-5xl mb-2">
                         Connexion
                     </h1>
+                    <p className="text-red-600 text-center">Attention</p>
+                    <p className="mb-4 text-center">Si vous avez une histoire en cours, elle sera écrasée par celle présente sur votre compte.</p>
                     <input
                         id="username"
                         type="text"

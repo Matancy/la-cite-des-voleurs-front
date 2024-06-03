@@ -8,6 +8,7 @@ import { DirectLinkNode } from './DirectLinkNode.ts';
 import { FightNode } from './FightNode.ts';
 import { Character } from './Character.ts';
 import { User } from './User.ts';
+import { Save } from "./Save.ts";
 
 export async function getNode(index: number): Promise<ChoicesNode | DiceNode | DirectLinkNode | EndNode | FightNode | undefined> {
     const response = await fetch(API_URL + `/nodes/${index}`).then(response => response.json());
@@ -62,4 +63,14 @@ export async function postRegister(user: User) {
     };
 
     fetch((API_URL + `/user/create`), requestOptions).then(response => console.log(response));
+}
+
+export async function postSave(save) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(save)
+    };
+
+    fetch((API_URL + `/user/update`), requestOptions).then(response => console.log(response));
 }

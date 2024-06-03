@@ -7,7 +7,10 @@ import Dice from "../widgets/dice/Dice.tsx";
 import backArrowIcon from "../assets/images/back_arrow.png";
 import { useNavigate } from "react-router-dom";
 import { postCharacter } from "../model/callApi.ts";
+import { postSave } from "../model/callApi.ts";
 import { Character } from "../model/Character.ts";
+import { Save } from "../model/Save.ts";
+import { User } from "../model/User.ts";
 
 const INITIAL_GOLD_AMOUNT = 30;
 
@@ -87,6 +90,14 @@ const CharacterCreation = () => {
         navigate("/");
     };
 
+    let json = localStorage.getItem("user");
+    let userAccount: User | null = null;
+    if (json === null) {
+        userAccount = null;
+    } else {
+        userAccount = JSON.parse(json!);
+    }
+
     //@here
     const createCharacter = () => {
         let character: Character = new Character(
@@ -97,12 +108,42 @@ const CharacterCreation = () => {
             { enduranceTotal }.enduranceTotal,
             { chanceTotal }.chanceTotal,
             { chanceTotal }.chanceTotal,
-            INITIAL_GOLD_AMOUNT,
             INITIAL_GOLD_AMOUNT
         );
         localStorage.setItem("character", JSON.stringify(character));
         postCharacter(character);
         navigate("/story-choice/1");
+
+        if (userAccount !== null) {
+            createSave();
+        }
+    };
+
+    const createSave = () => {
+        if (userAccount !== null) {
+            let saveData = {
+                nom: { name }.name,
+                habileteTotal: { habileteTotal }.habileteTotal,
+                currentHabilete: { habileteTotal }.habileteTotal,
+                enduranceTotal: { enduranceTotal }.enduranceTotal,
+                currentEndurance: { enduranceTotal }.enduranceTotal,
+                chanceTotal: { chanceTotal }.chanceTotal,
+                currentChance: { chanceTotal }.chanceTotal,
+                or: INITIAL_GOLD_AMOUNT,
+                currentNode: 0,
+                path: []
+            };
+    
+            let save = {
+                id: userAccount.id,
+                data: saveData
+            };
+
+            console.log(save);
+    
+            localStorage.setItem("save", JSON.stringify(save));
+            postSave(save);
+        }
     };
 
     return (

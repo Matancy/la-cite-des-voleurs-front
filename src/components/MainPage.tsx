@@ -42,13 +42,14 @@ export default function MainPage() {
 
     const handleLogout = () => {
         localStorage.removeItem("user");
+        localStorage.removeItem("character");
         setIsLoggedIn(false);
     };
 
     return (
         <div className="flex flex-col h-screen background-main-page font-Inter text-xl">
             {!isLoggedIn && (
-                <div className="w-full flex justify-end items-center px-2 py-2">
+                <div className="w-full flex justify-end items-center px-2 pt-2">
                     <p className="mr-4 text-white">Vous êtes déconnecté</p>
                     <button
                         className="bg-light-gray/[.8] hover:bg-light-gray p-3 rounded-2xl w-14 h-14"
