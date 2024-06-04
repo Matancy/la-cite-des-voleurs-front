@@ -11,6 +11,7 @@ import Rules from "./components/Rules.tsx";
 import MainPage from "./components/MainPage.tsx";
 import './index.css';
 import Died from "./components/Died.tsx";
+import RiddlePage from "./components/StoryRiddlePage.tsx";
 
 export default function Main() {
     return (
@@ -22,6 +23,7 @@ export default function Main() {
                 <Route path="/character-creation" element={<CharacterCreation />}></Route>
                 <Route path="/story-choice/:id" element={<StoryChoicePage />}></Route>
                 <Route path="/story-fight/:id" element={<StoryFightPage />}></Route>
+                <Route path="/story-riddle/:id" element={<RiddlePage />}></Route>
                 <Route path="/story-luck/:id" element={<StoryLuckPage />}></Route>
                 <Route path="/login" element={<LoginPage />}></Route>
                 <Route path="/register" element={<RegistrationPage />}></Route>

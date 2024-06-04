@@ -178,6 +178,9 @@ const StoryLuckPage = () => {
                                                 updatedNode?.action.fail.id
                                             );
                                             break;
+                                        case "riddle":
+                                                navigate("/story-riddle/" + updatedNode?.action.fail.id);
+                                                break;
                                         default:
                                             navigate("/");
                                             break;
