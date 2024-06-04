@@ -164,7 +164,7 @@ const DiceRoll: React.FC<DiceRollProps & {
                     } ${margin} `}
             >
                 <p className={`${rolling ? "cursor-not-allowed" : ""}`}>
-                    Lancer dé
+                        {numberOfDice >= 2 ? "Lancer dés" : "Lancer dé"}
                 </p>
             </button>
         </div>
