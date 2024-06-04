@@ -40,8 +40,4 @@ export class Character {
             json.gold
         );
     }
-
-    setGold(value: number): void {
-        this.gold = value;
-    }
 }

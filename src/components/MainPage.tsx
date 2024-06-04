@@ -43,6 +43,27 @@ export default function MainPage() {
         user = JSON.parse(json!);
     }
 
+    let save: any = JSON.parse(localStorage.getItem("save")!);
+
+    let numNode;
+    let typeNode;
+
+    if (save && user) {
+        numNode = save.save.currentNode;
+        typeNode = save.save.currentNodeType;
+
+        if (typeNode === "dice") {
+            typeNode = "luck";
+        } else if (typeNode === 'end') {
+            typeNode = 'choice';
+        } else if (typeNode === undefined) {
+            typeNode = 'choice';
+        }
+    } else {
+        typeNode = 'choice';
+        numNode = 1;
+    }
+
     json = localStorage.getItem("user");
     let userAccount: User | null = null;
     if (json === null) {
@@ -58,6 +79,7 @@ export default function MainPage() {
     const handleLogout = () => {
         localStorage.removeItem("user");
         localStorage.removeItem("character");
+        localStorage.removeItem("save");
         setIsLoggedIn(false);
     };
 
@@ -113,7 +135,10 @@ export default function MainPage() {
                         onClick={
                             !user || !user.name
                                 ? () => navigateTo("/character-creation")
-                                : () => navigateTo("/story-choice/1")
+                                : () =>
+                                      navigateTo(
+                                          "/story-" + typeNode + "/" + numNode
+                                      )
                         }
                         className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg px-3 py-1 mb-3 border-solid border-2 border-black"
                     >

@@ -1,31 +1,35 @@
 import React, { useState } from "react";
 import ProgressBar from "./progressBar.tsx";
-import statsIcon from "../assets/images/stats.png";
-import hiddenStatsIcon from "../assets/images/hide_stats.png";
 import piece from "../assets/images/gold-piece.png";
 import { useNavigate } from "react-router-dom";
 
 const SkillsSection = () => {
-    const [isVisible, setIsVisible] = useState(false);
-    const [iconSrc, setIconSrc] = useState(statsIcon);
-    let user: Character | null = JSON.parse(localStorage.getItem("character")!);
     const navigate = useNavigate();
+
+    let save: any = JSON.parse(localStorage.getItem("save")!);
+    let user: any | null = null;
+
+    if (save) {
+        user = {
+            currentHability: save.save.currentHabilete,
+            currentLuck: save.save.currentChance,
+            currentStamina: save.save.currentEndurance,
+            gold: save.save.or,
+            hability: save.save.habileteTotal,
+            luck: save.save.chanceTotal,
+            name: save.save.nom,
+            stamina: save.save.enduranceTotal,
+        };
+    } else {
+        user = JSON.parse(localStorage.getItem("character")!);
+    }
 
     if (!user) {
         navigate("/character-creation");
     }
 
-    const toggleVisibility = () => {
-        setIsVisible((prevState) => !prevState); // Utilisation de la fonction de mise à jour de l'état
-        setIconSrc((prevIconSrc) =>
-            prevIconSrc === statsIcon ? hiddenStatsIcon : statsIcon
-        );
-    };
-
     return (
-        <div
-            className={`bg-black/[.7] rounded-2xl p-2 flex flex-col`}
-        >
+        <div className={`bg-black/[.7] rounded-2xl p-2 flex flex-col`}>
             <div className="text-white flex justify-between">
                 <p>{user.name}</p>
                 <div className="self-end mr-2 mb-2 flex items-center">
@@ -33,9 +37,7 @@ const SkillsSection = () => {
                     <img src={piece} alt="Back" className="w-4 h-4 ml-2" />
                 </div>
             </div>
-            <div
-                className={`mb-2 flex items-center`}
-            >
+            <div className={`mb-2 flex items-center`}>
                 <div className="w-32 mr-2">
                     <span className="text-white">Habileté :</span>
                 </div>
@@ -49,9 +51,7 @@ const SkillsSection = () => {
                     />
                 </div>
             </div>
-            <div
-                className={`mb-2 flex items-center`}
-            >
+            <div className={`mb-2 flex items-center`}>
                 <div className="w-32 mr-2">
                     <span className="text-white">Endurance :</span>
                 </div>
@@ -65,9 +65,7 @@ const SkillsSection = () => {
                     />
                 </div>
             </div>
-            <div
-                className={`flex items-center`}
-            >
+            <div className={`flex items-center`}>
                 <div className="w-32 mr-2">
                     <span className="text-white">Chance :</span>
                 </div>

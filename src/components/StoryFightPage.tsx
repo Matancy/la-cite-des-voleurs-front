@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Character } from "../model/Character.ts";
 import { API_URL } from "../model/utils.ts";
 import LeftStorySection from "../widgets/LeftStorySection.tsx";
+import { postSave } from "../model/callApi.ts";
 
 const StoryFightPage = () => {
     const params = useParams();
@@ -19,10 +20,8 @@ const StoryFightPage = () => {
         navigate("/");
     }
 
-    let user: Character = JSON.parse(json!);
     const [playerAttack, setPlayerAttack] = useState<number>(0);
     const [monsterAttack, setMonsterAttack] = useState<number>(0);
-    const [playerLife, setPlayerLife] = useState<number>(user.stamina);
     const [rollingOne, setRollingOne] = useState(false);
     const [rollingTwo, setRollingTwo] = useState(false);
     const [diceOneRolling, setDiceOneRolling] = useState(false);
@@ -37,6 +36,63 @@ const StoryFightPage = () => {
     const [monsterLife, setMonsterLife] = useState<number>(
         updatedNode?.foeStamina
     );
+
+    let save: any = JSON.parse(localStorage.getItem("save")!);
+    let user: any | null = null;
+
+    let username;
+    let savePath;
+    let difficulty;
+
+    if (save) {
+        username = save.id;
+        savePath = save.save.path;
+        difficulty = save.save.difficulty;
+
+        user = {
+            currentHability: save.save.currentHabilete,
+            currentLuck: save.save.currentChance,
+            currentStamina: save.save.currentEndurance,
+            gold: save.save.or,
+            hability: save.save.habileteTotal,
+            luck: save.save.chanceTotal,
+            name: save.save.nom,
+            stamina: save.save.enduranceTotal,
+        };
+    } else {
+        user = Character.fromJson(JSON.parse(json!));
+    }
+
+    const [playerLife, setPlayerLife] = useState<number>(user.stamina);
+
+    const saveUser = (link, playerLife) => {
+        if (username) {
+            savePath.push(link.id);
+        }
+
+        let saveData = {
+            nom: user.name,
+            habileteTotal: user.hability,
+            currentHabilete: user.currentHability,
+            enduranceTotal: user.stamina,
+            currentEndurance: playerLife,
+            chanceTotal: user.luck,
+            currentChance: user.currentLuck,
+            or: user.gold,
+            currentNode: link.id,
+            path: savePath,
+            difficulty: difficulty,
+            currentNodeType: link.type
+        };
+
+        let save = {
+            id: username,
+            save: saveData,
+        };
+
+        localStorage.setItem("save", JSON.stringify(save));
+        postSave(save);
+    };
 
     useEffect(() => {
         checkResetRolling();
@@ -64,23 +120,12 @@ const StoryFightPage = () => {
         if (diceOneHasRolled && diceTwoHasRolled) {
             setAllowUpdateLife(true);
             if (monsterLife > 0 && playerLife > 0) {
-                console.log("reset");
                 setRollingOne(false);
                 setRollingTwo(false);
                 setDiceOneHasRolled(false);
                 setDiceTwoHasRolled(false);
             }
-        } else {
-            console.log("not reset");
         }
-        console.log(
-            "diceOneHasRolled " +
-                diceOneHasRolled +
-                " diceTwoHasRolled " +
-                diceTwoHasRolled +
-                " allowUpdateLife " +
-                allowUpdateLife
-        );
     };
 
     useEffect(() => {
@@ -151,7 +196,6 @@ const StoryFightPage = () => {
     }, [updatedNode?.foeStamina]);
 
     useEffect(() => {
-        console.log(allowUpdateLife);
         if (allowUpdateLife) {
             if (playerAttack > 0 && monsterAttack > 0) {
                 if (playerAttack > monsterAttack) {
@@ -251,6 +295,7 @@ const StoryFightPage = () => {
                                     : "hover:bg-gray-400"
                             }`}
                             onClick={() => {
+                                saveUser(updatedNode?.links, playerLife);
                                 switch (updatedNode?.links.type) {
                                     case "choice":
                                     case "end":

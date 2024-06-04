@@ -7,6 +7,7 @@ import { DiceNode } from "../model/DiceNode.ts";
 import { API_URL } from "../model/utils.ts";
 import { Character } from "../model/Character.ts";
 import LeftStorySection from "../widgets/LeftStorySection.tsx";
+import { postSave } from "../model/callApi.ts";
 
 const StoryLuckPage = () => {
     const params = useParams();
@@ -18,16 +19,69 @@ const StoryLuckPage = () => {
     const navigate = useNavigate();
     let json = localStorage.getItem("character");
 
+    let save: any = JSON.parse(localStorage.getItem("save")!);
+    let user: any | null = null;
+
+    let username;
+    let savePath;
+    let difficulty;
+
+    if (save) {
+        username = save.id;
+        savePath = save.save.path;
+        difficulty = save.save.difficulty;
+
+        user = {
+            currentHability: save.save.currentHabilete,
+            currentLuck: save.save.currentChance,
+            currentStamina: save.save.currentEndurance,
+            gold: save.save.or,
+            hability: save.save.habileteTotal,
+            luck: save.save.chanceTotal,
+            name: save.save.nom,
+            stamina: save.save.enduranceTotal,
+        };
+    } else {
+        user = Character.fromJson(JSON.parse(json!));
+    }
+
+    const saveUser = (link) => {
+        if (username) {
+            savePath.push(link.id);
+        }
+
+        let saveData = {
+            nom: user.name,
+            habileteTotal: user.hability,
+            currentHabilete: user.currentHability,
+            enduranceTotal: user.stamina,
+            currentEndurance: user.currentStamina,
+            chanceTotal: user.luck,
+            currentChance: user.currentLuck - 1,
+            or: user.gold,
+            currentNode: link.id,
+            path: savePath,
+            difficulty: difficulty,
+            currentNodeType: link.type
+        };
+
+        let save = {
+            id: username,
+            save: saveData,
+        };
+
+        localStorage.setItem("save", JSON.stringify(save));
+        postSave(save);
+    };
+
     if (json === null) {
         navigate("/");
     }
 
-    let user: Character = JSON.parse(json!);
     const [imageUrl, setImageUrl] = useState<string>("");
 
     const handleChance = (total: number) => {
         // Comparer le total du dé avec la chance du joueur
-        console.log(total);
         if (total !== 0) {
             setRollingOne(true);
             if (total <= user.luck) {
@@ -45,7 +99,6 @@ const StoryLuckPage = () => {
             setIsSuccessActive(false);
             setIsFailActive(false);
             setRollingOne(false);
-            console.log("useffect id")
         }, 1000);
     }, [id]);
 
@@ -96,7 +149,9 @@ const StoryLuckPage = () => {
                         </h2>
                         <div
                             className="w-4/5 m-auto"
-                            dangerouslySetInnerHTML={{ __html: updatedNode?.text }}
+                            dangerouslySetInnerHTML={{
+                                __html: updatedNode?.text,
+                            }}
                         />
                         <Dice
                             rolling={rollingOne}
@@ -110,31 +165,36 @@ const StoryLuckPage = () => {
                         />
                         <div className="flex justify-evenly">
                             <button
-                                className={`bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded h-min ${isSuccessActive
-                                    ? "hover:bg-gray-400"
-                                    : "opacity-50 cursor-not-allowed hover:bg-gray-300"
-                                    }`}
+                                className={`bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded h-min ${
+                                    isSuccessActive
+                                        ? "hover:bg-gray-400"
+                                        : "opacity-50 cursor-not-allowed hover:bg-gray-300"
+                                }`}
                                 disabled={!isSuccessActive}
                                 onClick={() => {
+                                    saveUser(updatedNode?.action.success);
                                     switch (updatedNode?.action.success.type) {
                                         case "choice":
                                         case "end":
                                         case "directLink":
                                             navigate(
                                                 "/story-choice/" +
-                                                updatedNode?.action.success.id
+                                                    updatedNode?.action.success
+                                                        .id
                                             );
                                             break;
                                         case "dice":
                                             navigate(
                                                 "/story-luck/" +
-                                                updatedNode?.action.success.id
+                                                    updatedNode?.action.success
+                                                        .id
                                             );
                                             break;
                                         case "fight":
                                             navigate(
                                                 "/story-fight/" +
-                                                updatedNode?.action.success.id
+                                                    updatedNode?.action.success
+                                                        .id
                                             );
                                             break;
                                         default:
@@ -144,38 +204,43 @@ const StoryLuckPage = () => {
                                 }}
                             >
                                 <p
-                                    className={`${isSuccessActive ? "" : "cursor-not-allowed"
-                                        }`}
+                                    className={`${
+                                        isSuccessActive
+                                            ? ""
+                                            : "cursor-not-allowed"
+                                    }`}
                                 >
                                     Aller à {updatedNode?.action.success.id}
                                 </p>
                             </button>
                             <button
-                                className={`bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded h-min ${isFailActive
-                                    ? "hover:bg-gray-400"
-                                    : "opacity-50 cursor-not-allowed hover:bg-gray-300"
-                                    }`}
+                                className={`bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded h-min ${
+                                    isFailActive
+                                        ? "hover:bg-gray-400"
+                                        : "opacity-50 cursor-not-allowed hover:bg-gray-300"
+                                }`}
                                 disabled={!isFailActive}
                                 onClick={() => {
+                                    saveUser(updatedNode?.action.fail);
                                     switch (updatedNode?.action.fail.type) {
                                         case "choice":
                                         case "end":
                                         case "directLink":
                                             navigate(
                                                 "/story-choice/" +
-                                                updatedNode?.action.fail.id
+                                                    updatedNode?.action.fail.id
                                             );
                                             break;
                                         case "dice":
                                             navigate(
                                                 "/story-luck/" +
-                                                updatedNode?.action.fail.id
+                                                    updatedNode?.action.fail.id
                                             );
                                             break;
                                         case "fight":
                                             navigate(
                                                 "/story-fight/" +
-                                                updatedNode?.action.fail.id
+                                                    updatedNode?.action.fail.id
                                             );
                                             break;
                                         default:
@@ -186,8 +251,9 @@ const StoryLuckPage = () => {
                                 }}
                             >
                                 <p
-                                    className={`${isFailActive ? "" : "cursor-not-allowed"
-                                        }`}
+                                    className={`${
+                                        isFailActive ? "" : "cursor-not-allowed"
+                                    }`}
                                 >
                                     Aller à {updatedNode?.action.fail.id}
                                 </p>

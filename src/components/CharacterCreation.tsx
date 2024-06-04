@@ -14,7 +14,8 @@ const CharacterCreation = () => {
     const [enduranceTotal, setEnduranceTotal] = useState<number>(0);
     const [enduranceTotalDice, setEnduranceTotalDice] = useState<number>(0);
     const [enduranceNumberDice, setEnduranceNumberDice] = useState<number>(2);
-    const [enduranceAdjustScore, setEnduranceAdjustScore] = useState<number>(12);
+    const [enduranceAdjustScore, setEnduranceAdjustScore] =
+        useState<number>(12);
     const [rollingEndurance, setRollingEndurance] = useState<boolean>(false);
 
     const [habileteTotal, setHabileteTotal] = useState<number>(0);
@@ -83,7 +84,6 @@ const CharacterCreation = () => {
         setEnduranceTotal(0);
         setHabileteTotal(0);
     };
-    
 
     const handleDifficultyChange = (newDifficulty: string) => {
         resetDice(); // Réinitialiser les dés
@@ -93,40 +93,40 @@ const CharacterCreation = () => {
             case "easy":
                 setHabileteNumberDice(3); // Changer le nombre de dés
                 setHabileteAdjustScore(6); // Changer le score d'ajustement
-    
-                setEnduranceNumberDice(2)
+
+                setEnduranceNumberDice(2);
                 setEnduranceAdjustScore(12);
-    
+
                 setChanceNumberDice(2);
                 setChanceAdjustScore(6);
                 break;
             case "normal":
                 setHabileteNumberDice(1);
                 setHabileteAdjustScore(6);
-    
-                setEnduranceNumberDice(2)
+
+                setEnduranceNumberDice(2);
                 setEnduranceAdjustScore(12);
-    
+
                 setChanceNumberDice(1);
                 setChanceAdjustScore(6);
                 break;
             case "hard":
                 setHabileteNumberDice(1);
                 setHabileteAdjustScore(6);
-    
-                setEnduranceNumberDice(1)
+
+                setEnduranceNumberDice(1);
                 setEnduranceAdjustScore(6);
-    
+
                 setChanceNumberDice(1);
                 setChanceAdjustScore(0);
                 break;
             case "eco":
                 setHabileteNumberDice(1);
                 setHabileteAdjustScore(0);
-    
-                setEnduranceNumberDice(1)
+
+                setEnduranceNumberDice(1);
                 setEnduranceAdjustScore(0);
-        
+
                 setChanceNumberDice(1);
                 setChanceAdjustScore(0);
                 break;
@@ -134,8 +134,6 @@ const CharacterCreation = () => {
                 break;
         }
     };
-    
-    
 
     useEffect(() => {
         if (
@@ -162,8 +160,6 @@ const CharacterCreation = () => {
         userAccount = JSON.parse(json!);
     }
 
-    
-
     const createCharacter = () => {
         let character: Character = new Character(
             { name }.name,
@@ -171,6 +167,7 @@ const CharacterCreation = () => {
             { habileteTotal }.habileteTotal,
             { enduranceTotal }.enduranceTotal,
             { enduranceTotal }.enduranceTotal,
+            { chanceTotal }.chanceTotal,
             { chanceTotal }.chanceTotal,
             INITIAL_GOLD_AMOUNT,
             difficulty
@@ -196,17 +193,16 @@ const CharacterCreation = () => {
                 currentChance: { chanceTotal }.chanceTotal,
                 or: INITIAL_GOLD_AMOUNT,
                 currentNode: 0,
-                path: [],
-                difficulty
-            };
-    
-            let save = {
-                id: userAccount.id,
-                save: saveData
+                path: ['1'],
+                difficulty,
+                currentNodeType: 'choice'
             };
 
-            console.log(save);
-    
+            let save = {
+                id: userAccount.id,
+                save: saveData,
+            };
+
             localStorage.setItem("save", JSON.stringify(save));
             postSave(save);
         }
@@ -232,8 +228,8 @@ const CharacterCreation = () => {
                         id="name"
                     />
                 </div>
-                 {/* Interface pour modifier la difficulté */}
-                 <div className="bg-light-gray/[.8] rounded-3xl w-full h-min flex flex-col items-center py-2 mb-3">
+                {/* Interface pour modifier la difficulté */}
+                <div className="bg-light-gray/[.8] rounded-3xl w-full h-min flex flex-col items-center py-2 mb-3">
                     <h1 className="font-GrenzeGotisch text-white text-stroke-2px text-4xl text-center mb-2">
                         Difficulté
                     </h1>
@@ -268,19 +264,18 @@ const CharacterCreation = () => {
                         >
                             Difficile
                         </button>
-                        { name === "Genaivre" && (
+                        {name === "Genaivre" && (
                             <button
-                            className={`rounded-3xl px-4 py-2 mx-2 ${
-                                difficulty === "eco"
-                                    ? "bg-black text-white"
-                                    : "bg-light-gray text-gray-800"
-                            }`}
-                            onClick={() => handleDifficultyChange("eco")}
-                        >
-                            Eco (Ultra Hardcore)
-                        </button>
+                                className={`rounded-3xl px-4 py-2 mx-2 ${
+                                    difficulty === "eco"
+                                        ? "bg-black text-white"
+                                        : "bg-light-gray text-gray-800"
+                                }`}
+                                onClick={() => handleDifficultyChange("eco")}
+                            >
+                                Eco (Ultra Hardcore)
+                            </button>
                         )}
-
                     </div>
                 </div>
                 <div className="bg-light-gray/[.8] rounded-3xl w-full h-min flex justify-between items-center py-2 mb-3">
@@ -393,6 +388,3 @@ const CharacterCreation = () => {
     );
 };
 export default CharacterCreation;
-
-
-

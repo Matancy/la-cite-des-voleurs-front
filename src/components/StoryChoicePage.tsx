@@ -10,6 +10,7 @@ import { API_URL } from "../model/utils.ts";
 import { Character } from "../model/Character.ts";
 import SkillsSection from "../widgets/SkillsSection.tsx";
 import piece from "../assets/images/gold-piece.png";
+import { postSave } from "../model/callApi.ts";
 
 const StoryChoicePage = () => {
     const [imageUrl, setImageUrl] = useState<string>("");
@@ -22,19 +23,72 @@ const StoryChoicePage = () => {
         navigate("/");
     }
 
-    let user: Character = Character.fromJson(JSON.parse(json!));
+    let save: any = JSON.parse(localStorage.getItem("save")!);
+    let user: any | null = null;
+
+    let username;
+    let savePath;
+    let difficulty;
+
+    if (save) {
+        username = save.id;
+        savePath = save.save.path;
+        difficulty = save.save.difficulty;
+
+        user = {
+            currentHability: save.save.currentHabilete,
+            currentLuck: save.save.currentChance,
+            currentStamina: save.save.currentEndurance,
+            gold: save.save.or,
+            hability: save.save.habileteTotal,
+            luck: save.save.chanceTotal,
+            name: save.save.nom,
+            stamina: save.save.enduranceTotal,
+        };
+    } else {
+        user = Character.fromJson(JSON.parse(json!));
+    }
+
+    const saveUser = (link) => {
+        let or = user.gold;
+
+        if (link.cost !== 0 && link.cost !== undefined) {
+            or -= link.cost;
+        }
+
+        if (username) {
+            savePath.push(link.id);
+        }
+
+        let saveData = {
+            nom: user.name,
+            habileteTotal: user.hability,
+            currentHabilete: user.currentHability,
+            enduranceTotal: user.stamina,
+            currentEndurance: user.currentStamina,
+            chanceTotal: user.luck,
+            currentChance: user.currentLuck,
+            or: or,
+            currentNode: link.id,
+            path: savePath,
+            difficulty: difficulty,
+            currentNodeType: link.type
+        };
+
+        let save = {
+            id: username,
+            save: saveData,
+        };
+
+        localStorage.setItem("save", JSON.stringify(save));
+        postSave(save);
+    };
+
     let node: DirectLinkNode | ChoicesNode | EndNode;
 
     const [updatedNode, setUpdatedNode] = useState<
         DirectLinkNode | ChoicesNode | EndNode
     >();
-
-    const retirerPiece = (quantite) => {
-        if (user.gold >= quantite) {
-            user.setGold(user.gold - quantite);
-            localStorage.setItem("character", JSON.stringify(user));
-        }
-    };
 
     useEffect(() => {
         async function fetchData() {
@@ -111,9 +165,7 @@ const StoryChoicePage = () => {
                                     <button
                                         key={index}
                                         onClick={() => {
-                                            if (link.cost > 0) {
-                                                retirerPiece(link.cost);
-                                            }
+                                            saveUser(link);
                                             switch (link.type) {
                                                 case "choice":
                                                 case "end":
