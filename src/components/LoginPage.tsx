@@ -28,18 +28,18 @@ const LoginPage = () => {
         setPassword(event.target.value);
     };
 
-    const connectUser = () => {
+    const connectUser = async () => {
         let user: User = new User(username, password);
         localStorage.setItem("user", JSON.stringify(user));
 
-        fetch(API_URL + "/user", {
+        await fetch(API_URL+"/user", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(user),
         })
-            .then((response) => {
+            .then(async (response) => {
                 if (response.status === 401) {
                     setError("Nom d'utilisateur ou mot de passe incorrect");
                 } else if (response.ok) {
