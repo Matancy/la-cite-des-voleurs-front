@@ -172,8 +172,8 @@ const CharacterCreation = () => {
             { enduranceTotal }.enduranceTotal,
             { enduranceTotal }.enduranceTotal,
             { chanceTotal }.chanceTotal,
-            INITIAL_GOLD_AMOUNT,
-            difficulty
+            { chanceTotal }.chanceTotal,
+            INITIAL_GOLD_AMOUNT
         );
         localStorage.setItem("character", JSON.stringify(character));
         postCharacter(character);
