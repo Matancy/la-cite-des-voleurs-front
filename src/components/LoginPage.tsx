@@ -32,7 +32,7 @@ const LoginPage = () => {
         let user: User = new User(username, password);
         localStorage.setItem("user", JSON.stringify(user));
 
-        fetch(API_URL+"/user", {
+        fetch(API_URL + "/user", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -41,21 +41,15 @@ const LoginPage = () => {
         })
             .then((response) => {
                 if (response.status === 401) {
-                    setError(
-                        "Nom d'utilisateur ou mot de passe incorrect"
-                    );
+                    setError("Nom d'utilisateur ou mot de passe incorrect");
                 } else if (response.ok) {
                     navigate("/");
                 } else {
-                    setError(
-                        "Une erreur s'est produite lors de la connexion"
-                    );
+                    setError("Une erreur s'est produite lors de la connexion");
                 }
             })
             .catch((error) => {
-                setError(
-                    "Une erreur s'est produite lors de la connexion"
-                );
+                setError("Une erreur s'est produite lors de la connexion");
             });
     };
 
@@ -84,7 +78,10 @@ const LoginPage = () => {
                         Connexion
                     </h1>
                     <p className="text-red-600 text-center">Attention</p>
-                    <p className="mb-4 text-center">Si vous avez une histoire en cours, elle sera écrasée par celle présente sur votre compte.</p>
+                    <p className="mb-4 text-center">
+                        Si vous avez une histoire en cours, elle sera écrasée
+                        par celle présente sur votre compte.
+                    </p>
                     <input
                         id="username"
                         type="text"
@@ -99,9 +96,7 @@ const LoginPage = () => {
                         onChange={handlePasswordChange}
                         className="mb-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-900 focus:border-orange-900 text-lg w-4/5"
                     />
-                    {error && (
-                        <p className="text-red-500 text-sm">{error}</p>
-                    )}
+                    {error && <p className="text-red-500 text-sm">{error}</p>}
                     <button
                         onClick={connectUser}
                         disabled={!username || !password}

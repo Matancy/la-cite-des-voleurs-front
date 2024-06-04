@@ -10,6 +10,7 @@ export class Save {
     gold: number;
     currentNode: number;
     path: number[];
+    difficulty: string;
 
     constructor(
         identifiant: string,
@@ -23,6 +24,7 @@ export class Save {
         gold: number,
         currentNode: number,
         path: number[],
+        difficulty: string
     ) {
         this.identifiant = identifiant;
         this.name = name;
@@ -35,5 +37,6 @@ export class Save {
         this.gold = gold;
         this.currentNode = currentNode;
         this.path = path;
+        this.difficulty = difficulty;
     }
 }

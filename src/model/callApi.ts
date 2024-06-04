@@ -55,7 +55,7 @@ export async function postLogin(user: User) {
     fetch((API_URL + `/user`), requestOptions).then(response => console.log(response));
 }
 
-export async function postSave(save: Save) {
+export async function postSave(save: {id: string, save: Save}) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

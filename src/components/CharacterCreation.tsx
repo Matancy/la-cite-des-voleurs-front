@@ -196,12 +196,13 @@ const CharacterCreation = () => {
                 currentChance: { chanceTotal }.chanceTotal,
                 or: INITIAL_GOLD_AMOUNT,
                 currentNode: 0,
-                path: []
+                path: [],
+                difficulty
             };
     
             let save = {
                 id: userAccount.id,
-                data: saveData
+                save: saveData
             };
 
             console.log(save);

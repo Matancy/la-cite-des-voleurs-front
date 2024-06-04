@@ -4,7 +4,7 @@ import { Character } from "../model/Character";
 import { User } from "../model/User";
 import accountImage from "../assets/images/account.png";
 import disconnectImage from "../assets/images/disconnect.png";
-import backgroundMusic from "../assets/music/background.mp3"; // Assurez-vous d'avoir un fichier audio dans ce chemin
+import backgroundMusic from "../assets/music/background.mp3";
 import muteImage from "../assets/images/mute.png";
 import speakerImage from "../assets/images/speaker-filled-audio-tool.png";
 
@@ -24,7 +24,7 @@ export default function MainPage() {
     useEffect(() => {
         if (audioRef.current) {
             if (isPlaying) {
-                audioRef.current.play().catch(error => console.log(error));
+                audioRef.current.play().catch((error) => console.log(error));
             } else {
                 audioRef.current.pause();
             }
@@ -86,7 +86,11 @@ export default function MainPage() {
                         className="bg-light-gray/[.8] hover:bg-light-gray p-3 rounded-2xl w-14 h-14"
                         onClick={handleLogout}
                     >
-                        <img src={disconnectImage} alt="Déconnexion" className="" />
+                        <img
+                            src={disconnectImage}
+                            alt="Déconnexion"
+                            className=""
+                        />
                     </button>
                 </div>
             )}
@@ -100,7 +104,9 @@ export default function MainPage() {
                             Nouvelle partie
                         </h2>
                         <p className="text-white text-stroke-1px text-2xl">
-                            {user && user.name ? `Bienvenue ${user.name} !` : ""}
+                            {user && user.name
+                                ? `Bienvenue ${user.name} !`
+                                : ""}
                         </p>
                     </div>
                     <button
