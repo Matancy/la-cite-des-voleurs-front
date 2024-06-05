@@ -176,7 +176,8 @@ const CharacterCreation = () => {
             INITIAL_GOLD_AMOUNT,
             ['1'],
             1,
-            'choice'
+            'choice',
+            difficulty
         );
         localStorage.setItem("character", JSON.stringify(character));
         postCharacter(character);

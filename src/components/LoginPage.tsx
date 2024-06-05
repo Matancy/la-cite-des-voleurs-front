@@ -56,7 +56,8 @@ const LoginPage = () => {
                             userSave.or,
                             userSave.path,
                             userSave.currentNode,
-                            userSave.currentNodeType
+                            userSave.currentNodeType,
+                            userSave.difficulty
                         );
                         localStorage.setItem("character", JSON.stringify(character));
                         navigate("/");

@@ -24,7 +24,7 @@ const StoryLuckPage = () => {
         navigate("/");
     }
 
-    let user: Character = JSON.parse(json!);
+    let user: Character = Character.fromJson(JSON.parse(json!));
     const [imageUrl, setImageUrl] = useState<string>("");
 
     const handleChance = (total: number) => {
@@ -105,7 +105,7 @@ const StoryLuckPage = () => {
                 enduranceTotal: user.stamina,
                 currentEndurance: user.currentStamina,
                 chanceTotal: user.luck,
-                currentChance: user.currentLuck-1,
+                currentChance: user.currentLuck - 1,
                 or: user.gold,
                 currentNode: link.id,
                 path: savePath,
@@ -132,9 +132,17 @@ const StoryLuckPage = () => {
                 save.save.or,
                 save.save.path,
                 save.save.currentNode,
-                save.save.currentNodeType
+                save.save.currentNodeType,
+                save.save.difficulty
             );
             localStorage.setItem("character", JSON.stringify(character));
+        }
+    };
+
+    const retirerLuck = () => {
+        if (username === undefined) {
+            user.setCurrentLuck(user.currentLuck - 1);
+            localStorage.setItem("character", JSON.stringify(user));
         }
     };
 
@@ -150,7 +158,9 @@ const StoryLuckPage = () => {
                         </h2>
                         <div
                             className="w-4/5 m-auto"
-                            dangerouslySetInnerHTML={{ __html: updatedNode?.text }}
+                            dangerouslySetInnerHTML={{
+                                __html: updatedNode?.text,
+                            }}
                         />
                         <Dice
                             rolling={rollingOne}
@@ -164,32 +174,37 @@ const StoryLuckPage = () => {
                         />
                         <div className="flex justify-evenly">
                             <button
-                                className={`bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded h-min ${isSuccessActive
-                                    ? "hover:bg-gray-400"
-                                    : "opacity-50 cursor-not-allowed hover:bg-gray-300"
-                                    }`}
+                                className={`bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded h-min ${
+                                    isSuccessActive
+                                        ? "hover:bg-gray-400"
+                                        : "opacity-50 cursor-not-allowed hover:bg-gray-300"
+                                }`}
                                 disabled={!isSuccessActive}
                                 onClick={() => {
                                     saveUser(updatedNode?.action.success);
+                                    retirerLuck();
                                     switch (updatedNode?.action.success.type) {
                                         case "choice":
                                         case "end":
                                         case "directLink":
                                             navigate(
                                                 "/story-choice/" +
-                                                updatedNode?.action.success.id
+                                                    updatedNode?.action.success
+                                                        .id
                                             );
                                             break;
                                         case "dice":
                                             navigate(
                                                 "/story-luck/" +
-                                                updatedNode?.action.success.id
+                                                    updatedNode?.action.success
+                                                        .id
                                             );
                                             break;
                                         case "fight":
                                             navigate(
                                                 "/story-fight/" +
-                                                updatedNode?.action.success.id
+                                                    updatedNode?.action.success
+                                                        .id
                                             );
                                             break;
                                         default:
@@ -199,44 +214,52 @@ const StoryLuckPage = () => {
                                 }}
                             >
                                 <p
-                                    className={`${isSuccessActive ? "" : "cursor-not-allowed"
-                                        }`}
+                                    className={`${
+                                        isSuccessActive
+                                            ? ""
+                                            : "cursor-not-allowed"
+                                    }`}
                                 >
                                     Aller à {updatedNode?.action.success.id}
                                 </p>
                             </button>
                             <button
-                                className={`bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded h-min ${isFailActive
-                                    ? "hover:bg-gray-400"
-                                    : "opacity-50 cursor-not-allowed hover:bg-gray-300"
-                                    }`}
+                                className={`bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded h-min ${
+                                    isFailActive
+                                        ? "hover:bg-gray-400"
+                                        : "opacity-50 cursor-not-allowed hover:bg-gray-300"
+                                }`}
                                 disabled={!isFailActive}
                                 onClick={() => {
                                     saveUser(updatedNode?.action.fail);
+                                    retirerLuck();
                                     switch (updatedNode?.action.fail.type) {
                                         case "choice":
                                         case "end":
                                         case "directLink":
                                             navigate(
                                                 "/story-choice/" +
-                                                updatedNode?.action.fail.id
+                                                    updatedNode?.action.fail.id
                                             );
                                             break;
                                         case "dice":
                                             navigate(
                                                 "/story-luck/" +
-                                                updatedNode?.action.fail.id
+                                                    updatedNode?.action.fail.id
                                             );
                                             break;
                                         case "fight":
                                             navigate(
                                                 "/story-fight/" +
-                                                updatedNode?.action.fail.id
+                                                    updatedNode?.action.fail.id
                                             );
                                             break;
                                         case "riddle":
-                                                navigate("/story-riddle/" + updatedNode?.action.fail.id);
-                                                break;
+                                            navigate(
+                                                "/story-riddle/" +
+                                                    updatedNode?.action.fail.id
+                                            );
+                                            break;
                                         default:
                                             navigate("/");
                                             break;
@@ -245,8 +268,9 @@ const StoryLuckPage = () => {
                                 }}
                             >
                                 <p
-                                    className={`${isFailActive ? "" : "cursor-not-allowed"
-                                        }`}
+                                    className={`${
+                                        isFailActive ? "" : "cursor-not-allowed"
+                                    }`}
                                 >
                                     Aller à {updatedNode?.action.fail.id}
                                 </p>

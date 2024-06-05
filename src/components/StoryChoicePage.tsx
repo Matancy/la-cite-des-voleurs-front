@@ -31,15 +31,6 @@ const StoryChoicePage = () => {
         DirectLinkNode | ChoicesNode | EndNode
     >();
 
-    const retirerPiece = (quantite) => {
-        if (username === undefined) {
-            if (user.gold >= quantite) {
-                user.setGold(user.gold - quantite);
-                localStorage.setItem("character", JSON.stringify(user));
-            }
-        }
-    };
-
     let jsonAccount = localStorage.getItem("user");
     let userAccount: User = JSON.parse(jsonAccount!);
     let username;
@@ -94,7 +85,8 @@ const StoryChoicePage = () => {
                 save.save.or,
                 save.save.path,
                 save.save.currentNode,
-                save.save.currentNodeType
+                save.save.currentNodeType,
+                save.save.difficulty
             );
             localStorage.setItem("character", JSON.stringify(character));
         }
@@ -136,6 +128,15 @@ const StoryChoicePage = () => {
         }
         getImgUrl();
     }, [updatedNode]);
+
+    const retirerPiece = (quantite) => {
+        if (username === undefined) {
+            if (user.gold >= quantite) {
+                user.setGold(user.gold - quantite);
+                localStorage.setItem("character", JSON.stringify(user));
+            }
+        }
+    };
 
     return (
         <div className="p-4 font-Inter text-xl flex flex-col background-old-page overflow-auto min-h-screen">
@@ -179,7 +180,7 @@ const StoryChoicePage = () => {
                                             if (link.cost > 0) {
                                                 retirerPiece(link.cost);
                                             }
-                                            console.log("type: "+link.type)
+                                            console.log("type: " + link.type);
                                             switch (link.type) {
                                                 case "choice":
                                                 case "end":
@@ -201,8 +202,11 @@ const StoryChoicePage = () => {
                                                     );
                                                     break;
                                                 case "riddle":
-                                                    console.log("uiui")
-                                                    navigate("/story-riddle/" + link.id);
+                                                    console.log("uiui");
+                                                    navigate(
+                                                        "/story-riddle/" +
+                                                            link.id
+                                                    );
                                                     break;
                                                 default:
                                                     navigate("/");

@@ -21,7 +21,7 @@ const StoryFightPage = () => {
         navigate("/");
     }
 
-    let user: Character = JSON.parse(json!);
+    let user: Character = Character.fromJson(JSON.parse(json!));
     const [playerAttack, setPlayerAttack] = useState<number>(0);
     const [monsterAttack, setMonsterAttack] = useState<number>(0);
     const [playerLife, setPlayerLife] = useState<number>(user.stamina);
@@ -190,7 +190,7 @@ const StoryFightPage = () => {
                 enduranceTotal: user.stamina,
                 currentEndurance: stamina,
                 chanceTotal: user.luck,
-                currentChance: user.currentLuck-1,
+                currentChance: user.currentLuck - 1,
                 or: user.gold,
                 currentNode: link.id,
                 path: savePath,
@@ -217,10 +217,20 @@ const StoryFightPage = () => {
                 save.save.or,
                 save.save.path,
                 save.save.currentNode,
-                save.save.currentNodeType
+                save.save.currentNodeType,
+                save.save.difficulty
             );
             localStorage.setItem("character", JSON.stringify(character));
             console.log(save.save.currentEndurance);
+        }
+    };
+
+    const retirerStamina = (stamina) => {
+        if (username === undefined) {
+            json = localStorage.getItem("character");
+            user = Character.fromJson(JSON.parse(json!));
+            user.setCurrentStamina(stamina);
+            localStorage.setItem("character", JSON.stringify(user));
         }
     };
 
@@ -296,7 +306,8 @@ const StoryFightPage = () => {
                                     : "hover:bg-gray-400"
                             }`}
                             onClick={() => {
-                                saveUser(updatedNode?.links, playerLife)
+                                saveUser(updatedNode?.links, playerLife);
+                                retirerStamina(playerLife);
                                 switch (updatedNode?.links.type) {
                                     case "choice":
                                     case "end":
@@ -319,8 +330,11 @@ const StoryFightPage = () => {
                                         );
                                         break;
                                     case "riddle":
-                                            navigate("/story-riddle/" + updatedNode?.links.type);
-                                            break;
+                                        navigate(
+                                            "/story-riddle/" +
+                                                updatedNode?.links.type
+                                        );
+                                        break;
                                     default:
                                         navigate("/");
                                         break;
