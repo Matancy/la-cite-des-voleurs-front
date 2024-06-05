@@ -9,8 +9,9 @@ import { FightNode } from './FightNode.ts';
 import { Character } from './Character.ts';
 import { User } from './User.ts';
 import { Save } from "./Save.ts";
+import { RiddleNode } from './RiddleNode.ts';
 
-export async function getNode(index: number): Promise<ChoicesNode | DiceNode | DirectLinkNode | EndNode | FightNode | undefined> {
+export async function getNode(index: number): Promise<ChoicesNode | DiceNode | DirectLinkNode | EndNode | FightNode | RiddleNode | undefined> {
     const response = await fetch(API_URL + `/nodes/${index}`).then(response => response.json());
     const type = (response as Node).type;
     switch (type) {
@@ -29,6 +30,8 @@ export async function getNode(index: number): Promise<ChoicesNode | DiceNode | D
         case NodeType.FIGHT: {
             return response as FightNode;
         }
+        case NodeType.RIDDLE:
+            return response as RiddleNode;
         default: {
             console.warn("could not get node type")
         }

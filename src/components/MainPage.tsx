@@ -145,7 +145,7 @@ export default function MainPage() {
                             onClick={() => navigateTo("/character-creation")}
                             className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg px-3 py-1 border-solid border-2 border-black"
                         >
-                            <p>Changer de joueur</p>
+                            <p>Nouveau joueur</p>
                         </button>
                     ) : null}
                 </div>

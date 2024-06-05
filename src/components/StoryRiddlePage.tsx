@@ -2,22 +2,29 @@ import React, { useEffect, useState } from "react";
 import HeaderStoryPage from "../widgets/HeaderStoryPage.tsx";
 import { useParams } from "react-router-dom";
 import { getNode } from "../model/callApi.ts";
-import { postSave } from "../model/callApi.ts";
-import { DirectLinkNode } from "../model/DirectLinkNode.ts";
-import { ChoicesNode } from "../model/ChoicesNode.ts";
-import { EndNode } from "../model/EndNode.ts";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../model/utils.ts";
 import { Character } from "../model/Character.ts";
-import { User } from "../model/User.ts";
 import SkillsSection from "../widgets/SkillsSection.tsx";
 import piece from "../assets/images/gold-piece.png";
+import { RiddleNode } from "../model/RiddleNode.ts";
 
-const StoryChoicePage = () => {
+const WARNING_REMAINING_TRIES = "Mauvaise réponse, %s essais restant"
+const WARNING_VALID_ANSWER = "Bonne réponse"
+
+const RiddlePage = () => {
+
+    const [tries, setTries] = useState<number>(3)
     const [imageUrl, setImageUrl] = useState<string>("");
+    const [disableNextNodeButton, setdisableNextNodeButton] = useState<boolean>(true)
+    const [resultWarning, setResultWarning] = useState<string>("")
     const params = useParams();
     const id = params.id;
     const navigate = useNavigate();
+
+
+    let [riddleAnswer, setriddleAnswer] = useState<string>("")
+
     let json = localStorage.getItem("character");
 
     if (json === null) {
@@ -25,101 +32,47 @@ const StoryChoicePage = () => {
     }
 
     let user: Character = Character.fromJson(JSON.parse(json!));
-    let node: DirectLinkNode | ChoicesNode | EndNode;
+    let node: RiddleNode;
 
-    const [updatedNode, setUpdatedNode] = useState<
-        DirectLinkNode | ChoicesNode | EndNode
-    >();
+    const [updatedNode, setUpdatedNode] = useState<RiddleNode>();
 
     const retirerPiece = (quantite) => {
-        if (username === undefined) {
-            if (user.gold >= quantite) {
-                user.setGold(user.gold - quantite);
-                localStorage.setItem("character", JSON.stringify(user));
-            }
+        if (user.gold >= quantite) {
+            user.setGold(user.gold - quantite);
+            localStorage.setItem("character", JSON.stringify(user));
         }
     };
 
-    let jsonAccount = localStorage.getItem("user");
-    let userAccount: User = JSON.parse(jsonAccount!);
-    let username;
+    useEffect(()=>{
+        setResultWarning(resultWarning)
+    }, [resultWarning])
 
-    if (jsonAccount) {
-        username = userAccount.id;
-    }
-
-    const saveUser = (link) => {
-        if (username !== undefined) {
-            let or = user.gold;
-
-            if (link.cost !== 0 && link.cost !== undefined) {
-                or -= link.cost;
-            }
-
-            let savePath = user.path;
-
-            savePath.push(link.id);
-
-            let saveData = {
-                nom: user.name,
-                habileteTotal: user.hability,
-                currentHabilete: user.currentHability,
-                enduranceTotal: user.stamina,
-                currentEndurance: user.currentStamina,
-                chanceTotal: user.luck,
-                currentChance: user.currentLuck,
-                or: or,
-                currentNode: link.id,
-                path: savePath,
-                difficulty: "test",
-                currentNodeType: link.type,
-            };
-
-            let save = {
-                id: username,
-                save: saveData,
-            };
-
-            localStorage.setItem("save", JSON.stringify(save));
-            postSave(save);
-
-            let character: Character = new Character(
-                save.save.nom,
-                save.save.habileteTotal,
-                save.save.currentHabilete,
-                save.save.enduranceTotal,
-                save.save.currentEndurance,
-                save.save.chanceTotal,
-                save.save.currentChance,
-                save.save.or,
-                save.save.path,
-                save.save.currentNode,
-                save.save.currentNodeType
-            );
-            localStorage.setItem("character", JSON.stringify(character));
-        }
-    };
+    useEffect(()=>{
+        setTries(tries)
+    }, [tries])
 
     useEffect(() => {
         async function fetchData() {
             let temp_node = await getNode(Number(id));
             let type = temp_node?.type;
 
-            if (type === "choice") {
-                node = temp_node as ChoicesNode;
-            } else if (type === "end") {
-                node = temp_node as EndNode;
-            } else if (type === "directLink") {
-                node = temp_node as DirectLinkNode;
+            if (type === "riddle") {
+                setUpdatedNode(temp_node);
             } else {
                 navigate("/");
             }
-
-            setUpdatedNode(node);
         }
 
         fetchData();
-    }, [id]);
+    }, [id, navigate]);
+
+    useEffect(()=>{
+        setdisableNextNodeButton(disableNextNodeButton)
+    }, [disableNextNodeButton])
+
+    useEffect(()=>{
+        setriddleAnswer(riddleAnswer)
+    }, [riddleAnswer])
 
     useEffect(() => {
         async function getImgUrl() {
@@ -136,6 +89,21 @@ const StoryChoicePage = () => {
         }
         getImgUrl();
     }, [updatedNode]);
+
+
+    const checkAnswer = (answer: string)=>{
+        if(answer.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") !== updatedNode?.riddleAnswer.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")){
+            setTries(tries-1)
+            setResultWarning(WARNING_REMAINING_TRIES.replace("%s", tries.toString()))
+        }else{
+            setdisableNextNodeButton(false)
+            setResultWarning(WARNING_VALID_ANSWER)
+        }
+
+        if(tries <= 0){
+            navigate("/died")
+        }
+    }
 
     return (
         <div className="p-4 font-Inter text-xl flex flex-col background-old-page overflow-auto min-h-screen">
@@ -161,6 +129,28 @@ const StoryChoicePage = () => {
                                 __html: updatedNode?.text,
                             }}
                         />
+                        <div className="flex flex-col items-center">
+                            <label>Réponse: </label>
+                            <input 
+                            // className="w-2/3 m-5"
+                            className="mb-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 text-lg w-4/5"
+
+                                type="text"
+                                placeholder="Votre réponse"
+                                onInput={(e: React.ChangeEvent<HTMLInputElement>)=>{
+                                    console.log("input: "+e.target.value)
+                                    riddleAnswer = e.target.value
+                                }}
+                            />
+                            <span className={`${disableNextNodeButton?"text-red-600":"text-lime-500	"}`} >{resultWarning}</span>
+                            <button
+                            className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min`}
+                            onClick={()=>{
+                                checkAnswer(riddleAnswer)
+                            }}
+                            >Vérifier</button>
+                        </div>
+                       
                         <div
                             className={`flex justify-${
                                 updatedNode?.links &&
@@ -173,13 +163,12 @@ const StoryChoicePage = () => {
                             {updatedNode?.links &&
                                 updatedNode.links.map((link, index) => (
                                     <button
+                                        disabled={disableNextNodeButton}
                                         key={index}
                                         onClick={() => {
-                                            saveUser(link);
                                             if (link.cost > 0) {
                                                 retirerPiece(link.cost);
                                             }
-                                            console.log("type: "+link.type)
                                             switch (link.type) {
                                                 case "choice":
                                                 case "end":
@@ -201,7 +190,6 @@ const StoryChoicePage = () => {
                                                     );
                                                     break;
                                                 case "riddle":
-                                                    console.log("uiui")
                                                     navigate("/story-riddle/" + link.id);
                                                     break;
                                                 default:
@@ -210,10 +198,8 @@ const StoryChoicePage = () => {
                                             }
                                         }}
                                         className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min ${
-                                            user.gold < link.cost &&
-                                            "opacity-50 cursor-not-allowed"
+                                            disableNextNodeButton && "opacity-50 cursor-not-allowed"
                                         }`}
-                                        disabled={user.gold < link.cost}
                                     >
                                         <p>Aller à {link.id}</p>
                                         {link.cost > 0 && (
@@ -236,4 +222,4 @@ const StoryChoicePage = () => {
     );
 };
 
-export default StoryChoicePage;
+export default RiddlePage;

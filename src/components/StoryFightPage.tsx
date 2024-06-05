@@ -318,6 +318,9 @@ const StoryFightPage = () => {
                                                 updatedNode?.links.id
                                         );
                                         break;
+                                    case "riddle":
+                                            navigate("/story-riddle/" + updatedNode?.links.type);
+                                            break;
                                     default:
                                         navigate("/");
                                         break;
