@@ -171,6 +171,12 @@ const StoryChoicePage = () => {
                             } w-1/3 mt-10`}
                         ></div>
                         <div className="flex justify-evenly">
+                            <button
+                            className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min ${updatedNode?.type !== "end" &&"invisible"}`}
+                            onClick={()=>navigate("/died")}
+                            >
+                                La fin...
+                            </button>
                             {updatedNode?.links &&
                                 updatedNode.links.map((link, index) => (
                                     <button
