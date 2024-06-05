@@ -172,8 +172,11 @@ const CharacterCreation = () => {
             { enduranceTotal }.enduranceTotal,
             { enduranceTotal }.enduranceTotal,
             { chanceTotal }.chanceTotal,
+            { chanceTotal }.chanceTotal,
             INITIAL_GOLD_AMOUNT,
-            difficulty
+            ['1'],
+            1,
+            'choice'
         );
         localStorage.setItem("character", JSON.stringify(character));
         postCharacter(character);
@@ -196,7 +199,7 @@ const CharacterCreation = () => {
                 currentChance: { chanceTotal }.chanceTotal,
                 or: INITIAL_GOLD_AMOUNT,
                 currentNode: 0,
-                path: [],
+                path: ['1'],
                 difficulty
             };
     
@@ -204,8 +207,6 @@ const CharacterCreation = () => {
                 id: userAccount.id,
                 save: saveData
             };
-
-            console.log(save);
     
             localStorage.setItem("save", JSON.stringify(save));
             postSave(save);

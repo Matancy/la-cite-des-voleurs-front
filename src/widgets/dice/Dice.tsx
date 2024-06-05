@@ -64,10 +64,6 @@ const DiceRoll: React.FC<DiceRollProps & {
         if (setDiceRolling) {
             setDiceRolling(true);
         }
-
-        if (isLuckRoll) {
-            console.log('Décrémenter 1 de chance');
-        }
     };
 
         useEffect(() => {

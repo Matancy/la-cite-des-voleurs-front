@@ -8,6 +8,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Character } from "../model/Character.ts";
 import { API_URL } from "../model/utils.ts";
 import LeftStorySection from "../widgets/LeftStorySection.tsx";
+import { User } from "../model/User.ts";
+import { postSave } from "../model/callApi.ts";
 
 const StoryFightPage = () => {
     const params = useParams();
@@ -64,23 +66,12 @@ const StoryFightPage = () => {
         if (diceOneHasRolled && diceTwoHasRolled) {
             setAllowUpdateLife(true);
             if (monsterLife > 0 && playerLife > 0) {
-                console.log("reset");
                 setRollingOne(false);
                 setRollingTwo(false);
                 setDiceOneHasRolled(false);
                 setDiceTwoHasRolled(false);
             }
-        } else {
-            console.log("not reset");
         }
-        console.log(
-            "diceOneHasRolled " +
-                diceOneHasRolled +
-                " diceTwoHasRolled " +
-                diceTwoHasRolled +
-                " allowUpdateLife " +
-                allowUpdateLife
-        );
     };
 
     useEffect(() => {
@@ -151,7 +142,6 @@ const StoryFightPage = () => {
     }, [updatedNode?.foeStamina]);
 
     useEffect(() => {
-        console.log(allowUpdateLife);
         if (allowUpdateLife) {
             if (playerAttack > 0 && monsterAttack > 0) {
                 if (playerAttack > monsterAttack) {
@@ -178,6 +168,61 @@ const StoryFightPage = () => {
             setAllowUpdateLife(false);
         }
     }, [allowUpdateLife]);
+
+    let jsonAccount = localStorage.getItem("user");
+    let userAccount: User = JSON.parse(jsonAccount!);
+    let username;
+
+    if (jsonAccount) {
+        username = userAccount.id;
+    }
+
+    const saveUser = (link, stamina) => {
+        if (username !== undefined) {
+            let savePath = user.path;
+
+            savePath.push(link.id);
+
+            let saveData = {
+                nom: user.name,
+                habileteTotal: user.hability,
+                currentHabilete: user.currentHability,
+                enduranceTotal: user.stamina,
+                currentEndurance: stamina,
+                chanceTotal: user.luck,
+                currentChance: user.currentLuck-1,
+                or: user.gold,
+                currentNode: link.id,
+                path: savePath,
+                difficulty: "test",
+                currentNodeType: link.type,
+            };
+
+            let save = {
+                id: username,
+                save: saveData,
+            };
+
+            localStorage.setItem("save", JSON.stringify(save));
+            postSave(save);
+
+            let character: Character = new Character(
+                save.save.nom,
+                save.save.habileteTotal,
+                save.save.currentHabilete,
+                save.save.enduranceTotal,
+                save.save.currentEndurance,
+                save.save.chanceTotal,
+                save.save.currentChance,
+                save.save.or,
+                save.save.path,
+                save.save.currentNode,
+                save.save.currentNodeType
+            );
+            localStorage.setItem("character", JSON.stringify(character));
+            console.log(save.save.currentEndurance);
+        }
+    };
 
     return (
         <div className="p-4 font-Inter text-xl flex flex-col background-old-page overflow-auto min-h-screen">
@@ -251,6 +296,7 @@ const StoryFightPage = () => {
                                     : "hover:bg-gray-400"
                             }`}
                             onClick={() => {
+                                saveUser(updatedNode?.links, playerLife)
                                 switch (updatedNode?.links.type) {
                                     case "choice":
                                     case "end":

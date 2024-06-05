@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import HeaderStoryPage from "../widgets/HeaderStoryPage.tsx";
 import { useParams } from "react-router-dom";
 import { getNode } from "../model/callApi.ts";
+import { postSave } from "../model/callApi.ts";
 import { DirectLinkNode } from "../model/DirectLinkNode.ts";
 import { ChoicesNode } from "../model/ChoicesNode.ts";
 import { EndNode } from "../model/EndNode.ts";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../model/utils.ts";
 import { Character } from "../model/Character.ts";
+import { User } from "../model/User.ts";
 import SkillsSection from "../widgets/SkillsSection.tsx";
 import piece from "../assets/images/gold-piece.png";
 
@@ -30,9 +32,71 @@ const StoryChoicePage = () => {
     >();
 
     const retirerPiece = (quantite) => {
-        if (user.gold >= quantite) {
-            user.setGold(user.gold - quantite);
-            localStorage.setItem("character", JSON.stringify(user));
+        if (username === undefined) {
+            if (user.gold >= quantite) {
+                user.setGold(user.gold - quantite);
+                localStorage.setItem("character", JSON.stringify(user));
+            }
+        }
+    };
+
+    let jsonAccount = localStorage.getItem("user");
+    let userAccount: User = JSON.parse(jsonAccount!);
+    let username;
+
+    if (jsonAccount) {
+        username = userAccount.id;
+    }
+
+    const saveUser = (link) => {
+        if (username !== undefined) {
+            let or = user.gold;
+
+            if (link.cost !== 0 && link.cost !== undefined) {
+                or -= link.cost;
+            }
+
+            let savePath = user.path;
+
+            savePath.push(link.id);
+
+            let saveData = {
+                nom: user.name,
+                habileteTotal: user.hability,
+                currentHabilete: user.currentHability,
+                enduranceTotal: user.stamina,
+                currentEndurance: user.currentStamina,
+                chanceTotal: user.luck,
+                currentChance: user.currentLuck,
+                or: or,
+                currentNode: link.id,
+                path: savePath,
+                difficulty: "test",
+                currentNodeType: link.type,
+            };
+
+            let save = {
+                id: username,
+                save: saveData,
+            };
+
+            localStorage.setItem("save", JSON.stringify(save));
+            postSave(save);
+
+            let character: Character = new Character(
+                save.save.nom,
+                save.save.habileteTotal,
+                save.save.currentHabilete,
+                save.save.enduranceTotal,
+                save.save.currentEndurance,
+                save.save.chanceTotal,
+                save.save.currentChance,
+                save.save.or,
+                save.save.path,
+                save.save.currentNode,
+                save.save.currentNodeType
+            );
+            localStorage.setItem("character", JSON.stringify(character));
         }
     };
 
@@ -111,6 +175,7 @@ const StoryChoicePage = () => {
                                     <button
                                         key={index}
                                         onClick={() => {
+                                            saveUser(link);
                                             if (link.cost > 0) {
                                                 retirerPiece(link.cost);
                                             }

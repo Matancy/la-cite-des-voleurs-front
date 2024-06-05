@@ -7,6 +7,9 @@ export class Character {
     luck: number;
     currentLuck: number;
     gold: number;
+    path: string[];
+    currentNode: number;
+    currentNodeType: string;
 
     constructor(
         name: string,
@@ -17,6 +20,9 @@ export class Character {
         luck: number,
         currentLuck: number,
         gold: number,
+        path: string[],
+        currentNode: number,
+        currentNodeType: string
     ) {
         this.name = name;
         this.hability = hability;
@@ -26,6 +32,9 @@ export class Character {
         this.luck = luck;
         this.currentLuck = luck;
         this.gold = gold;
+        this.path = path;
+        this.currentNode = currentNode;
+        this.currentNodeType = currentNodeType;
     }
 
     static fromJson(json: any): Character {
@@ -37,7 +46,10 @@ export class Character {
             json.currentStamina,
             json.luck,
             json.currentLuck,
-            json.gold
+            json.gold,
+            json.path,
+            json.currentNode,
+            json.currentNodeType
         );
     }
 

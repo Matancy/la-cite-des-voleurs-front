@@ -58,12 +58,30 @@ export default function MainPage() {
     const handleLogout = () => {
         localStorage.removeItem("user");
         localStorage.removeItem("character");
+        localStorage.removeItem("save");
         setIsLoggedIn(false);
     };
 
     const toggleMusic = () => {
         setIsPlaying(!isPlaying);
     };
+
+    let typeNode;
+    let numNode;
+
+    if (user) {
+        numNode = user.currentNode;
+        typeNode = user.currentNodeType;
+
+        if (typeNode === "dice") {
+            typeNode = "luck";
+        } else if (typeNode === "end" || typeNode === 'directLink' || typeNode === undefined) {
+            typeNode = "choice";
+        }
+    } else {
+        typeNode = "choice";
+        numNode = 1;
+    }
 
     return (
         <div className="flex flex-col h-screen background-main-page font-Inter text-xl relative">
@@ -113,7 +131,10 @@ export default function MainPage() {
                         onClick={
                             !user || !user.name
                                 ? () => navigateTo("/character-creation")
-                                : () => navigateTo("/story-choice/1")
+                                : () =>
+                                      navigateTo(
+                                          "/story-" + typeNode + "/" + numNode
+                                      )
                         }
                         className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg px-3 py-1 mb-3 border-solid border-2 border-black"
                     >

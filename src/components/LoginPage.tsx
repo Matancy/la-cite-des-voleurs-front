@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import backArrowIcon from "../assets/images/back_arrow.png";
-import { postLogin } from "../model/callApi.ts";
 import { User } from "../model/User.ts";
+import { Character } from "../model/Character.ts";
 import { API_URL } from "../model/utils.ts";
 
 const LoginPage = () => {
@@ -32,7 +32,7 @@ const LoginPage = () => {
         let user: User = new User(username, password);
         localStorage.setItem("user", JSON.stringify(user));
 
-        await fetch(API_URL+"/user", {
+        await fetch(API_URL + "/user", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -43,7 +43,26 @@ const LoginPage = () => {
                 if (response.status === 401) {
                     setError("Nom d'utilisateur ou mot de passe incorrect");
                 } else if (response.ok) {
-                    navigate("/");
+                    let userSave = await response.json();
+                    if (Object.keys(userSave).length !== 0) {
+                        let character: Character = new Character(
+                            userSave.nom,
+                            userSave.habileteTotal,
+                            userSave.currentHabilete,
+                            userSave.enduranceTotal,
+                            userSave.currentEndurance,
+                            userSave.chanceTotal,
+                            userSave.currentChance,
+                            userSave.or,
+                            userSave.path,
+                            userSave.currentNode,
+                            userSave.currentNodeType
+                        );
+                        localStorage.setItem("character", JSON.stringify(character));
+                        navigate("/");
+                    } else {
+                        navigate("/");
+                    }
                 } else {
                     setError("Une erreur s'est produite lors de la connexion");
                 }

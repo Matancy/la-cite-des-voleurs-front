@@ -7,6 +7,8 @@ import { DiceNode } from "../model/DiceNode.ts";
 import { API_URL } from "../model/utils.ts";
 import { Character } from "../model/Character.ts";
 import LeftStorySection from "../widgets/LeftStorySection.tsx";
+import { User } from "../model/User.ts";
+import { postSave } from "../model/callApi.ts";
 
 const StoryLuckPage = () => {
     const params = useParams();
@@ -27,7 +29,6 @@ const StoryLuckPage = () => {
 
     const handleChance = (total: number) => {
         // Comparer le total du dé avec la chance du joueur
-        console.log(total);
         if (total !== 0) {
             setRollingOne(true);
             if (total <= user.luck) {
@@ -45,7 +46,6 @@ const StoryLuckPage = () => {
             setIsSuccessActive(false);
             setIsFailActive(false);
             setRollingOne(false);
-            console.log("useffect id")
         }, 1000);
     }, [id]);
 
@@ -84,6 +84,60 @@ const StoryLuckPage = () => {
         getImgUrl();
     }, [updatedNode]);
 
+    let jsonAccount = localStorage.getItem("user");
+    let userAccount: User = JSON.parse(jsonAccount!);
+    let username;
+
+    if (jsonAccount) {
+        username = userAccount.id;
+    }
+
+    const saveUser = (link) => {
+        if (username !== undefined) {
+            let savePath = user.path;
+
+            savePath.push(link.id);
+
+            let saveData = {
+                nom: user.name,
+                habileteTotal: user.hability,
+                currentHabilete: user.currentHability,
+                enduranceTotal: user.stamina,
+                currentEndurance: user.currentStamina,
+                chanceTotal: user.luck,
+                currentChance: user.currentLuck-1,
+                or: user.gold,
+                currentNode: link.id,
+                path: savePath,
+                difficulty: "test",
+                currentNodeType: link.type,
+            };
+
+            let save = {
+                id: username,
+                save: saveData,
+            };
+
+            localStorage.setItem("save", JSON.stringify(save));
+            postSave(save);
+
+            let character: Character = new Character(
+                save.save.nom,
+                save.save.habileteTotal,
+                save.save.currentHabilete,
+                save.save.enduranceTotal,
+                save.save.currentEndurance,
+                save.save.chanceTotal,
+                save.save.currentChance,
+                save.save.or,
+                save.save.path,
+                save.save.currentNode,
+                save.save.currentNodeType
+            );
+            localStorage.setItem("character", JSON.stringify(character));
+        }
+    };
+
     return (
         <div className="p-4 font-Inter text-xl flex flex-col background-old-page overflow-auto min-h-screen">
             <HeaderStoryPage />
@@ -116,6 +170,7 @@ const StoryLuckPage = () => {
                                     }`}
                                 disabled={!isSuccessActive}
                                 onClick={() => {
+                                    saveUser(updatedNode?.action.success);
                                     switch (updatedNode?.action.success.type) {
                                         case "choice":
                                         case "end":
@@ -157,6 +212,7 @@ const StoryLuckPage = () => {
                                     }`}
                                 disabled={!isFailActive}
                                 onClick={() => {
+                                    saveUser(updatedNode?.action.fail);
                                     switch (updatedNode?.action.fail.type) {
                                         case "choice":
                                         case "end":
