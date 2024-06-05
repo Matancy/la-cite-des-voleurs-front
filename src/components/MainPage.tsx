@@ -71,17 +71,22 @@ export default function MainPage() {
     let data;
 
     if (userAccount) {
-        numNode = user.currentNode;
-        typeNode = user.currentNodeType;
+        if (user != null && user.currentNode != null && user.currentNodeType != null) {
+            numNode = user.currentNode;
+            typeNode = user.currentNodeType;
 
-        if (typeNode === "dice") {
-            typeNode = "luck";
-        } else if (
-            typeNode === "end" ||
-            typeNode === "directLink" ||
-            typeNode === undefined
-        ) {
+            if (typeNode === "dice") {
+                typeNode = "luck";
+            } else if (
+                typeNode === "end" ||
+                typeNode === "directLink" ||
+                typeNode === undefined
+            ) {
+                typeNode = "choice";
+            }
+        } else {
             typeNode = "choice";
+            numNode = 1;
         }
     } else {
         typeNode = "choice";
@@ -134,12 +139,12 @@ export default function MainPage() {
                     </div>
                     <button
                         onClick={
-                            !user || !user.name
+                            !user || !user.name || !typeNode
                                 ? () => navigateTo("/character-creation")
                                 : () =>
-                                      navigateTo(
-                                          "/story-" + typeNode + "/" + numNode
-                                      )
+                                    navigateTo(
+                                        "/story-" + typeNode + "/" + numNode
+                                    )
                         }
                         className="bg-light-gray/[.8] hover:bg-light-gray rounded-lg px-3 py-1 mb-3 border-solid border-2 border-black"
                     >
