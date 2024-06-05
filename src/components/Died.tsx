@@ -36,7 +36,7 @@ export default function Died() {
                             Chemin parcouru: {way.slice(0, -2)}
                         </div>
                         <div className={`bg-black/[.7] text-xl rounded-2xl p-2 flex flex-col text-white flex justify-between m-6`}>
-                            Difficulté: {character.}
+                            Difficulté: {character.difficulty}
                         </div>
                         <button 
                         className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded h-min`}
