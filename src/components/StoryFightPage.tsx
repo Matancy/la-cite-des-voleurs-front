@@ -221,7 +221,6 @@ const StoryFightPage = () => {
                 save.save.difficulty
             );
             localStorage.setItem("character", JSON.stringify(character));
-            console.log(save.save.currentEndurance);
         }
     };
 

@@ -28,6 +28,7 @@ const LoginPage = () => {
         setPassword(event.target.value);
     };
 
+    // @here2 Emilie
     const connectUser = async () => {
         let user: User = new User(username, password);
         localStorage.setItem("user", JSON.stringify(user));

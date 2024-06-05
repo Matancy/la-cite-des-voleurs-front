@@ -25,6 +25,7 @@ const RegistrationPage = () => {
         setPassword(event.target.value);
     };    
 
+    // @here2 Emilie
     const registerUser = () => {
         if (password.length < passwordSize) {
             setError("Le mot de passe doit comporter au moins "+passwordSize+" caractères.");

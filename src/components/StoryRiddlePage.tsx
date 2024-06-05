@@ -138,7 +138,6 @@ const RiddlePage = () => {
                                 type="text"
                                 placeholder="Votre réponse"
                                 onInput={(e: React.ChangeEvent<HTMLInputElement>)=>{
-                                    console.log("input: "+e.target.value)
                                     riddleAnswer = e.target.value
                                 }}
                             />

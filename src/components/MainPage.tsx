@@ -68,14 +68,19 @@ export default function MainPage() {
 
     let typeNode;
     let numNode;
+    let data;
 
-    if (user) {
+    if (userAccount) {
         numNode = user.currentNode;
         typeNode = user.currentNodeType;
 
         if (typeNode === "dice") {
             typeNode = "luck";
-        } else if (typeNode === "end" || typeNode === 'directLink' || typeNode === undefined) {
+        } else if (
+            typeNode === "end" ||
+            typeNode === "directLink" ||
+            typeNode === undefined
+        ) {
             typeNode = "choice";
         }
     } else {

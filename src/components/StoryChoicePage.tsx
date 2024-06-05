@@ -180,7 +180,6 @@ const StoryChoicePage = () => {
                                             if (link.cost > 0) {
                                                 retirerPiece(link.cost);
                                             }
-                                            console.log("type: " + link.type);
                                             switch (link.type) {
                                                 case "choice":
                                                 case "end":
@@ -202,7 +201,6 @@ const StoryChoicePage = () => {
                                                     );
                                                     break;
                                                 case "riddle":
-                                                    console.log("uiui");
                                                     navigate(
                                                         "/story-riddle/" +
                                                             link.id
