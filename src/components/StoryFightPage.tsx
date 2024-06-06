@@ -194,7 +194,7 @@ const StoryFightPage = () => {
                 or: user.gold,
                 currentNode: link.id,
                 path: savePath,
-                difficulty: "test",
+                difficulty: user.difficulty,
                 currentNodeType: link.type,
             };
 
