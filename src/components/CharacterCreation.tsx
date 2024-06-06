@@ -84,7 +84,7 @@ const CharacterCreation = () => {
         setHabileteTotal(0);
     };
     
-
+    //@here2 Clément 
     const handleDifficultyChange = (newDifficulty: string) => {
         resetDice(); // Réinitialiser les dés
         setDifficulty(newDifficulty);
@@ -234,7 +234,7 @@ const CharacterCreation = () => {
                         id="name"
                     />
                 </div>
-                 {/* Interface pour modifier la difficulté */}
+                 {/* //@here2 Clément Interface pour modifier la difficulté */}
                  <div className="bg-light-gray/[.8] rounded-3xl w-full h-min flex flex-col items-center py-2 mb-3">
                     <h1 className="font-GrenzeGotisch text-white text-stroke-2px text-4xl text-center mb-2">
                         Difficulté
