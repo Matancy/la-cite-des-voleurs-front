@@ -21,7 +21,7 @@ export default function Died() {
     }
 
     return (
-        <div className="flex flex-col h-fullscreen background-old-page font-Inter text-xl">
+        <div className="flex flex-col min-h-screen background-old-page font-Inter text-xl">
             <div className="m-auto">
                 <h1 className="text-center mb-8 font-GrenzeGotisch text-8xl border-solid text-white text-stroke-2px">
                     La Cité des Voleurs
